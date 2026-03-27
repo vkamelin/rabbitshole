@@ -3,7 +3,7 @@
 {% set pageTitle = entry.title %}
 
 {% block content %}
-    {% set cover = entry.coverImage.one() %}
+    {% set cover = entry.cover.one() %}
     {% set watchLinks = entry.watchLinks.all() %}
 
     <div class="row g-4">

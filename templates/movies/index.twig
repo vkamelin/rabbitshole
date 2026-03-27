@@ -129,8 +129,8 @@
                             {% set collectionImage = null %}
                             {% if collection.cover is defined %}
                                 {% set collectionImage = collection.cover.one() %}
-                            {% elseif collection.coverImage is defined %}
-                                {% set collectionImage = collection.coverImage.one() %}
+                            {% elseif collection.cover is defined %}
+                                {% set collectionImage = collection.cover.one() %}
                             {% endif %}
 
                             {% set collectionUrlParams = { collection: collection.slug } %}
