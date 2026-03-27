@@ -1,77 +1,79 @@
 {% extends "_layouts/base" %}
 
-{% set pageTitle = "Кино" %}
+{% set pageTitle = 'Фильмы' %}
+{% set currentSection = 'movies' %}
+
+{% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
 
 {% block content %}
+    {% set request = craft.app.request %}
+    {% set selectedGenre = request.getQueryParam('genre') %}
+    {% set selectedCollection = request.getQueryParam('collection') %}
 
-    {# ===== ПАРАМЕТРЫ ФИЛЬТРА ===== #}
-    {% set selectedGenre = craft.app.request.getQueryParam('genre') %}
-    {% set selectedCollection = craft.app.request.getQueryParam('collection') %}
+    {% set allGenres = craft.categories().group('genres').orderBy('title asc').all() %}
+    {% set allCollections = craft.categories().group('collections').orderBy('title asc').all() %}
 
-    {# ===== ЖАНРЫ И ПОДБОРКИ ===== #}
-    {% set allGenres = craft.categories().group('genres').all() %}
-    {% set allCollections = craft.categories().group('collections').all() %}
+    {% set activeGenre = selectedGenre ? craft.categories().group('genres').slug(selectedGenre).one() : null %}
+    {% set activeCollection = selectedCollection ? craft.categories().group('collections').slug(selectedCollection).one() : null %}
 
-    {# ===== ВЫБРАННЫЕ ФИЛЬТРЫ ===== #}
-    {% set activeGenre = selectedGenre
-        ? craft.categories().group('genres').slug(selectedGenre).one()
-        : null %}
-    {% set activeCollection = selectedCollection
-        ? craft.categories().group('collections').slug(selectedCollection).one()
-        : null %}
+    {% set query = craft.entries().section('movies').orderBy('postDate desc') %}
 
-    {# ===== ЗАПРОС ===== #}
-    {% set query = craft.entries()
-        .section('movies')
-        .orderBy('postDate DESC') %}
-
+    {% set relatedFilters = [] %}
     {% if activeGenre %}
-        {% set query = query.relatedTo(activeGenre) %}
+        {% set relatedFilters = relatedFilters|merge([{ targetElement: activeGenre }]) %}
+    {% endif %}
+    {% if activeCollection %}
+        {% set relatedFilters = relatedFilters|merge([{ targetElement: activeCollection }]) %}
     {% endif %}
 
-    {% if activeCollection %}
-        {% set query = query.relatedTo(activeCollection) %}
+    {% if relatedFilters|length == 1 %}
+        {% set query = query.relatedTo(relatedFilters|first) %}
+    {% elseif relatedFilters|length > 1 %}
+        {% set query = query.relatedTo(['and']|merge(relatedFilters)) %}
     {% endif %}
 
     {% set entries = query.all() %}
 
-    {# ===== СТАТИСТИКА ===== #}
     {% set totalMovies = craft.entries().section('movies').count() %}
     {% set totalGenres = allGenres|length %}
     {% set totalCollections = allCollections|length %}
 
-    {# ===== HERO ===== #}
-    <div class="row g-3 mb-4">
-        <div class="col-12">
-            <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, #1e293b0%, #0f172a100%);">
-                <div class="card-body py-4">
-                    <div class="row align-items-center">
-                        <div class="col-lg-8">
-                            <h1 class="display-5 fw-bold text-white mb-2">
-                                <span class="me-2">🎬</span>Фильмы
-                            </h1>
-                            <p class="lead text-white-50 mb-0">
-                                Коллекция фильмов для просмотра. От классики до новинок — выбирайте что по душе.
-                            </p>
-                        </div>
-                        <div class="col-lg-4 mt-3 mt-lg-0">
-                            <div class="row g-2 text-center">
-                                <div class="col-4">
-                                    <div class="p-3 rounded bg-white bg-opacity-10">
-                                        <div class="h2 fw-bold text-white mb-0">{{ totalMovies }}</div>
-                                        <div class="small text-white-50">фильмов</div>
+    {% set resetUrl = url('movies') %}
+
+    <section class="mb-4">
+        <div class="card border-0 bg-dark text-white overflow-hidden">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-xl-7">
+                        <div class="text-uppercase text-secondary fw-semibold small mb-2">Каталог rabbitshole.ru</div>
+                        <h1 class="display-4 fw-bold mb-3">Фильмы</h1>
+                        <p class="lead text-secondary mb-0">
+                            Коллекция фильмов с атмосферой стримов Hard Play: выбирайте по жанрам и подборкам, открывайте карточку и переходите к просмотру.
+                        </p>
+                    </div>
+                    <div class="col-12 col-xl-5">
+                        <div class="row g-3">
+                            <div class="col-4">
+                                <div class="card bg-white-lt border-0 h-100">
+                                    <div class="card-body text-center py-3">
+                                        <div class="h1 mb-1">{{ totalMovies }}</div>
+                                        <div class="text-secondary small">Фильмов</div>
                                     </div>
                                 </div>
-                                <div class="col-4">
-                                    <div class="p-3 rounded bg-white bg-opacity-10">
-                                        <div class="h2 fw-bold text-white mb-0">{{ totalGenres }}</div>
-                                        <div class="small text-white-50">жанров</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card bg-white-lt border-0 h-100">
+                                    <div class="card-body text-center py-3">
+                                        <div class="h1 mb-1">{{ totalGenres }}</div>
+                                        <div class="text-secondary small">Жанров</div>
                                     </div>
                                 </div>
-                                <div class="col-4">
-                                    <div class="p-3 rounded bg-white bg-opacity-10">
-                                        <div class="h2 fw-bold text-white mb-0">{{ totalCollections }}</div>
-                                        <div class="small text-white-50">подборок</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="card bg-white-lt border-0 h-100">
+                                    <div class="card-body text-center py-3">
+                                        <div class="h1 mb-1">{{ totalCollections }}</div>
+                                        <div class="text-secondary small">Подборок</div>
                                     </div>
                                 </div>
                             </div>
@@ -80,303 +82,185 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    {# ===== АКТИВНЫЕ ФИЛЬТРЫ ===== #}
-    {% if activeGenre or activeCollection %}
-        <div class="row g-2 mb-4">
-            <div class="col-12">
-                <div class="d-flex flex-wrap align-items-center gap-2 p-3 bg-body rounded border">
-                    <span class="text-secondary fw-medium">Активные фильтры:</span>
-                    {% if activeGenre %}
-                        <a href="{{ activeCollection ? '/movies?collection=' ~ activeCollection.slug : '/movies' }}"
-                           class="badge bg-green-lt text-green d-flex align-items-center gap-1 text-decoration-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="002424" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20.5913.41l-7.177.17a22001-2.830L212V2h10l8.598.59a2200102.82z"/>
-                                <line x1="7" y1="7" x2="7.01" y2="7"/>
-                            </svg>
-                            {{ activeGenre.title }}
-                            <span>×</span>
-                        </a>
-                    {% endif %}
-                    {% if activeCollection %}
-                        <a href="{{ activeGenre ? '/movies?genre=' ~ activeGenre.slug : '/movies' }}"
-                           class="badge bg-orange-lt text-orange d-flex align-items-center gap-1 text-decoration-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="002424" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                <line x1="3" y1="9" x2="21" y2="9"/>
-                                <line x1="9" y1="21" x2="9" y2="9"/>
-                            </svg>
-                            {{ activeCollection.title }}
-                            <span>×</span>
-                        </a>
-                    {% endif %}
-                    <a href="/movies" class="btn btn-sm btn-outline-secondary ms-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="002424" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
-                        </svg>
-                        Сбросить всё
-                    </a>
-                </div>
+    <section class="mb-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0 pb-0">
+                <h2 class="card-title mb-1">Фильтры</h2>
+                <p class="text-secondary mb-0">Выберите жанр и/или подборку. Интерфейс готов к серверной фильтрации.</p>
             </div>
-        </div>
-    {% endif %}
-
-    <div class="row g-4">
-
-        {# ===== SIDEBAR С ФИЛЬТРАМИ ===== #}
-        <div class="col-12 col-lg-3">
-
-            {# ЖАНРЫ #}
-            <div class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-transparent border-0 pt-3 pb-0">
-                    <h5 class="card-title mb-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="002424" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="me-2 text-green">
-                            <path d="M20.5913.41l-7.177.17a22001-2.830L212V2h10l8.598.59a2200102.82z"/>
-                            <line x1="7" y1="7" x2="7.01" y2="7"/>
-                        </svg>
-                        Жанры
-                    </h5>
-                </div>
-                <div class="card-body pt-2">
+            <div class="card-body">
+                <div class="mb-4">
+                    <h3 class="h4 mb-3">Жанры</h3>
                     <div class="d-flex flex-wrap gap-2">
+                        <a href="{{ url('movies', activeCollection ? { collection: activeCollection.slug } : {}) }}"
+                           class="btn btn-sm {{ not activeGenre ? 'btn-primary' : 'btn-outline-primary' }}">
+                            Все жанры
+                        </a>
                         {% for genre in allGenres %}
-                            <a
-                                    href="/movies?genre={{ genre.slug }}{% if activeCollection %}&collection={{ activeCollection.slug }}{% endif %}"
-                                    class="badge {% if activeGenre and activeGenre.id == genre.id %}bg-green text-white{% else %}bg-green-lt{% endif %} text-decoration-none py-2 px-3"
-                            >
+                            {% set genreUrlParams = { genre: genre.slug } %}
+                            {% if activeCollection %}
+                                {% set genreUrlParams = genreUrlParams|merge({ collection: activeCollection.slug }) %}
+                            {% endif %}
+                            <a href="{{ url('movies', genreUrlParams) }}"
+                               class="btn btn-sm {{ activeGenre and activeGenre.id == genre.id ? 'btn-primary' : 'btn-outline-primary' }}">
                                 {{ genre.title }}
                             </a>
                         {% else %}
-                            <span class="text-secondary small">Жанры не найдены</span>
+                            <span class="text-secondary">Жанры пока не добавлены.</span>
                         {% endfor %}
                     </div>
                 </div>
-            </div>
 
-            {# ПОДБОРКИ С ОБЛОЖКАМИ #}
-            <div class="card border-0 shadow-sm">
-                <div class="card-header bg-transparent border-0 pt-3 pb-0">
-                    <h5 class="card-title mb-0">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="002424" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             class="me-2 text-orange">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <line x1="3" y1="9" x2="21" y2="9"/>
-                            <line x1="9" y1="21" x2="9" y2="9"/>
-                        </svg>
-                        Подборки
-                    </h5>
-                </div>
-                <div class="card-body pt-2">
-                    <div class="row g-2">
+                <div>
+                    <h3 class="h4 mb-3">Подборки</h3>
+                    <div class="row g-3">
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <a href="{{ url('movies', activeGenre ? { genre: activeGenre.slug } : {}) }}"
+                               class="card card-link text-decoration-none {{ not activeCollection ? 'border-primary' : '' }} h-100">
+                                <div class="card-body d-flex flex-column justify-content-center text-center py-4">
+                                    <div class="avatar avatar-xl bg-primary-lt mx-auto mb-2">🎞️</div>
+                                    <div class="fw-semibold">Все подборки</div>
+                                </div>
+                            </a>
+                        </div>
                         {% for collection in allCollections %}
-                            {% set collectionCover = collection.coverImage is defined ? collection.coverImage.one() : null %}
-                            <div class="col-6">
-                                <a
-                                        href="/movies?collection={{ collection.slug }}{% if activeGenre %}&genre={{ activeGenre.slug }}{% endif %}"
-                                        class="text-decoration-none"
-                                >
-                                    <div class="card border-0 overflow-hidden {% if activeCollection and activeCollection.id == collection.id %}ring ring-orange{% else %}shadow-sm{% endif %}"
-                                         style="border-radius:8px;">
-                                        {% if collectionCover %}
-                                        <div style="padding-top:56.25%; position: relative; background: #1e293b;">
-                                            <img
-                                                    src="{{ collectionCover.url }}"
-                                                    alt="{{ collection.title }}"
-                                                    style="position: absolute; inset:0; width:100%; height:100%; object-fit: cover;"
-                                            >
-                                            {% else %}
-                                            <div style="padding-top:56.25%; position: relative; background: #1e293b;"
-                                                 class="d-flex align-items-center justify-content-center">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="002424" fill="none" stroke="currentColor" stroke-width="2"
-                                                     stroke-linecap="round" stroke-linejoin="round"
-                                                     class="text-white-50">
-                                                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                                    <circle cx="8.5" cy="8.5" r="1.5"/>
-                                                    <polyline points="21151610521"/>
-                                                </svg>
-                                                {% endif %}
-                                                <div class="position-absolute bottom-0 start-0 end-0 p-2"
-                                                     style="background: linear-gradient(transparent, rgba(0,0,0,0.8));">
-                                                    <div class="small fw-medium text-white text-truncate">{{ collection.title }}</div>
-                                                </div>
+                            {% set collectionImage = null %}
+                            {% if collection.cover is defined %}
+                                {% set collectionImage = collection.cover.one() %}
+                            {% elseif collection.coverImage is defined %}
+                                {% set collectionImage = collection.coverImage.one() %}
+                            {% endif %}
+
+                            {% set collectionUrlParams = { collection: collection.slug } %}
+                            {% if activeGenre %}
+                                {% set collectionUrlParams = collectionUrlParams|merge({ genre: activeGenre.slug }) %}
+                            {% endif %}
+
+                            <div class="col-6 col-md-4 col-xl-3">
+                                <a href="{{ url('movies', collectionUrlParams) }}"
+                                   class="card card-link text-decoration-none h-100 overflow-hidden {{ activeCollection and activeCollection.id == collection.id ? 'border-orange border-2' : '' }}">
+                                    <div class="position-relative">
+                                        {% if collectionImage %}
+                                            <img src="{{ collectionImage.url }}" alt="{{ collection.title }}" class="card-img-top" loading="lazy">
+                                        {% else %}
+                                            <div class="card-img-top ratio ratio-16x9 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
+                                                <span class="fs-1">🎬</span>
                                             </div>
-                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="card-body p-3">
+                                        <div class="fw-semibold text-body text-truncate">{{ collection.title }}</div>
                                     </div>
                                 </a>
                             </div>
                         {% else %}
                             <div class="col-12">
-                                <span class="text-secondary small">Подборки не найдены</span>
+                                <p class="text-secondary mb-0">Подборки пока не добавлены.</p>
                             </div>
                         {% endfor %}
                     </div>
                 </div>
-            </div>
 
-        </div>
-
-        {# ===== СЕТКА ФИЛЬМОВ ===== #}
-        <div class="col-12 col-lg-9">
-
-            {% if entries %}
-                <div class="row g-3">
-                    {% for entry in entries %}
-                        {% set cover = entry.cover.one() %}
-                        {% set entryGenres = entry.genres.all() %}
-                        {% set entryCollections = entry.collections.all() %}
-                        {% set watchLinks = entry.watchLinks.all() %}
-                        {% set watchCount = watchLinks|length %}
-
-                        <div class="col-6 col-md-4 col-xl-3">
-                            <article class="card border-0 shadow-sm h-100 movie-card"
-                                     style="border-radius:12px; overflow: hidden; transition: transform0.2s ease, box-shadow0.2s ease;">
-                                <a href="{{ entry.url }}" class="text-decoration-none text-reset">
-                                    {# Обложка #}
-                                    <div class="position-relative" style="padding-top:150%; overflow: hidden;">
-                                        {% if cover %}
-                                            <img
-                                                    src="{{ cover.url }}"
-                                                    alt="{{ entry.title }}"
-                                                    style="position: absolute; inset:0; width:100%; height:100%; object-fit: cover; transition: transform0.3s ease;"
-                                                    loading="lazy"
-                                            >
-                                        {% else %}
-                                            <div class="d-flex align-items-center justify-content-center bg-secondary position-absolute inset-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48"
-                                                     viewBox="002424" fill="none" stroke="currentColor"
-                                                     stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
-                                                     class="text-white-50">
-                                                    <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/>
-                                                    <line x1="7" y1="2" x2="7" y2="22"/>
-                                                    <line x1="17" y1="2" x2="17" y2="22"/>
-                                                    <line x1="2" y1="12" x2="22" y2="12"/>
-                                                    <line x1="2" y1="7" x2="7" y2="7"/>
-                                                    <line x1="2" y1="17" x2="7" y2="17"/>
-                                                    <line x1="17" y1="17" x2="22" y2="17"/>
-                                                    <line x1="17" y1="7" x2="22" y2="7"/>
-                                                </svg>
-                                            </div>
-                                        {% endif %}
-
-                                        {# Бейдж количества ссылок #}
-                                        {% if watchCount >0 %}
-                                            <div class="position-absolute top-0 end-0 m-2">
-<span class="badge bg-dark bg-opacity-75">
-<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="002424" fill="none" stroke="currentColor"
-     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-1"><polygon points="53191252153"/></svg>
- {{ watchCount }}
-</span>
-                                            </div>
-                                        {% endif %}
-
-                                        {# Hover оверлей #}
-                                        <div class="position-absolute inset-0 d-flex align-items-center justify-content-center opacity-0 movie-card-overlay"
-                                             style="background: rgba(0,0,0,0.6); transition: opacity0.2s ease;">
-<span class="btn btn-light">
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="002424" fill="none" stroke="currentColor"
-     stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="me-1"><path
-            d="M112s4-811-8118118-48-118-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
- Открыть
-</span>
-                                        </div>
-                                    </div>
-
-                                    {# Контент карточки #}
-                                    <div class="card-body p-3">
-                                        <h3 class="h6 fw-bold mb-1 text-truncate" title="{{ entry.title }}">
-                                            {{ entry.title }}
-                                        </h3>
-
-                                        <div class="d-flex flex-wrap gap-1 mb-2">
-                                            {% if entry.year %}
-                                                <span class="badge bg-blue-lt fs-xs">{{ entry.year }}</span>
-                                            {% endif %}
-                                            {% if entry.duration %}
-                                                <span class="badge bg-azure-lt fs-xs">{{ entry.duration|date('H:i') }}</span>
-                                            {% endif %}
-                                        </div>
-
-                                        {% if entry.description %}
-                                            <p class="small text-secondary mb-2 movie-card-desc"
-                                               style="display: -webkit-box; -webkit-line-clamp:2; -webkit-box-orient: vertical; overflow: hidden;">
-                                                {{ entry.description }}
-                                            </p>
-                                        {% endif %}
-
-                                        <div class="d-flex flex-wrap gap-1 mt-auto">
-                                            {% for genre in entryGenres|slice(0,2) %}
-                                                <a href="/movies?genre={{ genre.slug }}"
-                                                   class="badge bg-green-lt text-green fs-xs text-decoration-none"
-                                                   onclick="event.stopPropagation();">
-                                                    {{ genre.title }}
-                                                </a>
-                                            {% endfor %}
-                                            {% if entryGenres|length >2 %}
-                                                <span class="badge bg-secondary-lt fs-xs">+{{ entryGenres|length -2 }}</span>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                </a>
-                            </article>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                {# ПУСТОЕ СОСТОЯНИЕ #}
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body py-5 text-center">
-                        <div class="mb-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="002424" fill="none"
-                                 stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                                 class="text-secondary">
-                                <circle cx="11" cy="11" r="8"/>
-                                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-                            </svg>
-                        </div>
-                        <h4 class="mb-2">Фильмы не найдены</h4>
-                        <p class="text-secondary mb-4">Попробуйте изменить параметры фильтрации или сбросить фильтры</p>
-                        <a href="/movies" class="btn btn-primary">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="002424" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="me-1">
-                                <polyline points="14110710"/>
-                                <path d="M3.5115a990102.13-9.36L110"/>
-                            </svg>
-                            Сбросить фильтры
-                        </a>
+                {% if activeGenre or activeCollection %}
+                    <div class="mt-4 pt-3 border-top d-flex flex-wrap align-items-center gap-2">
+                        <span class="text-secondary">Активные фильтры:</span>
+                        {% if activeGenre %}
+                            <span class="badge bg-primary-lt">Жанр: {{ activeGenre.title }}</span>
+                        {% endif %}
+                        {% if activeCollection %}
+                            <span class="badge bg-orange-lt">Подборка: {{ activeCollection.title }}</span>
+                        {% endif %}
+                        <a href="{{ resetUrl }}" class="btn btn-sm btn-outline-secondary ms-md-auto">Сбросить фильтры</a>
                     </div>
-                </div>
-            {% endif %}
-
+                {% endif %}
+            </div>
         </div>
-    </div>
+    </section>
 
-    <style>
-        .movie-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 08px25px rgba(0, 0, 0, 0.15) !important;
-        }
+    {% if entries %}
+        <section>
+            <div class="row row-cards">
+                {% for movie in entries %}
+                    {% set movieCover = movie.cover.one() %}
+                    {% set movieGenres = movie.genres.all() %}
+                    {% set movieCollections = movie.collections.all() %}
+                    {% set movieWatchLinks = movie.watchLinks.all() %}
 
-        .movie-card:hover img {
-            transform: scale(1.05);
-        }
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <article class="card card-link h-100 shadow-sm">
+                            <a href="{{ movie.url }}" class="text-decoration-none text-reset">
+                                {% if movieCover %}
+                                    <img src="{{ movieCover.url }}" alt="{{ movie.title }}" class="card-img-top" loading="lazy">
+                                {% else %}
+                                    <div class="card-img-top ratio ratio-4x3 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
+                                        Нет обложки
+                                    </div>
+                                {% endif %}
+                            </a>
 
-        .movie-card:hover .movie-card-overlay {
-            opacity: 1 !important;
-        }
+                            <div class="card-body d-flex flex-column gap-3">
+                                <div>
+                                    <h3 class="h2 mb-2">
+                                        <a href="{{ movie.url }}" class="text-decoration-none text-body">{{ movie.title }}</a>
+                                    </h3>
+                                    <div class="d-flex flex-wrap gap-2 text-secondary">
+                                        {% if movie.year %}
+                                            <span class="badge bg-blue-lt">{{ movie.year }}</span>
+                                        {% endif %}
+                                        {% if movie.duration %}
+                                            <span class="badge bg-azure-lt">{{ movie.duration }}</span>
+                                        {% endif %}
+                                        {% if movieWatchLinks|length > 1 %}
+                                            <span class="badge bg-green-lt">{{ movieWatchLinks|length }} ссылок</span>
+                                        {% elseif movieWatchLinks|length == 1 %}
+                                            <span class="badge bg-green-lt">1 ссылка</span>
+                                        {% endif %}
+                                    </div>
+                                </div>
 
-        .movie-card-desc {
-            line-height: 1.4;
-        }
-    </style>
+                                {% if movie.description %}
+                                    <p class="text-secondary mb-0">{{ movie.description|striptags|truncate(140) }}</p>
+                                {% else %}
+                                    <p class="text-secondary mb-0">Описание пока не добавлено.</p>
+                                {% endif %}
 
+                                {% if movieGenres %}
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for genre in movieGenres|slice(0, 3) %}
+                                            <a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-primary-lt text-decoration-none">{{ genre.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                {% if movieCollections %}
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for collection in movieCollections|slice(0, 2) %}
+                                            <a href="{{ url('movies', { collection: collection.slug }) }}" class="badge bg-orange-lt text-decoration-none">{{ collection.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+
+                                <div class="mt-auto">
+                                    <a href="{{ movie.url }}" class="btn btn-primary w-100">Открыть</a>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    {% else %}
+        <section>
+            <div class="card border-0 shadow-sm">
+                <div class="card-body py-5 text-center">
+                    <div class="avatar avatar-xl bg-secondary-lt mx-auto mb-3">🎥</div>
+                    <h2 class="h1 mb-2">Фильмы не найдены</h2>
+                    <p class="text-secondary mb-4">Попробуйте изменить параметры фильтрации или вернуться ко всему каталогу.</p>
+                    <a href="{{ resetUrl }}" class="btn btn-primary">Сбросить фильтры</a>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
