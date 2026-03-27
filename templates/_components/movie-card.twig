@@ -1,0 +1,37 @@
+{# Компонент карточки записи #}
+
+{% set cover = entry.coverImage.one() %}
+
+<a href="{{ entry.url }}" class="card card-sm h-100 text-decoration-none text-reset">
+
+    {# Обложка #}
+    {% if cover %}
+        <div
+                class="img-responsive img-responsive-16x9 card-img-top"
+                style="background-image: url('{{ cover.url }}'); background-size: cover; background-position: center;">
+        </div>
+    {% else %}
+        {# fallback если нет картинки #}
+        <div class="card-img-top d-flex align-items-center justify-content-center bg-secondary text-white"
+             style="height: 140px;">
+            Нет обложки
+        </div>
+    {% endif %}
+
+    {# Контент #}
+    <div class="card-body">
+
+        <div class="fw-bold mb-1">
+            {{ entry.title }}
+        </div>
+
+        {# Дата (если есть) #}
+        {% if entry.releaseDate %}
+            <div class="text-muted small">
+                {{ entry.releaseDate|date('Y') }}
+            </div>
+        {% endif %}
+
+    </div>
+
+</a>
