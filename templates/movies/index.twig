@@ -1,0 +1,145 @@
+{% extends "_layouts/base" %}
+
+{% set pageTitle = "Кино" %}
+
+{% block content %}
+
+    {# ===== ПАРАМЕТРЫ ФИЛЬТРА ===== #}
+    {% set selectedGenre = craft.app.request.getQueryParam('genre') %}
+    {% set selectedCollection = craft.app.request.getQueryParam('collection') %}
+
+    {# ===== ЖАНР ===== #}
+    {% set genre = selectedGenre
+        ? craft.categories().group('genres').slug(selectedGenre).one()
+        : null
+    %}
+
+    {# ===== ПОДБОРКА ===== #}
+    {% set collection = selectedCollection
+        ? craft.categories().group('collections').slug(selectedCollection).one()
+        : null
+    %}
+
+    {# ===== ЗАПРОС ===== #}
+    {% set query = craft.entries()
+        .section('movies')
+        .orderBy('postDate DESC')
+    %}
+
+    {% if genre %}
+        {% set query = query.relatedTo(genre) %}
+    {% endif %}
+
+    {% if collection %}
+        {% set query = query.relatedTo(collection) %}
+    {% endif %}
+
+    {% set entries = query.all() %}
+
+    {# ===== ЗАГОЛОВОК ===== #}
+    <div class="card mb-4">
+        <div class="card-body">
+
+            <h1 class="mb-2">Кино</h1>
+
+            {% if genre or collection %}
+                <div class="d-flex flex-wrap gap-2 mt-2">
+
+                    {% if genre %}
+                        <span class="badge bg-green-lt">
+                            Жанр: {{ genre.title }}
+                        </span>
+                    {% endif %}
+
+                    {% if collection %}
+                        <span class="badge bg-orange-lt">
+                            Подборка: {{ collection.title }}
+                        </span>
+                    {% endif %}
+
+                    <a href="/movies" class="btn btn-sm btn-outline-secondary">
+                        Сбросить
+                    </a>
+
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+
+
+    <div class="row g-4">
+
+        {# ===== SIDEBAR ===== #}
+        <div class="col-12 col-lg-3">
+
+            {# ЖАНРЫ #}
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <h3 class="h5 mb-3">Жанры</h3>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for g in craft.categories().group('genres').all() %}
+                            <a
+                                    href="/movies?genre={{ g.slug }}"
+                                    class="badge {{ genre and genre.id == g.id ? 'bg-green' : 'bg-green-lt' }} text-decoration-none"
+                            >
+                                {{ g.title }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+
+            {# ПОДБОРКИ #}
+            <div class="card">
+                <div class="card-body">
+
+                    <h3 class="h5 mb-3">Подборки</h3>
+
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for c in craft.categories().group('collections').all() %}
+                            <a
+                                    href="/movies?collection={{ c.slug }}"
+                                    class="badge {{ collection and collection.id == c.id ? 'bg-orange' : 'bg-orange-lt' }} text-decoration-none"
+                            >
+                                {{ c.title }}
+                            </a>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        {# ===== КОНТЕНТ ===== #}
+        <div class="col-12 col-lg-9">
+
+            {% if entries %}
+                <div class="row">
+                    {% for entry in entries %}
+                        <div class="col-6 col-md-4 col-lg-3 mb-3">
+                            {% include "_components/movie-card.twig" with { entry: entry } %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty">
+                    <div class="empty-header">0</div>
+                    <p class="empty-title">Ничего не найдено</p>
+                    <p class="empty-subtitle text-secondary">
+                        Попробуй изменить фильтры
+                    </p>
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+{% endblock %}
