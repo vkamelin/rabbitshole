@@ -67,36 +67,6 @@
 
     {# Page wrapper #}
     <div class="page-wrapper">
-        {% block pageHeader %}
-            <div class="page-header d-print-none">
-                <div class="container-lg">
-                    {% block breadcrumbs %}
-                        {% if breadcrumbs is defined and breadcrumbs %}
-                            <div class="row g-2 align-items-center">
-                                <div class="col">
-                                    <nav aria-label="breadcrumb">
-                                        <ol class="breadcrumb breadcrumb-arrows mb-0">
-                                            {% for crumb in breadcrumbs %}
-                                                {% if crumb.url is defined and crumb.url %}
-                                                    <li class="breadcrumb-item">
-                                                        <a href="{{ crumb.url }}">{{ crumb.label }}</a>
-                                                    </li>
-                                                {% else %}
-                                                    <li class="breadcrumb-item active" aria-current="page">
-                                                        {{ crumb.label }}
-                                                    </li>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </ol>
-                                    </nav>
-                                </div>
-                            </div>
-                        {% endif %}
-                    {% endblock %}
-                </div>
-            </div>
-        {% endblock %}
-
         {# Flash / alerts #}
         {% block alerts %}
             {% if craft.app.session.hasFlash('success') %}
