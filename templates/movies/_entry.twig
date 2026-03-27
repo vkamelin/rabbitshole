@@ -1,63 +1,127 @@
 {% extends "_layouts/base" %}
 
+{% set pageTitle = entry.title %}
+
 {% block content %}
     {% set cover = entry.cover.one() %}
     {% set watchLinks = entry.watchLinks.all() %}
     {% set genres = entry.genres.all() %}
     {% set collections = entry.collections.all() %}
 
-    <article class="movie-entry">
-        <h1>{{ entry.title }}</h1>
-
-        {% if cover %}
-            <img src="{{ cover.url }}" alt="{{ entry.title }}">
-        {% endif %}
-
-        {% if entry.description %}
-            <div class="movie-description">
-                {{ entry.description }}
+    <div class="row g-4">
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    {% if cover %}
+                        <div class="text-center">
+                            <img
+                                    src="{{ cover.url }}"
+                                    alt="{{ entry.title }}"
+                                    class="img-fluid rounded"
+                                    style="width: 100%; max-width: 420px; aspect-ratio: 2 / 3; object-fit: contain; background: #111;"
+                            >
+                        </div>
+                    {% else %}
+                        <div
+                                class="d-flex align-items-center justify-content-center rounded bg-secondary-lt text-secondary"
+                                style="width: 100%; aspect-ratio: 2 / 3;"
+                        >
+                            Нет обложки
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-        {% endif %}
+        </div>
 
-        {% if entry.year %}
-            <p>Дата релиза: {{ entry.year }}</p>
-        {% endif %}
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-4">
+                        <div>
+                            <h1 class="mb-3">{{ entry.title }}</h1>
 
-        {% if entry.duration %}
-            <p>Длительность: {{ entry.duration|date('H:i') }}</p>
-        {% endif %}
+                            <div class="d-flex flex-wrap gap-2">
+                                {% if entry.year %}
+                                    <span class="badge bg-blue-lt">
+                                        {{ entry.year }}
+                                    </span>
+                                {% endif %}
 
-        {% if genres %}
-            <div class="movie-genres">
-                <strong>Жанры:</strong>
-                {% for genre in genres %}
-                    <span>{{ genre.title }}</span>
-                {% endfor %}
+                                {% if entry.duration %}
+                                    <span class="badge bg-azure-lt">
+                                        {{ entry.duration|date('H:i') }}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if entry.description %}
+                            <div>
+                                <h2 class="h3 mb-3">Описание</h2>
+                                <div class="text-secondary">
+                                    {{ entry.description }}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if genres %}
+                            <div>
+                                <h2 class="h3 mb-3">Жанры</h2>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for genre in genres %}
+                                        <span class="badge bg-green-lt">{{ genre.title }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if collections %}
+                            <div>
+                                <h2 class="h3 mb-3">Подборки</h2>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for collection in collections %}
+                                        <span class="badge bg-orange-lt">{{ collection.title }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if watchLinks %}
+                            <div>
+                                <h2 class="h3 mb-3">Ссылки на просмотр</h2>
+
+                                <div class="list-group list-group-flush">
+                                    {% for block in watchLinks %}
+                                        <div class="list-group-item px-0">
+                                            <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+                                                <div>
+                                                    <div class="fw-medium">
+                                                        {{ block.label ?: 'Смотреть' }}
+                                                    </div>
+                                                    <div class="text-secondary small">
+                                                        {{ block.url }}
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <a
+                                                            href="{{ block.url }}"
+                                                            class="btn btn-primary"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                    >
+                                                        Открыть
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
-        {% endif %}
-
-        {% if collections %}
-            <div class="movie-collections">
-                <strong>Подборки:</strong>
-                {% for collection in collections %}
-                    <span>{{ collection.title }}</span>
-                {% endfor %}
-            </div>
-        {% endif %}
-
-        {% if watchLinks %}
-            <section class="movie-watch-links">
-                <h2>Ссылки на просмотр</h2>
-                <ul>
-                    {% for block in watchLinks %}
-                        <li>
-                            <a href="{{ block.url }}" target="_blank" rel="noopener noreferrer">
-                                {{ block.label ?: 'Смотреть' }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </section>
-        {% endif %}
-    </article>
+        </div>
+    </div>
 {% endblock %}
