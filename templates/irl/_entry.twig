@@ -1,0 +1,106 @@
+{% extends "_layouts/base" %}
+
+{% set pageTitle = entry.title %}
+
+{% block content %}
+    {% set cover = entry.coverImage.one() %}
+    {% set watchLinks = entry.watchLinks.all() %}
+
+    <div class="row g-4">
+
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+
+                    {% if cover %}
+                        <div class="text-center">
+                            <img
+                                    src="{{ cover.url }}"
+                                    alt="{{ entry.title }}"
+                                    class="img-fluid rounded"
+                                    style="
+                                    width: 100%;
+                                    max-width: 420px;
+                                    aspect-ratio: 2 / 3;
+                                    object-fit: contain;
+                                    background: #111;
+                                "
+                            >
+                        </div>
+                    {% else %}
+                        <div
+                                class="d-flex align-items-center justify-content-center rounded bg-secondary-lt text-secondary"
+                                style="width: 100%; aspect-ratio: 2 / 3;"
+                        >
+                            Нет обложки
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex flex-column gap-4">
+
+                        <div>
+                            <h1 class="mb-3">{{ entry.title }}</h1>
+
+                            {% if entry.duration %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    <span class="badge bg-azure-lt">
+                                        {{ entry.duration|date('H:i') }}
+                                    </span>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {% if entry.description %}
+                            <div>
+                                <h2 class="h3 mb-3">Описание</h2>
+                                <div class="text-secondary">
+                                    {{ entry.description }}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if watchLinks %}
+                            <div>
+                                <h2 class="h3 mb-3">Ссылки на просмотр</h2>
+
+                                <div class="list-group list-group-flush">
+                                    {% for block in watchLinks %}
+                                        <div class="list-group-item px-0">
+                                            <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
+                                                <div>
+                                                    <div class="text-secondary small">
+                                                        {{ block.url }}
+                                                    </div>
+                                                </div>
+
+                                                <div>
+                                                    <a
+                                                            href="{{ block.url }}"
+                                                            class="btn btn-outline-danger"
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                    >
+                                                        {{ block.label ?: 'Смотреть' }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
