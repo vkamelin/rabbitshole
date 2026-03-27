@@ -1,0 +1,20 @@
+{% extends "_layouts/base" %}
+{% set pageTitle = "Сериалы" %}
+
+{% block content %}
+
+    {% set entries = craft.entries()
+        .section('series')
+        .orderBy('postDate DESC')
+        .all()
+    %}
+
+    <div class="row">
+        {% for entry in entries %}
+            <div class="col-6 col-md-3 mb-3">
+                {% include "_components/movie-card.twig" with { entry: entry } %}
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
