@@ -1,162 +1,185 @@
+{# templates/_layouts/base.twig #}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>{% if title is defined %}{{ title }} — {% endif %}Кроличья нора</title>
+    <title>{% block title %}{{ siteName ?? 'Кроличья нора' }}{% endblock %}</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="{% block metaDescription %}Каталог записей стримов Hard Play{% endblock %}">
+    <meta name="robots" content="{% block robots %}index,follow{% endblock %}">
+    <meta name="theme-color" content="#0f172a">
+
+    {% block meta %}{% endblock %}
+
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 
     {# Tabler CSS #}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css" />
-
-    {# Доп стили проекта #}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css">
     <link rel="stylesheet" href="/assets/css/app.css">
+
+    {% block head %}{% endblock %}
 </head>
-
-<body>
+<body class="
+    layout-fluid
+    {% block bodyClass %}{{ bodyClass ?? '' }}{% endblock %}
+">
 <div class="page">
-
-    {# ===== HEADER ===== #}
-    <header class="navbar navbar-expand-md d-print-none">
+    {# Header #}
+    <header class="navbar navbar-expand-md navbar-light d-print-none border-bottom bg-white">
         <div class="container-xl">
-
-            {# Логотип / бренд #}
-            <h1 class="navbar-brand d-none-navbar-horizontal pe-0 pe-md-3">
-                <a href="/">
-                    Кроличья нора
-                </a>
-            </h1>
-
-            {# Кнопка мобильного меню #}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#site-navbar" aria-controls="site-navbar" aria-expanded="false" aria-label="Переключить навигацию">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            {# Меню #}
-            <div class="collapse navbar-collapse" id="navbar-menu">
-                <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+            <h1 class="navbar-brand navbar-brand-autodark pe-0 pe-md-3 m-0">
+                <a href="{{ siteUrl }}">
+                    <span class="fw-bold text-body">🐰 Кроличья нора</span>
+                </a>
+            </h1>
 
-                    <ul class="navbar-nav">
+            <div class="collapse navbar-collapse" id="site-navbar">
+                <ul class="navbar-nav ms-auto">
+                    {% set navItems = [
+                        { key: 'movies', label: 'Кино', url: '/movies' },
+                        { key: 'series', label: 'Сериалы', url: '/series' },
+                        { key: 'anime', label: 'Аниме', url: '/anime' },
+                        { key: 'games', label: 'Игры', url: '/games' },
+                        { key: 'irl', label: 'IRL', url: '/irl' },
+                        { key: 'reactions', label: 'Реакции', url: '/reactions' }
+                    ] %}
 
+                    {% for item in navItems %}
                         <li class="nav-item">
-                            <a class="nav-link" href="/movies">
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/movie.svg" />
-                  </span>
-                                <span class="nav-link-title">Кино</span>
+                            <a
+                                    href="{{ item.url }}"
+                                    class="nav-link {% if currentSection is defined and currentSection == item.key %}active{% endif %}"
+                            >
+                                <span class="nav-link-title">{{ item.label }}</span>
                             </a>
                         </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/series">
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/device-tv.svg" />
-                  </span>
-                                <span class="nav-link-title">Сериалы</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/anime">
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/ghost.svg" />
-                  </span>
-                                <span class="nav-link-title">Аниме</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/games">
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/device-gamepad-2.svg" />
-                  </span>
-                                <span class="nav-link-title">Игры</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/irl">
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/camera.svg" />
-                  </span>
-                                <span class="nav-link-title">IRL</span>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link" href="/reactions">
-                  <span class="nav-link-icon d-md-none d-lg-inline-block">
-                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/eye.svg" />
-                  </span>
-                                <span class="nav-link-title">Реакции</span>
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
+                    {% endfor %}
+                </ul>
             </div>
-
         </div>
     </header>
 
-
-    {# ===== MAIN ===== #}
+    {# Page wrapper #}
     <div class="page-wrapper">
-
-        {# Заголовок страницы (опционально) #}
-        {% if title is defined %}
+        {% block pageHeader %}
             <div class="page-header d-print-none">
-                <div class="container-xl">
-                    <div class="row g-2 align-items-center">
-                        <div class="col">
-                            <h2 class="page-title">
-                                {{ title }}
-                            </h2>
-                        </div>
-                    </div>
+                <div class="container-lg">
+                    {% block breadcrumbs %}
+                        {% if breadcrumbs is defined and breadcrumbs %}
+                            <div class="row g-2 align-items-center">
+                                <div class="col">
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb breadcrumb-arrows mb-0">
+                                            {% for crumb in breadcrumbs %}
+                                                {% if crumb.url is defined and crumb.url %}
+                                                    <li class="breadcrumb-item">
+                                                        <a href="{{ crumb.url }}">{{ crumb.label }}</a>
+                                                    </li>
+                                                {% else %}
+                                                    <li class="breadcrumb-item active" aria-current="page">
+                                                        {{ crumb.label }}
+                                                    </li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ol>
+                                    </nav>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endblock %}
                 </div>
             </div>
-        {% endif %}
+        {% endblock %}
 
-        {# Контент #}
-        <div class="page-body">
+        {# Flash / alerts #}
+        {% block alerts %}
+            {% if craft.app.session.hasFlash('success') %}
+                <div class="container-xl mt-3">
+                    <div class="alert alert-success" role="alert">
+                        {{ craft.app.session.getFlash('success') }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if craft.app.session.hasFlash('error') %}
+                <div class="container-xl mt-3">
+                    <div class="alert alert-danger" role="alert">
+                        {{ craft.app.session.getFlash('error') }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if craft.app.session.hasFlash('warning') %}
+                <div class="container-xl mt-3">
+                    <div class="alert alert-warning" role="alert">
+                        {{ craft.app.session.getFlash('warning') }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if craft.app.session.hasFlash('info') %}
+                <div class="container-xl mt-3">
+                    <div class="alert alert-info" role="alert">
+                        {{ craft.app.session.getFlash('info') }}
+                    </div>
+                </div>
+            {% endif %}
+        {% endblock %}
+
+        {# Main content #}
+        <main class="page-body">
             <div class="container-xl">
-
-                {% block content %}
-                {% endblock %}
-
+                {% block content %}{% endblock %}
             </div>
-        </div>
+        </main>
 
-    </div>
-
-
-    {# ===== FOOTER ===== #}
-    <footer class="footer footer-transparent d-print-none">
-        <div class="container-xl">
-            <div class="row text-center align-items-center flex-row-reverse">
-
-                <div class="col-lg-auto ms-lg-auto">
-                    <div class="copyright">
-                        © {{ "now"|date("Y") }} Rabbit Hole
+        {# Footer #}
+        <footer class="footer footer-transparent d-print-none border-top mt-auto">
+            <div class="container-xl">
+                <div class="row text-center align-items-center flex-row-reverse">
+                    <div class="col-lg-auto ms-lg-auto">
+                        <ul class="list-inline list-inline-dots mb-0">
+                            <li class="list-inline-item">
+                                <a href="/movies" class="link-secondary">Кино</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/series" class="link-secondary">Сериалы</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/anime" class="link-secondary">Аниме</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/games" class="link-secondary">Игры</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/irl" class="link-secondary">IRL</a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="/reactions" class="link-secondary">Реакции</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                        <p class="mb-0 text-secondary">
+                            © {{ now|date('Y') }} {{ siteName ?? 'rabbitshole.ru' }} — каталог записей стримов Hard Play
+                        </p>
                     </div>
                 </div>
-
-                <div class="col-12 col-lg-auto mt-3 mt-lg-0">
-                    Каталог стримов Hard Play
-                </div>
-
             </div>
-        </div>
-    </footer>
-
+        </footer>
+    </div>
 </div>
 
-
-{# Tabler JS #}
+{# JS #}
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js"></script>
-
-{# Доп скрипты #}
 <script src="/assets/js/app.js"></script>
 
+{% block footerScripts %}{% endblock %}
 </body>
 </html>
