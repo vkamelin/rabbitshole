@@ -83,7 +83,7 @@
                         {% for g in craft.categories().group('genres').all() %}
                             <a
                                     href="/movies?genre={{ g.slug }}"
-                                    class="badge {{ genre and genre.id == g.id ? 'bg-green' : 'bg-green-lt' }} text-decoration-none"
+                                    class="badge {{ genre and genre.id == g.id ? 'bg-green text-white' : 'bg-green-lt' }} text-decoration-none"
                             >
                                 {{ g.title }}
                             </a>
