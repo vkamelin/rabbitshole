@@ -1,0 +1,68 @@
+{% extends "_layouts/base" %}
+
+{% set allowedSections = {
+    movies: 'Кино',
+    series: 'Сериалы',
+    anime: 'Аниме',
+    games: 'Игры',
+    irl: 'IRL',
+    reactions: 'Реакции'
+} %}
+
+{% set sectionTitle = allowedSections[sectionHandle] ?? null %}
+
+{% if not sectionTitle %}
+    {% exit 404 %}
+{% endif %}
+
+{% set genre = craft.categories()
+    .group('genres')
+    .slug(categorySlug)
+    .one()
+%}
+
+{% if not genre %}
+    {% exit 404 %}
+{% endif %}
+
+{% set pageTitle = 'Жанр: ' ~ genre.title %}
+
+{% block content %}
+
+    {% set entries = craft.entries()
+        .section(sectionHandle)
+        .relatedTo(genre)
+        .orderBy('postDate DESC')
+        .all()
+    %}
+
+    <div class="d-flex flex-column gap-4">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="text-secondary mb-1">{{ sectionTitle }}</div>
+                <h1 class="mb-0">Жанр: {{ genre.title }}</h1>
+            </div>
+        </div>
+
+        {% if entries %}
+            <div class="row">
+                {% for entry in entries %}
+                    <div class="col-6 col-md-3 mb-3">
+                        {% include "_components/movie-card.twig" with { entry: entry } %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty">
+                <div class="empty-header">0</div>
+                <p class="empty-title">Ничего не найдено</p>
+                <p class="empty-subtitle text-secondary">
+                    В разделе «{{ sectionTitle }}» пока нет записей с жанром «{{ genre.title }}».
+                </p>
+            </div>
+        {% endif %}
+
+    </div>
+
+{% endblock %}

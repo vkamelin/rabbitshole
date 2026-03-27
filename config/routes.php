@@ -9,4 +9,7 @@
  * @link https://craftcms.com/docs/5.x/system/routing.html
  */
 
-return [];
+return [
+    '<sectionHandle:{slug}>/genre/<categorySlug:{slug}>' => ['template' => '_section/genre'],
+    '<sectionHandle:{slug}>/collection/<categorySlug:{slug}>' => ['template' => '_section/collection'],
+];
