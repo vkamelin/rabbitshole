@@ -19,12 +19,12 @@
             </div>
         {% endif %}
 
-        {% if entry.releaseDate %}
+        {% if entry.year %}
             <p>Дата релиза: {{ entry.year }}</p>
         {% endif %}
 
         {% if entry.duration %}
-            <p>Длительность: {{ entry.duration }}</p>
+            <p>Длительность: {{ entry.duration|date('H:i') }}</p>
         {% endif %}
 
         {% if genres %}
