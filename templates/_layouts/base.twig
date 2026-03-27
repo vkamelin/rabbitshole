@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <title>{% if title is defined %}{{ title }} — {% endif %}Rabbit Hole</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {# Tabler CSS #}
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/css/tabler.min.css" />
+
+    {# Доп стили проекта #}
+    <link rel="stylesheet" href="/assets/css/app.css">
+</head>
+
+<body>
+<div class="page">
+
+    {# ===== HEADER ===== #}
+    <header class="navbar navbar-expand-md navbar-dark d-print-none">
+        <div class="container-xl">
+
+            {# Логотип / бренд #}
+            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                <a href="/">
+                    Rabbit Hole
+                </a>
+            </h1>
+
+            {# Кнопка мобильного меню #}
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            {# Меню #}
+            <div class="collapse navbar-collapse" id="navbar-menu">
+                <div class="d-flex flex-column flex-md-row flex-fill align-items-stretch align-items-md-center">
+
+                    <ul class="navbar-nav">
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/movies">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/movie.svg" />
+                  </span>
+                                <span class="nav-link-title">Кино</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/series">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/device-tv.svg" />
+                  </span>
+                                <span class="nav-link-title">Сериалы</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/anime">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/ghost.svg" />
+                  </span>
+                                <span class="nav-link-title">Аниме</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/games">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/device-gamepad-2.svg" />
+                  </span>
+                                <span class="nav-link-title">Игры</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/irl">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/camera.svg" />
+                  </span>
+                                <span class="nav-link-title">IRL</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/reactions">
+                  <span class="nav-link-icon d-md-none d-lg-inline-block">
+                    <img src="https://unpkg.com/@tabler/icons@latest/icons/outline/eye.svg" />
+                  </span>
+                                <span class="nav-link-title">Реакции</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+
+    {# ===== MAIN ===== #}
+    <div class="page-wrapper">
+
+        {# Заголовок страницы (опционально) #}
+        {% if title is defined %}
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col">
+                            <h2 class="page-title">
+                                {{ title }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {# Контент #}
+        <div class="page-body">
+            <div class="container-xl">
+
+                {% block content %}
+                {% endblock %}
+
+            </div>
+        </div>
+
+    </div>
+
+
+    {# ===== FOOTER ===== #}
+    <footer class="footer footer-transparent d-print-none">
+        <div class="container-xl">
+            <div class="row text-center align-items-center flex-row-reverse">
+
+                <div class="col-lg-auto ms-lg-auto">
+                    <div class="copyright">
+                        © {{ "now"|date("Y") }} Rabbit Hole
+                    </div>
+                </div>
+
+                <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                    Каталог стримов Hard Play
+                </div>
+
+            </div>
+        </div>
+    </footer>
+
+</div>
+
+
+{# Tabler JS #}
+<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js"></script>
+
+{# Доп скрипты #}
+<script src="/assets/js/app.js"></script>
+
+</body>
+</html>
