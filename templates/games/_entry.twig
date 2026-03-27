@@ -1,0 +1,114 @@
+{% extends "_layouts/base" %}
+
+{% set pageTitle = entry.title %}
+
+{% block content %}
+    {% set cover = entry.coverImage.one() %}
+    {% set watchLinks = entry.watchLinks.all() %}
+    {% set genres = entry.genres.all() %}
+    {% set collections = entry.collections.all() %}
+
+    <div class="row g-4">
+
+        {# Обложка #}
+        <div class="col-12 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+
+                    {% if cover %}
+                        <div class="text-center">
+                            <img
+                                    src="{{ cover.url }}"
+                                    alt="{{ entry.title }}"
+                                    class="img-fluid rounded"
+                                    style="
+                                    width: 100%;
+                                    max-width: 420px;
+                                    aspect-ratio: 2 / 3;
+                                    object-fit: contain;
+                                    background: #111;
+                                "
+                            >
+                        </div>
+                    {% else %}
+                        <div class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary rounded"
+                             style="aspect-ratio: 2 / 3;">
+                            Нет обложки
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+        {# Информация #}
+        <div class="col-12 col-lg-8">
+            <div class="card">
+                <div class="card-body">
+
+                    <h1 class="mb-3">{{ entry.title }}</h1>
+
+                    {% if entry.description %}
+                        <div class="mb-4">
+                            <h2 class="h4">Описание</h2>
+                            <div class="text-secondary">
+                                {{ entry.description }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if genres %}
+                        <div class="mb-4">
+                            <h2 class="h4">Жанры</h2>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for genre in genres %}
+                                    <span class="badge bg-green-lt">{{ genre.title }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if collections %}
+                        <div class="mb-4">
+                            <h2 class="h4">Подборки</h2>
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for collection in collections %}
+                                    <span class="badge bg-orange-lt">{{ collection.title }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if watchLinks %}
+                        <div>
+                            <h2 class="h4">Ссылки на просмотр</h2>
+
+                            <div class="list-group list-group-flush">
+                                {% for block in watchLinks %}
+                                    <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
+
+                                        <div>
+                                            <div class="text-secondary small">
+                                                {{ block.url }}
+                                            </div>
+                                        </div>
+
+                                        <a href="{{ block.url }}"
+                                           class="btn btn-outline-danger"
+                                           target="_blank">
+                                            {{ block.label ?: 'Смотреть' }}
+                                        </a>
+
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
