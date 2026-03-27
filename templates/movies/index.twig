@@ -210,7 +210,7 @@
                                             <span class="badge bg-blue-lt">{{ movie.year }}</span>
                                         {% endif %}
                                         {% if movie.duration %}
-                                            <span class="badge bg-azure-lt">{{ movie.duration }}</span>
+                                            <span class="badge bg-azure-lt">{{ movie.duration|date('H:i') }}</span>
                                         {% endif %}
                                         {% if movieWatchLinks|length > 1 %}
                                             <span class="badge bg-green-lt">{{ movieWatchLinks|length }} ссылок</span>

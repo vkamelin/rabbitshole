@@ -42,7 +42,7 @@
                                         <span class="badge bg-blue-lt">Год: {{ entry.year }}</span>
                                     {% endif %}
                                     {% if entry.duration %}
-                                        <span class="badge bg-azure-lt">Длительность: {{ entry.duration }}</span>
+                                        <span class="badge bg-azure-lt">Длительность: {{ entry.duration|date('H:i') }}</span>
                                     {% endif %}
                                     {% if watchLinks|length %}
                                         <span class="badge bg-green-lt">Ссылок: {{ watchLinks|length }}</span>
