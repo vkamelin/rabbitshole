@@ -95,18 +95,14 @@
                                         <div class="list-group-item px-0">
                                             <div class="d-flex align-items-center justify-content-between gap-3 flex-wrap">
                                                 <div>
-                                                    <div class="fw-medium">
-                                                        {{ block.label ?: 'Смотреть' }}
-                                                    </div>
                                                     <div class="text-secondary small">
                                                         {{ block.watchLink }}
                                                     </div>
                                                 </div>
-
                                                 <div>
                                                     <a
-                                                            href="{{ block.url }}"
-                                                            class="btn btn-primary"
+                                                            href="{{ block.watchLink }}"
+                                                            class="btn btn-outline-danger"
                                                             target="_blank"
                                                             rel="noopener noreferrer"
                                                     >
