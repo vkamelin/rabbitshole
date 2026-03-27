@@ -1,0 +1,63 @@
+{% extends "_layouts/base" %}
+
+{% block content %}
+    {% set cover = entry.coverImage.one() %}
+    {% set watchLinks = entry.watchLinks.all() %}
+    {% set genres = entry.genres.all() %}
+    {% set collections = entry.collections.all() %}
+
+    <article class="movie-entry">
+        <h1>{{ entry.title }}</h1>
+
+        {% if cover %}
+            <img src="{{ cover.url }}" alt="{{ entry.title }}">
+        {% endif %}
+
+        {% if entry.description %}
+            <div class="movie-description">
+                {{ entry.description }}
+            </div>
+        {% endif %}
+
+        {% if entry.releaseDate %}
+            <p>Дата релиза: {{ entry.year }}</p>
+        {% endif %}
+
+        {% if entry.duration %}
+            <p>Длительность: {{ entry.duration }}</p>
+        {% endif %}
+
+        {% if genres %}
+            <div class="movie-genres">
+                <strong>Жанры:</strong>
+                {% for genre in genres %}
+                    <span>{{ genre.title }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if collections %}
+            <div class="movie-collections">
+                <strong>Подборки:</strong>
+                {% for collection in collections %}
+                    <span>{{ collection.title }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if watchLinks %}
+            <section class="movie-watch-links">
+                <h2>Ссылки на просмотр</h2>
+                <ul>
+                    {% for block in watchLinks %}
+                        <li>
+                            <a href="{{ block.url }}" target="_blank" rel="noopener noreferrer">
+                                {{ block.label ?: 'Смотреть' }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+    </article>
+{% endblock %}
