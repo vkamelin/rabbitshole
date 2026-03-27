@@ -44,12 +44,9 @@
                                     {% if entry.duration %}
                                         <span class="badge bg-azure-lt">Длительность: {{ entry.duration|date('H:i') }}</span>
                                     {% endif %}
-                                    {% if watchLinks|length %}
-                                        <span class="badge bg-green-lt">Ссылок: {{ watchLinks|length }}</span>
-                                    {% endif %}
                                 </div>
                                 {% if entry.description %}
-                                    <p class="lead text-secondary mb-0">{{ entry.description|striptags|truncate(220) }}</p>
+                                    <p class="lead text-secondary mb-0">{{ entry.description }}</p>
                                 {% else %}
                                     <p class="lead text-secondary mb-0">Описание фильма скоро появится.</p>
                                 {% endif %}
@@ -91,34 +88,6 @@
                     </div>
                 </div>
             </section>
-
-            <section class="card border-0 shadow-sm mb-4">
-                <div class="card-header bg-transparent border-0 pb-0">
-                    <h2 class="card-title mb-0">О фильме</h2>
-                </div>
-                <div class="card-body">
-                    {% if entry.description %}
-                        <div class="text-secondary">{{ entry.description|nl2br }}</div>
-                    {% else %}
-                        <p class="text-secondary mb-0">Подробное описание пока не заполнено.</p>
-                    {% endif %}
-                </div>
-            </section>
-
-            {% if genres %}
-                <section class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-transparent border-0 pb-0">
-                        <h2 class="card-title mb-0">Жанры</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex flex-wrap gap-2">
-                            {% for genre in genres %}
-                                <a href="{{ url('movies', { genre: genre.slug }) }}" class="btn btn-outline-primary btn-sm">{{ genre.title }}</a>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </section>
-            {% endif %}
 
             {% if collections %}
                 <section class="card border-0 shadow-sm mb-4">
