@@ -1,7 +1,7 @@
 {% extends "_layouts/base" %}
 
 {% block content %}
-    {% set cover = entry.coverImage.one() %}
+    {% set cover = entry.cover.one() %}
     {% set watchLinks = entry.watchLinks.all() %}
     {% set genres = entry.genres.all() %}
     {% set collections = entry.collections.all() %}
