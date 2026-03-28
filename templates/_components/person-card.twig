@@ -14,34 +14,50 @@
     {% set personUrl = person.url ?? null %}
 
     <div class="col-6 col-md-3 col-xl-2">
-    {% if personUrl %}
-    <a href="{{ personUrl }}" class="card card-link text-decoration-none h-100 overflow-hidden">
-        {% else %}
         <div class="card h-100 overflow-hidden">
-            {% endif %}
-
             {% if imageAsset %}
                 <div class="ratio ratio-3x4 bg-dark">
-                    <img
-                            src="{{ imageAsset.url }}"
-                            alt="{{ person.title }}"
-                            class="w-100 h-100 object-fit-cover"
-                            loading="lazy"
-                    >
+                    {% if personUrl %}
+                        <a href="{{ personUrl }}" class="d-block w-100 h-100 text-decoration-none">
+                            <img
+                                    src="{{ imageAsset.url }}"
+                                    alt="{{ person.title }}"
+                                    class="w-100 h-100 object-fit-cover"
+                                    loading="lazy"
+                            >
+                        </a>
+                    {% else %}
+                        <img
+                                src="{{ imageAsset.url }}"
+                                alt="{{ person.title }}"
+                                class="w-100 h-100 object-fit-cover"
+                                loading="lazy"
+                        >
+                    {% endif %}
                 </div>
             {% else %}
                 <div class="ratio ratio-3x4 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
-                    Нет фото
+                    {% if personUrl %}
+                        <a href="{{ personUrl }}" class="d-flex align-items-center justify-content-center w-100 h-100 text-secondary text-decoration-none">
+                            Нет фото
+                        </a>
+                    {% else %}
+                        <span>Нет фото</span>
+                    {% endif %}
                 </div>
             {% endif %}
 
             <div class="card-body">
-                <div class="fw-semibold text-body">{{ person.title }}</div>
+                {% if personUrl %}
+                    <a href="{{ personUrl }}" class="text-body text-decoration-none fw-semibold">
+                        {{ person.title }}
+                    </a>
+                {% else %}
+                    <div class="fw-semibold text-body">
+                        {{ person.title }}
+                    </div>
+                {% endif %}
             </div>
-
-            {% if personUrl %}
-    </a>
-    {% else %}
-    </div>
+        </div>
     </div>
 {% endif %}
