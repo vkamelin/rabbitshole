@@ -3,7 +3,7 @@
 {% set pageTitle = entry.title %}
 {% set currentSection = 'movies' %}
 
-{% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
+{% block title %}Hard Play смотрит {{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
 
 {% block content %}
     {% set cover = entry.cover.one() %}
@@ -28,7 +28,7 @@
                         <div class="text-center bg-dark">
                             <img
                                     src="{{ cover.url }}"
-                                    alt="{{ entry.title }}"
+                                    alt="Hard Play смотрит {{ entry.title }}"
                                     class="img-fluid w-100"
                                     style="aspect-ratio: 2 / 3; object-fit: contain;"
                                     loading="lazy"
