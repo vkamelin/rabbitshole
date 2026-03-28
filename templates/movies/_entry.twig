@@ -11,7 +11,6 @@
     {% set collections = entry.collections.all() %}
     {% set watchLinks = entry.watchLinks.all() %}
 
-    {% set primaryWatchLink = watchLinks|first %}
 
     <div class="mb-3">
         <a href="{{ url('movies') }}" class="btn btn-sm">
@@ -75,14 +74,13 @@
                             {% endif %}
 
                             <div class="d-flex flex-wrap gap-2 mt-auto">
-                                {% if primaryWatchLink and primaryWatchLink.watchLink %}
-                                    <a href="{{ primaryWatchLink.watchLink }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
-                                        {{ primaryWatchLink.label ?: 'Смотреть' }}
-                                    </a>
-                                {% endif %}
-                                {% if watchLinks|length > 1 %}
-                                    <a href="#watch-links" class="btn btn-outline-primary">Все ссылки</a>
-                                {% endif %}
+                                {% for link in watchLinks %}
+                                    {% if link.watchLink %}
+                                        <a href="{{ link.watchLink }}" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+                                            📼 {{ link.label ?: 'Смотреть' }}
+                                        </a>
+                                    {% endif %}
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
