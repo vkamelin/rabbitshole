@@ -7,6 +7,13 @@
 
 {% block content %}
     {% set cover = category.cover.one() ?? null %}
+    {% set relatedEntries = craft.entries()
+        .section(['movies', 'series'])
+        .relatedTo(category)
+        .orderBy('postDate desc')
+        .limit(24)
+        .all()
+    %}
 
     <div class="mb-3">
         <a href="{{ url('movies') }}" class="btn btn-sm">
@@ -15,7 +22,6 @@
     </div>
 
     <div class="row g-4 align-items-start">
-        {# ===== ФОТО ===== #}
         <div class="col-12 col-lg-4">
             <section class="card border-0 shadow-sm overflow-hidden">
                 <div class="card-body p-0">
@@ -41,12 +47,10 @@
             </section>
         </div>
 
-        {# ===== ИНФОРМАЦИЯ ===== #}
         <div class="col-12 col-lg-8">
             <section class="card border-0 shadow-sm h-100">
                 <div class="card-body p-4 p-lg-5">
                     <div class="d-flex flex-column gap-4 h-100">
-
                         <div>
                             <h1 class="display-5 fw-bold mb-3">{{ category.title }}</h1>
 
@@ -60,40 +64,30 @@
                                 </p>
                             {% endif %}
                         </div>
-
                     </div>
                 </div>
             </section>
         </div>
     </div>
 
-    {# ===== ФИЛЬМЫ С ЭТИМ АКТЁРОМ ===== #}
-    {% set movies = craft.entries()
-        .section('movies')
-        .relatedTo(category)
-        .orderBy('postDate desc')
-        .limit(24)
-        .all()
-    %}
-
-    {% if movies %}
+    {% if relatedEntries %}
         <section class="card border-0 shadow-sm mt-4">
             <div class="card-header bg-transparent border-0 pb-0">
-                <h2 class="card-title mb-0">Фильмы с участием</h2>
+                <h2 class="card-title mb-0">Фильмы и сериалы</h2>
             </div>
 
             <div class="card-body">
                 <div class="row g-3">
-                    {% for movie in movies %}
-                        {% set cover = movie.cover.one() %}
+                    {% for entryItem in relatedEntries %}
+                        {% set entryCover = entryItem.cover.one() %}
 
                         <div class="col-6 col-md-4 col-xl-3">
-                            <a href="{{ movie.url }}" class="card card-link text-decoration-none h-100 overflow-hidden">
-                                {% if cover %}
+                            <a href="{{ entryItem.url }}" class="card card-link text-decoration-none h-100 overflow-hidden">
+                                {% if entryCover %}
                                     <div class="ratio ratio-3x4">
                                         <img
-                                                src="{{ cover.url }}"
-                                                alt="{{ movie.title }}"
+                                                src="{{ entryCover.url }}"
+                                                alt="{{ entryItem.title }}"
                                                 class="w-100 h-100 object-fit-cover"
                                                 loading="lazy"
                                         >
@@ -106,7 +100,11 @@
 
                                 <div class="card-body">
                                     <div class="fw-semibold text-body">
-                                        {{ movie.title }}
+                                        {{ entryItem.title }}
+                                    </div>
+
+                                    <div class="text-secondary small mt-1">
+                                        {{ entryItem.section.name }}
                                     </div>
                                 </div>
                             </a>
