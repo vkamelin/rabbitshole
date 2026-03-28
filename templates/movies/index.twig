@@ -10,16 +10,14 @@
     {% set selectedGenre = request.getQueryParam('genre') %}
     {% set selectedCollection = request.getQueryParam('collection') %}
 
-    {% cache globally using key 'movies:all-genres' %}
-        {% set allGenres = craft.categories()
-            .group('genres')
-            .relatedTo({
-                sourceElement: craft.entries().section('movies')
-            })
-            .orderBy('title asc')
-            .all()
-        %}
-    {% endcache %}
+    {% set allGenres = craft.categories()
+        .group('genres')
+        .relatedTo({
+            sourceElement: craft.entries().section('movies')
+        })
+        .orderBy('title asc')
+        .all()
+    %}
 
     {% set activeGenre = selectedGenre ? craft.categories().group('genres').slug(selectedGenre).one() : null %}
 
