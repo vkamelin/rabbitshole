@@ -153,15 +153,13 @@
                                     </h3>
                                     <div class="d-flex flex-wrap gap-2 text-secondary">
                                         {% if movie.year %}
-                                            <span class="badge bg-blue-lt">{{ movie.year }}</span>
+                                            <span class="badge bg-blue-lt" title="Год">{{ movie.year }}</span>
                                         {% endif %}
                                         {% if movie.duration %}
-                                            <span class="badge bg-azure-lt">{{ movie.duration|date('H:i') }}</span>
+                                            <span class="badge bg-azure-lt" title="Продолжительность фильма">{{ movie.duration|date('H:i') }}</span>
                                         {% endif %}
-                                        {% if movieWatchLinks|length > 1 %}
-                                            <span class="badge bg-green-lt">{{ movieWatchLinks|length }} ссылок</span>
-                                        {% elseif movieWatchLinks|length == 1 %}
-                                            <span class="badge bg-green-lt">1 ссылка</span>
+                                        {% if movie.rating %}
+                                            <span class="badge bg-indigo-lt" title="Рейтинг">{{ movie.rating }}</span>
                                         {% endif %}
                                     </div>
                                 </div>
