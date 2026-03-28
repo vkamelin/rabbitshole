@@ -25,10 +25,6 @@ class Module extends BaseModule
                     return;
                 }
 
-                if ($entry->getIsDraft() || $entry->getIsRevision()) {
-                    return;
-                }
-
                 if (empty($entry->title)) {
                     return;
                 }
