@@ -10,20 +10,24 @@
     {% set selectedGenre = request.getQueryParam('genre') %}
     {% set selectedCollection = request.getQueryParam('collection') %}
 
-    {% set allGenres = craft.categories().group('genres').orderBy('title asc').all() %}
-    {% set allCollections = craft.categories().group('collections').orderBy('title asc').all() %}
+    {% cache globally using key 'movies:all-genres' %}
+        {% set allGenres = craft.categories()
+            .group('genres')
+            .relatedTo({
+                sourceElement: craft.entries().section('movies')
+            })
+            .orderBy('title asc')
+            .all()
+        %}
+    {% endcache %}
 
     {% set activeGenre = selectedGenre ? craft.categories().group('genres').slug(selectedGenre).one() : null %}
-    {% set activeCollection = selectedCollection ? craft.categories().group('collections').slug(selectedCollection).one() : null %}
 
     {% set query = craft.entries().section('movies').orderBy('postDate desc') %}
 
     {% set relatedFilters = [] %}
     {% if activeGenre %}
         {% set relatedFilters = relatedFilters|merge([{ targetElement: activeGenre }]) %}
-    {% endif %}
-    {% if activeCollection %}
-        {% set relatedFilters = relatedFilters|merge([{ targetElement: activeCollection }]) %}
     {% endif %}
 
     {% if relatedFilters|length == 1 %}
@@ -36,7 +40,6 @@
 
     {% set totalMovies = craft.entries().section('movies').count() %}
     {% set totalGenres = allGenres|length %}
-    {% set totalCollections = allCollections|length %}
 
     {% set resetUrl = url('movies') %}
 
