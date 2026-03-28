@@ -29,10 +29,6 @@ class Module extends BaseModule
                     return;
                 }
 
-                if (!empty($entry->slug)) {
-                    return;
-                }
-
                 $allowedSections = [
                     'movies',
                     'series',
@@ -63,10 +59,6 @@ class Module extends BaseModule
                 }
 
                 if (empty($category->title)) {
-                    return;
-                }
-
-                if (!empty($category->slug)) {
                     return;
                 }
 
