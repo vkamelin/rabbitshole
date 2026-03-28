@@ -1,0 +1,40 @@
+{% set person = person ?? null %}
+{% set filterParam = filterParam ?? 'person' %}
+{% set section = section ?? 'movies' %}
+
+{% if person %}
+    {% set imageAsset = null %}
+
+    {% if person.photo is defined and person.photo %}
+        {% set imageAsset = person.photo.one() %}
+    {% elseif person.cover is defined and person.cover %}
+        {% set imageAsset = person.cover.one() %}
+    {% elseif person.image is defined and person.image %}
+        {% set imageAsset = person.image.one() %}
+    {% endif %}
+
+    {% set params = {}|merge({ (filterParam): person.slug }) %}
+
+    <div class="col-6 col-md-4 col-xl-3">
+        <a href="{{ url(section, params) }}" class="card card-link text-decoration-none h-100 overflow-hidden">
+            {% if imageAsset %}
+                <div class="ratio ratio-3x4 bg-dark">
+                    <img
+                            src="{{ imageAsset.url }}"
+                            alt="{{ person.title }}"
+                            class="w-100 h-100 object-fit-cover"
+                            loading="lazy"
+                    >
+                </div>
+            {% else %}
+                <div class="ratio ratio-3x4 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
+                    Нет фото
+                </div>
+            {% endif %}
+
+            <div class="card-body">
+                <div class="fw-semibold text-body">{{ person.title }}</div>
+            </div>
+        </a>
+    </div>
+{% endif %}

@@ -10,7 +10,8 @@
     {% set genres = entry.genres.all() %}
     {% set collections = entry.collections.all() %}
     {% set watchLinks = entry.watchLinks.all() %}
-
+    {% set actors = entry.actors is defined ? entry.actors.all() : [] %}
+    {% set directors = entry.directors is defined ? entry.directors.all() : [] %}
 
     <div class="mb-3">
         <a href="{{ url('movies') }}" class="btn btn-sm">
@@ -19,110 +20,206 @@
     </div>
 
     <div class="row g-4 align-items-start">
-        <div class="col-12">
-            <section class="card border-0 shadow-sm overflow-hidden mb-4">
-                <div class="row g-0">
-                    <div class="col-12 col-md-5 col-lg-4">
-                        {% if cover %}
-                            <img src="{{ cover.url }}" alt="{{ entry.title }}" class="w-100 h-100 object-fit-cover" loading="lazy">
-                        {% else %}
-                            <div class="h-100 d-flex align-items-center justify-content-center bg-secondary-lt text-secondary p-5">
-                                Нет обложки
+        {# ===== ОБЛОЖКА ===== #}
+        <div class="col-12 col-lg-4">
+            <section class="card border-0 shadow-sm overflow-hidden">
+                <div class="card-body p-0">
+                    {% if cover %}
+                        <div class="text-center bg-dark">
+                            <img
+                                    src="{{ cover.url }}"
+                                    alt="{{ entry.title }}"
+                                    class="img-fluid w-100"
+                                    style="aspect-ratio: 2 / 3; object-fit: contain;"
+                                    loading="lazy"
+                            >
+                        </div>
+                    {% else %}
+                        <div
+                                class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary"
+                                style="width: 100%; aspect-ratio: 2 / 3;"
+                        >
+                            Нет обложки
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+
+        {# ===== ИНФОРМАЦИЯ ===== #}
+        <div class="col-12 col-lg-8">
+            <section class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4 p-lg-5">
+                    <div class="d-flex flex-column gap-4 h-100">
+                        <div>
+                            <h1 class="display-5 fw-bold mb-3">{{ entry.title }}</h1>
+
+                            <div class="d-flex flex-wrap gap-2 mb-3">
+                                {% if entry.year %}
+                                    <span class="badge bg-blue-lt">Год: {{ entry.year }}</span>
+                                {% endif %}
+
+                                {% if entry.duration %}
+                                    <span class="badge bg-azure-lt">Длительность: {{ entry.duration|date('H:i') }}</span>
+                                {% endif %}
+                            </div>
+
+                            {% if entry.description %}
+                                <div class="text-secondary">
+                                    {{ entry.description }}
+                                </div>
+                            {% else %}
+                                <p class="lead text-secondary mb-0">Описание фильма скоро появится.</p>
+                            {% endif %}
+                        </div>
+
+                        {% if genres %}
+                            <div>
+                                <h2 class="h3 mb-3">Жанры</h2>
+
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for genre in genres %}
+                                        <a
+                                                href="{{ url('movies', { genre: genre.slug }) }}"
+                                                class="badge bg-green-lt text-decoration-none"
+                                        >
+                                            {{ genre.title }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if collections %}
+                            <div>
+                                <h2 class="h3 mb-3">Подборки</h2>
+
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for collection in collections %}
+                                        <a
+                                                href="{{ url('movies', { collection: collection.slug }) }}"
+                                                class="badge bg-orange-lt text-decoration-none"
+                                        >
+                                            {{ collection.title }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endif %}
+
+                        {% if watchLinks %}
+                            <div class="mt-auto">
+                                <h2 class="h3 mb-3">Ссылки на просмотр</h2>
+
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for link in watchLinks %}
+                                        {% if link.watchLink %}
+                                            <a
+                                                    href="{{ link.watchLink }}"
+                                                    class="btn btn-orange"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                            >
+                                                <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.label ?: 'Смотреть' }}
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
                             </div>
                         {% endif %}
                     </div>
-
-                    <div class="col-12 col-md-7 col-lg-8">
-                        <div class="card-body p-4 p-lg-5 d-flex flex-column gap-4 h-100">
-                            <div>
-                                <h1 class="display-5 fw-bold mb-3">{{ entry.title }}</h1>
-                                <div class="d-flex flex-wrap gap-2 mb-3">
-                                    {% if entry.year %}
-                                        <span class="badge bg-blue-lt">Год: {{ entry.year }}</span>
-                                    {% endif %}
-                                    {% if entry.duration %}
-                                        <span class="badge bg-azure-lt">Длительность: {{ entry.duration|date('H:i') }}</span>
-                                    {% endif %}
-                                </div>
-                                {% if entry.description %}
-                                    <p class="lead text-secondary mb-0">{{ entry.description }}</p>
-                                {% else %}
-                                    <p class="lead text-secondary mb-0">Описание фильма скоро появится.</p>
-                                {% endif %}
-                            </div>
-
-                            {% if genres %}
-                                <div>
-                                    <div class="text-secondary fw-semibold mb-2">Жанры</div>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        {% for genre in genres %}
-                                            <a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-primary-lt text-decoration-none">{{ genre.title }}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            {% if collections %}
-                                <div>
-                                    <div class="text-secondary fw-semibold mb-2">Подборки</div>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        {% for collection in collections %}
-                                            <a href="{{ url('movies', { collection: collection.slug }) }}" class="badge bg-orange-lt text-decoration-none">{{ collection.title }}</a>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            {% endif %}
-
-                            <div class="d-flex flex-wrap gap-2 mt-auto">
-                                {% for link in watchLinks %}
-                                    {% if link.watchLink %}
-                                        <a href="{{ link.watchLink }}" class="btn btn-orange" target="_blank" rel="noopener noreferrer">
-                                            <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.label ?: 'Смотреть' }}
-                                        </a>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
-
-            {% if collections %}
-                <section class="card border-0 shadow-sm mb-4">
-                    <div class="card-header bg-transparent border-0 pb-0">
-                        <h2 class="card-title mb-0">Подборки</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            {% for collection in collections %}
-                                {% set collectionImage = null %}
-                                {% if collection.cover is defined %}
-                                    {% set collectionImage = collection.cover.one() %}
-                                {% elseif collection.cover is defined %}
-                                    {% set collectionImage = collection.cover.one() %}
-                                {% endif %}
-
-                                <div class="col-12 col-md-6">
-                                    <a href="{{ url('movies', { collection: collection.slug }) }}" class="card card-link text-decoration-none h-100 overflow-hidden">
-                                        {% if collectionImage %}
-                                            <div class="ratio ratio-16x9">
-                                                <img src="{{ collectionImage.url }}" alt="{{ collection.title }}" class="object-fit-cover" loading="lazy">
-                                            </div>
-                                        {% else %}
-                                            <div class="ratio ratio-16x9 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
-                                                Нет обложки
-                                            </div>
-                                        {% endif %}
-                                        <div class="card-body">
-                                            <div class="fw-semibold text-body">{{ collection.title }}</div>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                </section>
-            {% endif %}
         </div>
     </div>
+
+    {% if directors %}
+        <section class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-transparent border-0 pb-0">
+                <h2 class="card-title mb-0">Режиссёры</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="row g-3">
+                    {% for director in directors %}
+                        {% include "_components/person-card" with {
+                            person: director,
+                            filterParam: 'director',
+                            section: 'movies'
+                        } only %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {% if actors %}
+        <section class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-transparent border-0 pb-0">
+                <h2 class="card-title mb-0">Актёры</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="row g-3">
+                    {% for actor in actors %}
+                        {% include "_components/person-card" with {
+                            person: actor,
+                            filterParam: 'actor',
+                            section: 'movies'
+                        } only %}
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    {% if collections %}
+        <section class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-transparent border-0 pb-0">
+                <h2 class="card-title mb-0">Подборки</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="row g-3">
+                    {% for collection in collections %}
+                        {% set collectionImage = null %}
+
+                        {% if collection.cover is defined and collection.cover %}
+                            {% set collectionImage = collection.cover.one() %}
+                        {% elseif collection.photo is defined and collection.photo %}
+                            {% set collectionImage = collection.photo.one() %}
+                        {% elseif collection.image is defined and collection.image %}
+                            {% set collectionImage = collection.image.one() %}
+                        {% endif %}
+
+                        <div class="col-12 col-md-6 col-xl-4">
+                            <a
+                                    href="{{ url('movies', { collection: collection.slug }) }}"
+                                    class="card card-link text-decoration-none h-100 overflow-hidden"
+                            >
+                                {% if collectionImage %}
+                                    <div class="ratio ratio-16x9">
+                                        <img
+                                                src="{{ collectionImage.url }}"
+                                                alt="{{ collection.title }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                loading="lazy"
+                                        >
+                                    </div>
+                                {% else %}
+                                    <div class="ratio ratio-16x9 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
+                                        Нет обложки
+                                    </div>
+                                {% endif %}
+
+                                <div class="card-body">
+                                    <div class="fw-semibold text-body">{{ collection.title }}</div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
