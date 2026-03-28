@@ -76,7 +76,7 @@
                             <div class="d-flex flex-wrap gap-2 mt-auto">
                                 {% for link in watchLinks %}
                                     {% if link.watchLink %}
-                                        <a href="{{ link.watchLink }}" class="btn btn-outline-indigo text-indigo" target="_blank" rel="noopener noreferrer">
+                                        <a href="{{ link.watchLink }}" class="btn btn-outline-indigo" target="_blank" rel="noopener noreferrer">
                                             <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.label ?: 'Смотреть' }}
                                         </a>
                                     {% endif %}
