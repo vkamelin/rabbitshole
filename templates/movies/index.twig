@@ -8,7 +8,9 @@
 {% block content %}
     {% set request = craft.app.request %}
     {% set selectedGenre = request.getQueryParam('genre') %}
-    {% set selectedCollection = request.getQueryParam('collection') %}
+    {% set selectedYear = request.getQueryParam('year') %}
+    {% set selectedRatingMin = request.getQueryParam('ratingMin') %}
+    {% set selectedRatingMax = request.getQueryParam('ratingMax') %}
 
     {% set allGenres = craft.categories()
         .group('genres')
@@ -21,24 +23,31 @@
 
     {% set activeGenre = selectedGenre ? craft.categories().group('genres').slug(selectedGenre).one() : null %}
 
-    {% set query = craft.entries().section('movies').orderBy('postDate desc') %}
+    {% set query = craft.entries()
+        .section('movies')
+        .orderBy('postDate desc')
+    %}
 
-    {% set relatedFilters = [] %}
     {% if activeGenre %}
-        {% set relatedFilters = relatedFilters|merge([{ targetElement: activeGenre }]) %}
+        {% set query = query.relatedTo({ targetElement: activeGenre }) %}
     {% endif %}
 
-    {% if relatedFilters|length == 1 %}
-        {% set query = query.relatedTo(relatedFilters|first) %}
-    {% elseif relatedFilters|length > 1 %}
-        {% set query = query.relatedTo(['and']|merge(relatedFilters)) %}
+    {% if selectedYear %}
+        {% set query = query.year(selectedYear) %}
+    {% endif %}
+
+    {% if selectedRatingMin %}
+        {% set query = query.rating('>= ' ~ selectedRatingMin) %}
+    {% endif %}
+
+    {% if selectedRatingMax %}
+        {% set query = query.rating('<= ' ~ selectedRatingMax) %}
     {% endif %}
 
     {% paginate query.limit(12) as pageInfo, entries %}
 
     {% set totalMovies = craft.entries().section('movies').count() %}
     {% set totalGenres = allGenres|length %}
-
     {% set resetUrl = url('movies') %}
 
     <section class="mb-4">
@@ -49,12 +58,12 @@
                         <div class="text-uppercase text-secondary fw-semibold small mb-2">Каталог rabbitshole.ru</div>
                         <h1 class="display-4 fw-bold mb-3">Фильмы</h1>
                         <p class="lead text-secondary mb-0">
-                            Коллекция фильмов с атмосферой стримов Hard Play: выбирайте по жанрам и подборкам, открывайте карточку и переходите к просмотру.
+                            Коллекция фильмов с атмосферой стримов Hard Play: выбирайте по жанрам, году и рейтингу, открывайте карточку и переходите к просмотру.
                         </p>
                     </div>
                     <div class="col-12 col-xl-5">
                         <div class="row g-3">
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="card bg-white-lt border-0 h-100">
                                     <div class="card-body text-center py-3">
                                         <div class="h1 mb-1">{{ totalMovies }}</div>
@@ -62,19 +71,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="card bg-white-lt border-0 h-100">
                                     <div class="card-body text-center py-3">
                                         <div class="h1 mb-1">{{ totalGenres }}</div>
                                         <div class="text-secondary small">Жанров</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="card bg-white-lt border-0 h-100">
-                                    <div class="card-body text-center py-3">
-                                        <div class="h1 mb-1">{{ totalCollections }}</div>
-                                        <div class="text-secondary small">Подборок</div>
                                     </div>
                                 </div>
                             </div>
@@ -91,16 +92,22 @@
                 <div class="mb-4">
                     <h3 class="h4 mb-3">Жанры</h3>
                     <div class="d-flex flex-wrap gap-2">
-                        <a href="{{ url('movies', activeCollection ? { collection: activeCollection.slug } : {}) }}"
+                        <a href="{{ url('movies', {
+                            year: selectedYear,
+                            ratingMin: selectedRatingMin,
+                            ratingMax: selectedRatingMax
+                        }) }}"
                            class="btn btn-sm {{ not activeGenre ? 'btn-primary' : 'btn-outline-primary' }}">
                             Все жанры
                         </a>
+
                         {% for genre in allGenres %}
-                            {% set genreUrlParams = { genre: genre.slug } %}
-                            {% if activeCollection %}
-                                {% set genreUrlParams = genreUrlParams|merge({ collection: activeCollection.slug }) %}
-                            {% endif %}
-                            <a href="{{ url('movies', genreUrlParams) }}"
+                            <a href="{{ url('movies', {
+                                genre: genre.slug,
+                                year: selectedYear,
+                                ratingMin: selectedRatingMin,
+                                ratingMax: selectedRatingMax
+                            }) }}"
                                class="btn btn-sm {{ activeGenre and activeGenre.id == genre.id ? 'btn-primary' : 'btn-outline-primary' }}">
                                 {{ genre.title }}
                             </a>
@@ -110,15 +117,82 @@
                     </div>
                 </div>
 
-                {% if activeGenre or activeCollection %}
+                <form method="get" class="row g-3">
+                    {% if activeGenre %}
+                        <input type="hidden" name="genre" value="{{ activeGenre.slug }}">
+                    {% endif %}
+
+                    <div class="col-12 col-md-4">
+                        <label for="year" class="form-label">Год</label>
+                        <input
+                                type="number"
+                                id="year"
+                                name="year"
+                                min="1900"
+                                max="2100"
+                                step="1"
+                                class="form-control"
+                                value="{{ selectedYear }}"
+                                placeholder="Например, 2024"
+                        >
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label for="ratingMin" class="form-label">Рейтинг от</label>
+                        <input
+                                type="number"
+                                id="ratingMin"
+                                name="ratingMin"
+                                min="0"
+                                max="10"
+                                step="0.1"
+                                class="form-control"
+                                value="{{ selectedRatingMin }}"
+                                placeholder="Например, 7.0"
+                        >
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <label for="ratingMax" class="form-label">Рейтинг до</label>
+                        <input
+                                type="number"
+                                id="ratingMax"
+                                name="ratingMax"
+                                min="0"
+                                max="10"
+                                step="0.1"
+                                class="form-control"
+                                value="{{ selectedRatingMax }}"
+                                placeholder="Например, 8.5"
+                        >
+                    </div>
+
+                    <div class="col-12 d-flex flex-wrap gap-2">
+                        <button type="submit" class="btn btn-primary">Применить фильтры</button>
+                        <a href="{{ resetUrl }}" class="btn btn-outline-secondary">Сбросить</a>
+                    </div>
+                </form>
+
+                {% if activeGenre or selectedYear or selectedRatingMin or selectedRatingMax %}
                     <div class="mt-4 pt-3 border-top d-flex flex-wrap align-items-center gap-2">
                         <span class="text-secondary">Активные фильтры:</span>
+
                         {% if activeGenre %}
                             <span class="badge bg-primary-lt">Жанр: {{ activeGenre.title }}</span>
                         {% endif %}
-                        {% if activeCollection %}
-                            <span class="badge bg-orange-lt">Подборка: {{ activeCollection.title }}</span>
+
+                        {% if selectedYear %}
+                            <span class="badge bg-blue-lt">Год: {{ selectedYear }}</span>
                         {% endif %}
+
+                        {% if selectedRatingMin %}
+                            <span class="badge bg-indigo-lt">Рейтинг от: {{ selectedRatingMin }}</span>
+                        {% endif %}
+
+                        {% if selectedRatingMax %}
+                            <span class="badge bg-indigo-lt">Рейтинг до: {{ selectedRatingMax }}</span>
+                        {% endif %}
+
                         <a href="{{ resetUrl }}" class="btn btn-sm btn-outline-secondary ms-md-auto">Сбросить фильтры</a>
                     </div>
                 {% endif %}
@@ -132,7 +206,7 @@
                 {% for movie in entries %}
                     {% set movieCover = movie.cover.one() %}
                     {% set movieGenres = movie.genres.all() %}
-                    {% set movieCollections = movie.collections.all() %}
+                    {% set movieCollections = movie.collections is defined ? movie.collections.all() : [] %}
                     {% set movieWatchLinks = movie.watchLinks.all() %}
 
                     <div class="col-12 col-md-6 col-xl-4">
@@ -152,15 +226,24 @@
                                     <h3 class="h2 mb-2">
                                         <a href="{{ movie.url }}" class="text-decoration-none text-body">{{ movie.title }}</a>
                                     </h3>
+
                                     <div class="d-flex flex-wrap gap-2 text-secondary">
                                         {% if movie.year %}
                                             <span class="badge bg-blue-lt" title="Год">{{ movie.year }}</span>
                                         {% endif %}
+
                                         {% if movie.duration %}
                                             <span class="badge bg-azure-lt" title="Продолжительность фильма">{{ movie.duration|date('H:i') }}</span>
                                         {% endif %}
+
                                         {% if movie.rating %}
                                             <span class="badge bg-indigo-lt" title="Рейтинг">{{ movie.rating }}</span>
+                                        {% endif %}
+
+                                        {% if movieWatchLinks|length > 1 %}
+                                            <span class="badge bg-green-lt">{{ movieWatchLinks|length }} ссылок</span>
+                                        {% elseif movieWatchLinks|length == 1 %}
+                                            <span class="badge bg-green-lt">1 ссылка</span>
                                         {% endif %}
                                     </div>
                                 </div>
@@ -174,7 +257,15 @@
                                 {% if movieGenres %}
                                     <div class="d-flex flex-wrap gap-2">
                                         {% for genre in movieGenres|slice(0, 3) %}
-                                            <a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-primary-lt text-decoration-none">{{ genre.title }}</a>
+                                            <a href="{{ url('movies', {
+                                                genre: genre.slug,
+                                                year: selectedYear,
+                                                ratingMin: selectedRatingMin,
+                                                ratingMax: selectedRatingMax
+                                            }) }}"
+                                               class="badge bg-primary-lt text-decoration-none">
+                                                {{ genre.title }}
+                                            </a>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
@@ -182,7 +273,7 @@
                                 {% if movieCollections %}
                                     <div class="d-flex flex-wrap gap-2">
                                         {% for collection in movieCollections|slice(0, 2) %}
-                                            <a href="{{ url('movies', { collection: collection.slug }) }}" class="badge bg-orange-lt text-decoration-none">{{ collection.title }}</a>
+                                            <span class="badge bg-orange-lt">{{ collection.title }}</span>
                                         {% endfor %}
                                     </div>
                                 {% endif %}
@@ -199,7 +290,6 @@
             {% if pageInfo.totalPages > 1 %}
                 <nav class="mt-4 d-flex justify-content-center">
                     <ul class="pagination">
-
                         {% if pageInfo.prevUrl %}
                             <li class="page-item">
                                 <a class="page-link" href="{{ pageInfo.prevUrl }}">←</a>
@@ -227,7 +317,6 @@
                                 <a class="page-link" href="{{ pageInfo.nextUrl }}">→</a>
                             </li>
                         {% endif %}
-
                     </ul>
                 </nav>
             {% endif %}
