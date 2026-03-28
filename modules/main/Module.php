@@ -3,7 +3,9 @@
 namespace modules\main;
 
 use craft\base\Element;
+use craft\elements\Category;
 use craft\elements\Entry;
+use Craft;
 use yii\base\Event;
 use yii\base\Module as BaseModule;
 
@@ -23,22 +25,72 @@ class Module extends BaseModule
                     return;
                 }
 
-                // Если нет title — ничего не делаем
+                if ($entry->getIsDraft() || $entry->getIsRevision()) {
+                    return;
+                }
+
                 if (empty($entry->title)) {
                     return;
                 }
 
-                // Если slug уже введён вручную — не трогаем
                 if (!empty($entry->slug)) {
                     return;
                 }
 
-                $entry->slug = $this->transliterateSlug($entry->title);
+                $allowedSections = [
+                    'movies',
+                    'series',
+                    'anime',
+                    'games',
+                    'irl',
+                    'reactions',
+                ];
+
+                $sectionHandle = $entry->section->handle ?? null;
+
+                if (!in_array($sectionHandle, $allowedSections, true)) {
+                    return;
+                }
+
+                $entry->slug = $this->transliterateSlug($entry->title, 'entry');
+            }
+        );
+
+        Event::on(
+            Category::class,
+            Element::EVENT_BEFORE_SAVE,
+            function ($event) {
+                $category = $event->sender;
+
+                if (!$category instanceof Category) {
+                    return;
+                }
+
+                if (empty($category->title)) {
+                    return;
+                }
+
+                if (!empty($category->slug)) {
+                    return;
+                }
+
+                $allowedGroups = [
+                    'genres',
+                    'collections',
+                ];
+
+                $groupHandle = $category->group->handle ?? null;
+
+                if (!in_array($groupHandle, $allowedGroups, true)) {
+                    return;
+                }
+
+                $category->slug = $this->transliterateSlug($category->title, 'category');
             }
         );
     }
 
-    private function transliterateSlug(string $text): string
+    private function transliterateSlug(string $text, string $fallback = 'item'): string
     {
         $map = [
             'а' => 'a',  'б' => 'b',  'в' => 'v',  'г' => 'g',  'д' => 'd',
@@ -55,6 +107,6 @@ class Module extends BaseModule
         $text = preg_replace('/[^a-z0-9]+/u', '-', $text);
         $text = trim($text, '-');
 
-        return $text !== '' ? $text : 'entry';
+        return $text !== '' ? $text : $fallback;
     }
 }
