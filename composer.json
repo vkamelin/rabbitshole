@@ -21,6 +21,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "cocur/slugify": "^4.7",
     "craftcms/ckeditor": "^5.3.1",
     "craftcms/cms": "^5.9.0",
     "ether/seo": "^5.0.0",
