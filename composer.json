@@ -21,7 +21,10 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
+    "craftcms/ckeditor": "^5.3.1",
     "craftcms/cms": "^5.9.0",
+    "ether/seo": "^5.0.0",
+    "topshelfcraft/wordsmith": "^5.0.0",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
@@ -48,5 +51,12 @@
       "@php -r \"rename('composer.json.default', 'composer.json');\"",
       "@php craft install"
     ]
-  }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://composer.craftcms.com",
+      "canonical": false
+    }
+  ]
 }
