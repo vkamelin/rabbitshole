@@ -1,6 +1,4 @@
 {% set person = person ?? null %}
-{% set filterParam = filterParam ?? 'person' %}
-{% set section = section ?? 'movies' %}
 
 {% if person %}
     {% set imageAsset = null %}
@@ -13,10 +11,15 @@
         {% set imageAsset = person.image.one() %}
     {% endif %}
 
-    {% set params = {}|merge({ (filterParam): person.slug }) %}
+    {% set personUrl = person.url ?? null %}
 
     <div class="col-6 col-md-3 col-xl-2">
-        <a href="{{ url(section, params) }}" class="card card-link text-decoration-none h-100 overflow-hidden">
+    {% if personUrl %}
+    <a href="{{ personUrl }}" class="card card-link text-decoration-none h-100 overflow-hidden">
+        {% else %}
+        <div class="card h-100 overflow-hidden">
+            {% endif %}
+
             {% if imageAsset %}
                 <div class="ratio ratio-3x4 bg-dark">
                     <img
@@ -35,6 +38,10 @@
             <div class="card-body">
                 <div class="fw-semibold text-body">{{ person.title }}</div>
             </div>
-        </a>
+
+            {% if personUrl %}
+    </a>
+    {% else %}
+    </div>
     </div>
 {% endif %}
