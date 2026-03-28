@@ -32,7 +32,7 @@
         {% set query = query.relatedTo(['and']|merge(relatedFilters)) %}
     {% endif %}
 
-    {% set entries = query.all() %}
+    {% paginate query.limit(12) as pageInfo, entries %}
 
     {% set totalMovies = craft.entries().section('movies').count() %}
     {% set totalGenres = allGenres|length %}
@@ -250,6 +250,42 @@
                     </div>
                 {% endfor %}
             </div>
+
+            {% if pageInfo.totalPages > 1 %}
+                <nav class="mt-4 d-flex justify-content-center">
+                    <ul class="pagination">
+
+                        {% if pageInfo.prevUrl %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ pageInfo.prevUrl }}">←</a>
+                            </li>
+                        {% endif %}
+
+                        {% for page, url in pageInfo.getPrevUrls(2) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url }}">{{ page }}</a>
+                            </li>
+                        {% endfor %}
+
+                        <li class="page-item active">
+                            <span class="page-link">{{ pageInfo.currentPage }}</span>
+                        </li>
+
+                        {% for page, url in pageInfo.getNextUrls(2) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url }}">{{ page }}</a>
+                            </li>
+                        {% endfor %}
+
+                        {% if pageInfo.nextUrl %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ pageInfo.nextUrl }}">→</a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            {% endif %}
         </section>
     {% else %}
         <section>
