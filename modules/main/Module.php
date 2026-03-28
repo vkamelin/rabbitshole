@@ -5,7 +5,7 @@ namespace modules\main;
 use craft\base\Element;
 use craft\elements\Category;
 use craft\elements\Entry;
-use Craft;
+use craft\helpers\StringHelper;
 use yii\base\Event;
 use yii\base\Module as BaseModule;
 
@@ -18,10 +18,14 @@ class Module extends BaseModule
         Event::on(
             Entry::class,
             Element::EVENT_BEFORE_SAVE,
-            function ($event) {
+            function($event) {
                 $entry = $event->sender;
 
                 if (!$entry instanceof Entry) {
+                    return;
+                }
+
+                if ($entry->getIsDraft() || $entry->getIsRevision()) {
                     return;
                 }
 
@@ -44,14 +48,14 @@ class Module extends BaseModule
                     return;
                 }
 
-                $entry->slug = $this->transliterateSlug($entry->title, 'entry');
+                $entry->slug = StringHelper::slugify($entry->title);
             }
         );
 
         Event::on(
             Category::class,
             Element::EVENT_BEFORE_SAVE,
-            function ($event) {
+            function($event) {
                 $category = $event->sender;
 
                 if (!$category instanceof Category) {
@@ -73,28 +77,8 @@ class Module extends BaseModule
                     return;
                 }
 
-                $category->slug = $this->transliterateSlug($category->title, 'category');
+                $category->slug = StringHelper::slugify($category->title);
             }
         );
-    }
-
-    private function transliterateSlug(string $text, string $fallback = 'item'): string
-    {
-        $map = [
-            'а' => 'a',  'б' => 'b',  'в' => 'v',  'г' => 'g',  'д' => 'd',
-            'е' => 'e',  'ё' => 'e',  'ж' => 'zh', 'з' => 'z',  'и' => 'i',
-            'й' => 'y',  'к' => 'k',  'л' => 'l',  'м' => 'm',  'н' => 'n',
-            'о' => 'o',  'п' => 'p',  'р' => 'r',  'с' => 's',  'т' => 't',
-            'у' => 'u',  'ф' => 'f',  'х' => 'h',  'ц' => 'ts', 'ч' => 'ch',
-            'ш' => 'sh', 'щ' => 'sch','ъ' => '',   'ы' => 'y',  'ь' => '',
-            'э' => 'e',  'ю' => 'yu', 'я' => 'ya',
-        ];
-
-        $text = mb_strtolower($text, 'UTF-8');
-        $text = strtr($text, $map);
-        $text = preg_replace('/[^a-z0-9]+/u', '-', $text);
-        $text = trim($text, '-');
-
-        return $text !== '' ? $text : $fallback;
     }
 }
