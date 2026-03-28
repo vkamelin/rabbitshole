@@ -1,0 +1,119 @@
+{% extends "_layouts/base" %}
+
+{% set pageTitle = category.title %}
+{% set currentSection = 'actors' %}
+
+{% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
+
+{% block content %}
+    {% set cover = category.cover.one() ?? null %}
+
+    <div class="mb-3">
+        <a href="{{ url('movies') }}" class="btn btn-sm">
+            ← Назад к фильмам
+        </a>
+    </div>
+
+    <div class="row g-4 align-items-start">
+        {# ===== ФОТО ===== #}
+        <div class="col-12 col-lg-4">
+            <section class="card border-0 shadow-sm overflow-hidden">
+                <div class="card-body p-0">
+                    {% if cover %}
+                        <div class="text-center bg-dark">
+                            <img
+                                    src="{{ cover.url }}"
+                                    alt="{{ category.title }}"
+                                    class="img-fluid w-100"
+                                    style="aspect-ratio: 2 / 3; object-fit: cover;"
+                                    loading="lazy"
+                            >
+                        </div>
+                    {% else %}
+                        <div
+                                class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary"
+                                style="width: 100%; aspect-ratio: 2 / 3;"
+                        >
+                            Нет фото
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+
+        {# ===== ИНФОРМАЦИЯ ===== #}
+        <div class="col-12 col-lg-8">
+            <section class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4 p-lg-5">
+                    <div class="d-flex flex-column gap-4 h-100">
+
+                        <div>
+                            <h1 class="display-5 fw-bold mb-3">{{ category.title }}</h1>
+
+                            {% if category.description %}
+                                <div class="text-secondary">
+                                    {{ category.description }}
+                                </div>
+                            {% else %}
+                                <p class="text-secondary mb-0">
+                                    Описание скоро появится.
+                                </p>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    {# ===== ФИЛЬМЫ С ЭТИМ АКТЁРОМ ===== #}
+    {% set movies = craft.entries()
+        .section('movies')
+        .relatedTo(category)
+        .orderBy('postDate desc')
+        .limit(24)
+        .all()
+    %}
+
+    {% if movies %}
+        <section class="card border-0 shadow-sm mt-4">
+            <div class="card-header bg-transparent border-0 pb-0">
+                <h2 class="card-title mb-0">Фильмы с участием</h2>
+            </div>
+
+            <div class="card-body">
+                <div class="row g-3">
+                    {% for movie in movies %}
+                        {% set cover = movie.cover.one() %}
+
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <a href="{{ movie.url }}" class="card card-link text-decoration-none h-100 overflow-hidden">
+                                {% if cover %}
+                                    <div class="ratio ratio-3x4">
+                                        <img
+                                                src="{{ cover.url }}"
+                                                alt="{{ movie.title }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                loading="lazy"
+                                        >
+                                    </div>
+                                {% else %}
+                                    <div class="ratio ratio-3x4 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
+                                        Нет обложки
+                                    </div>
+                                {% endif %}
+
+                                <div class="card-body">
+                                    <div class="fw-semibold text-body">
+                                        {{ movie.title }}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
