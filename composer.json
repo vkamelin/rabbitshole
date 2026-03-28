@@ -36,6 +36,11 @@
     "sort-packages": true,
     "optimize-autoloader": true
   },
+  "autoload": {
+    "psr-4": {
+      "modules\\": "modules/"
+    }
+  },
   "scripts": {
     "post-create-project-cmd": [
       "@php -r \"file_exists('.env') || copy('.env.example.dev', '.env');\"",
