@@ -107,6 +107,18 @@
                             {% endif %}
                         </div>
 
+                        {% if directors %}
+                            <div class="row g-3">
+                                {% for director in directors %}
+                                    {% include "_components/person-card" with {
+                                        person: director,
+                                        filterParam: 'director',
+                                        section: 'movies'
+                                    } only %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+
                         {% if genres %}
                             <div>
                                 <h2 class="h3 mb-3">Жанры</h2>
@@ -166,26 +178,6 @@
             </section>
         </div>
     </div>
-
-    {% if directors %}
-        <section class="card border-0 shadow-sm mt-4">
-            <div class="card-header bg-transparent border-0 pb-0">
-                <h2 class="card-title mb-0">Режиссёры</h2>
-            </div>
-
-            <div class="card-body">
-                <div class="row g-3">
-                    {% for director in directors %}
-                        {% include "_components/person-card" with {
-                            person: director,
-                            filterParam: 'director',
-                            section: 'movies'
-                        } only %}
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-    {% endif %}
 
     {% if actors %}
         <section class="card border-0 shadow-sm mt-4">
