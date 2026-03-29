@@ -1,0 +1,17 @@
+User-agent: *
+Disallow: /admin
+Disallow: /actions
+Disallow: /cpresources
+Disallow: /storage
+Disallow: /vendor
+Disallow: /config
+Disallow: /.env
+Disallow: /.git
+
+# Параметры (если используешь фильтры)
+Disallow: /*?*
+
+# Разрешаем всё остальное
+Allow: /
+
+Sitemap: https://rabbitshole.ru/sitemap.xml
