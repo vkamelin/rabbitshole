@@ -49,7 +49,7 @@
     {% set latestEntries = craft.entries()
         .section(['movies', 'series', 'anime', 'games', 'irl', 'reactions'])
         .orderBy('postDate DESC')
-        .limit(12)
+        .limit(4)
         .all()
     %}
 
