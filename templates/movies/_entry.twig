@@ -108,6 +108,8 @@
                         </div>
 
                         {% if directors %}
+                            <h2 class="h3 mb-3">Режиссёры</h2>
+
                             <div class="row g-3">
                                 {% for director in directors %}
                                     {% include "_components/person-card" with {
@@ -120,6 +122,8 @@
                         {% endif %}
 
                         {% if actors %}
+                            <h2 class="h3 mb-3">Актёры</h2>
+
                             <div class="row g-3">
                                 {% for actor in actors %}
                                     {% include "_components/person-card" with {
