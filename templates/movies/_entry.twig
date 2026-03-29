@@ -40,6 +40,23 @@
     twitterImage: seoOgImage
 } %}
 
+{% set rating = entry.rating is defined ? entry.rating : null %}
+
+{% set ratingBadgeClass = 'bg-secondary text-white' %}
+    {% if rating is not null %}
+        {% if rating >= 8.5 %}
+            {% set ratingBadgeClass = 'bg-green text-white' %}
+        {% elseif rating >= 7.0 %}
+            {% set ratingBadgeClass = 'bg-lime text-white' %}
+        {% elseif rating >= 5.5 %}
+            {% set ratingBadgeClass = 'bg-yellow text-white' %}
+        {% elseif rating >= 4.0 %}
+            {% set ratingBadgeClass = 'bg-orange text-white' %}
+        {% else %}
+            {% set ratingBadgeClass = 'bg-red text-white' %}
+        {% endif %}
+    {% endif %}
+
 {% block content %}
     {% set genres = entry.genres.all() %}
     {% set collections = entry.collections.all() %}
@@ -95,6 +112,12 @@
 
                                 {% if entry.duration %}
                                     <span class="badge bg-azure-lt">Длительность: {{ entry.duration|date('H:i') }}</span>
+                                {% endif %}
+
+                                {% if rating is not null %}
+                                    <span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
+                                        ★ {{ rating }}
+                                    </span>
                                 {% endif %}
                             </div>
 
