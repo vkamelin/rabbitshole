@@ -35,18 +35,18 @@
         {% set sectionBadgeClass = 'bg-orange-lt text-orange' %}
     {% endif %}
 
-    {% set ratingBadgeClass = 'bg-secondary-lt text-secondary' %}
+    {% set ratingBadgeClass = 'bg-secondary text-white' %}
     {% if rating is not null %}
         {% if rating >= 8.5 %}
-            {% set ratingBadgeClass = 'bg-green-lt text-green' %}
+            {% set ratingBadgeClass = 'bg-green text-white' %}
         {% elseif rating >= 7.0 %}
-            {% set ratingBadgeClass = 'bg-lime-lt text-lime' %}
+            {% set ratingBadgeClass = 'bg-lime text-white' %}
         {% elseif rating >= 5.5 %}
-            {% set ratingBadgeClass = 'bg-yellow-lt text-yellow' %}
+            {% set ratingBadgeClass = 'bg-yellow text-white' %}
         {% elseif rating >= 4.0 %}
-            {% set ratingBadgeClass = 'bg-orange-lt text-orange' %}
+            {% set ratingBadgeClass = 'bg-orange text-white' %}
         {% else %}
-            {% set ratingBadgeClass = 'bg-red-lt text-red' %}
+            {% set ratingBadgeClass = 'bg-red text-white' %}
         {% endif %}
     {% endif %}
 
