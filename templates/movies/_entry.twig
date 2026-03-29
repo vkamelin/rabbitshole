@@ -186,19 +186,15 @@
 
                         {% if collection.cover is defined and collection.cover %}
                             {% set collectionImage = collection.cover.one() %}
-                        {% elseif collection.photo is defined and collection.photo %}
-                            {% set collectionImage = collection.photo.one() %}
-                        {% elseif collection.image is defined and collection.image %}
-                            {% set collectionImage = collection.image.one() %}
                         {% endif %}
 
-                        <div class="col-12 col-md-6 col-xl-4">
+                        <div class="col-6 col-md-4 col-xl-3">
                             <a
                                     href="{{ url('movies', { collection: collection.slug }) }}"
                                     class="card card-link text-decoration-none h-100 overflow-hidden"
                             >
                                 {% if collectionImage %}
-                                    <div class="ratio ratio-16x9">
+                                    <div class="ratio bg-dark" style="aspect-ratio: 2 / 3;">
                                         <img
                                                 src="{{ collectionImage.url }}"
                                                 alt="{{ collection.title }}"
@@ -207,13 +203,16 @@
                                         >
                                     </div>
                                 {% else %}
-                                    <div class="ratio ratio-16x9 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
+                                    <div class="ratio bg-secondary-lt d-flex align-items-center justify-content-center text-secondary"
+                                         style="aspect-ratio: 2 / 3;">
                                         Нет обложки
                                     </div>
                                 {% endif %}
 
                                 <div class="card-body">
-                                    <div class="fw-semibold text-body">{{ collection.title }}</div>
+                                    <div class="fw-semibold text-body">
+                                        {{ collection.title }}
+                                    </div>
                                 </div>
                             </a>
                         </div>
