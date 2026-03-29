@@ -77,37 +77,12 @@
             </div>
 
             <div class="card-body">
-                <div class="row g-3">
+                <div class="row row-cards">
                     {% for entryItem in relatedEntries %}
-                        {% set entryCover = entryItem.cover.one() %}
-
                         <div class="col-6 col-md-3 col-xl-2">
-                            <a href="{{ entryItem.url }}" class="card card-link text-decoration-none h-100 overflow-hidden">
-                                {% if entryCover %}
-                                    <div class="ratio ratio-3x4">
-                                        <img
-                                                src="{{ entryCover.url }}"
-                                                alt="{{ entryItem.title }}"
-                                                class="w-100 h-100 object-fit-cover"
-                                                loading="lazy"
-                                        >
-                                    </div>
-                                {% else %}
-                                    <div class="ratio ratio-3x4 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
-                                        Нет обложки
-                                    </div>
-                                {% endif %}
-
-                                <div class="card-body">
-                                    <div class="fw-semibold text-body">
-                                        {{ entryItem.title }}
-                                    </div>
-
-                                    <div class="text-secondary small mt-1">
-                                        {{ entryItem.section.name }}
-                                    </div>
-                                </div>
-                            </a>
+                            {% include "_components/content-card" with {
+                                entry: entryItem
+                            } only %}
                         </div>
                     {% endfor %}
                 </div>
