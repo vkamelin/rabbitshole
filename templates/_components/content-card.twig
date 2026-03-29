@@ -20,19 +20,19 @@
     {% set sectionHandle = entry.section is defined and entry.section ? entry.section.handle : null %}
     {% set sectionName = entry.section is defined and entry.section ? entry.section.name : null %}
 
-    {% set sectionBadgeClass = 'bg-secondary-lt text-secondary' %}
+    {% set sectionBadgeClass = 'bg-secondary text-white' %}
     {% if sectionHandle == 'movies' %}
-        {% set sectionBadgeClass = 'bg-red-lt text-red' %}
+        {% set sectionBadgeClass = 'bg-red text-white' %}
     {% elseif sectionHandle == 'series' %}
-        {% set sectionBadgeClass = 'bg-blue-lt text-blue' %}
+        {% set sectionBadgeClass = 'bg-blue text-white' %}
     {% elseif sectionHandle == 'anime' %}
-        {% set sectionBadgeClass = 'bg-pink-lt text-pink' %}
+        {% set sectionBadgeClass = 'bg-pink text-white' %}
     {% elseif sectionHandle == 'games' %}
-        {% set sectionBadgeClass = 'bg-green-lt text-green' %}
+        {% set sectionBadgeClass = 'bg-green text-white' %}
     {% elseif sectionHandle == 'irl' %}
-        {% set sectionBadgeClass = 'bg-yellow-lt text-yellow' %}
+        {% set sectionBadgeClass = 'bg-yellow text-white' %}
     {% elseif sectionHandle == 'reactions' %}
-        {% set sectionBadgeClass = 'bg-orange-lt text-orange' %}
+        {% set sectionBadgeClass = 'bg-orange text-white' %}
     {% endif %}
 
     {% set ratingBadgeClass = 'bg-secondary text-white' %}
