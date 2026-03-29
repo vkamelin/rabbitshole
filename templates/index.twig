@@ -60,7 +60,7 @@
 
         {% for entry in latestEntries %}
             <div class="col-6 col-md-3 mb-3">
-                {% include "_components/movie-card.twig" with { entry: entry } %}
+                {% include "_components/content-card" with { entry: entry } only %}
             </div>
         {% endfor %}
     </div>
@@ -99,7 +99,7 @@
 
                 {% for entry in entries %}
                     <div class="col-6 col-md-2 mb-3">
-                        {% include "_components/movie-card.twig" with { entry: entry } %}
+                        {% include "_components/content-card" with { entry: entry } only %}
                     </div>
                 {% endfor %}
 
