@@ -1,9 +1,46 @@
 {% extends "_layouts/base" %}
 
 {% set pageTitle = entry.title %}
+{% set currentSection = 'reactions' %}
+
+{# SEO #}
+{% set cover = entry.cover.one() %}
+
+{# Title #}
+{% set seoTitle = 'Hard Play реагирует на ' ~ entry.title %}
+
+{# Description #}
+{% if entry.seoDescription %}
+    {% set seoDescription = entry.seoDescription %}
+{% elseif entry.description %}
+    {% set seoDescription = entry.description|striptags|trim|replace({"\n": ' ', "\r": ' '})|slice(0, 160) %}
+{% else %}
+    {% set seoDescription = 'Запись стрима Hard Play: ' ~ entry.title ~ '.' %}
+{% endif %}
+
+{# OG Image #}
+{% if cover %}
+    {% set seoOgImage = cover.url %}
+{% else %}
+    {% set seoOgImage = '' %}
+{% endif %}
+
+{% set seo = {
+    title: seoTitle,
+    description: seoDescription,
+    canonical: entry.url,
+    robots: 'index,follow',
+    ogType: 'article',
+    ogTitle: seoTitle,
+    ogDescription: seoDescription,
+    ogUrl: entry.url,
+    ogImage: seoOgImage,
+    twitterTitle: seoTitle,
+    twitterDescription: seoDescription,
+    twitterImage: seoOgImage
+} %}
 
 {% block content %}
-    {% set cover = entry.cover.one() %}
     {% set watchLinks = entry.watchLinks.all() %}
     {% set collections = entry.collections.all() %}
 

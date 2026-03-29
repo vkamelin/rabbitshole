@@ -1,6 +1,45 @@
 {% extends "_layouts/base" %}
 
 {% set pageTitle = "IRL" %}
+{% set currentSection = 'irl' %}
+
+{# SEO для страницы раздела #}
+{% set sectionTitle = 'IRL' %}
+{% set sectionDescription = 'Каталог записей стримов Hard Play по разделу «IRL».' %}
+{% set sectionUrl = url('irl') %}
+
+{# Проверка на фильтрацию #}
+{% set request = craft.app.request %}
+{% set hasFilters = request.getQueryParam('year') %}
+
+{# Title #}
+{% set seoTitle = sectionTitle ~ ' — стримы Hard Play' %}
+
+{# Canonical #}
+{% set seoCanonical = sectionUrl %}
+
+{# Robots #}
+{% if hasFilters %}
+    {% set seoRobots = 'noindex,follow' %}
+    {% set seoCanonical = sectionUrl %}
+{% else %}
+    {% set seoRobots = 'index,follow' %}
+{% endif %}
+
+{% set seo = {
+    title: seoTitle,
+    description: sectionDescription,
+    canonical: seoCanonical,
+    robots: seoRobots,
+    ogType: 'website',
+    ogTitle: seoTitle,
+    ogDescription: sectionDescription,
+    ogUrl: seoCanonical,
+    ogImage: '',
+    twitterTitle: seoTitle,
+    twitterDescription: sectionDescription,
+    twitterImage: ''
+} %}
 
 {% block content %}
 

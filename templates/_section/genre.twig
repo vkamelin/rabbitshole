@@ -27,6 +27,30 @@
 
 {% set pageTitle = 'Жанр: ' ~ genre.title %}
 
+{# SEO для страницы категории жанра #}
+{% if genre.seoDescription %}
+    {% set seoDescription = genre.seoDescription %}
+{% else %}
+    {% set seoDescription = 'Записи стримов Hard Play в жанре «' ~ genre.title ~ '».' %}
+{% endif %}
+
+{% set seoTitle = genre.title ~ ' — жанр | rabbitshole.ru' %}
+
+{% set seo = {
+    title: seoTitle,
+    description: seoDescription,
+    canonical: genre.url,
+    robots: 'index,follow',
+    ogType: 'website',
+    ogTitle: seoTitle,
+    ogDescription: seoDescription,
+    ogUrl: genre.url,
+    ogImage: '',
+    twitterTitle: seoTitle,
+    twitterDescription: seoDescription,
+    twitterImage: ''
+} %}
+
 {% block content %}
 
     {% set entries = craft.entries()

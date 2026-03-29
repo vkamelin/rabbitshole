@@ -3,8 +3,6 @@
 {% set pageTitle = 'Фильмы' %}
 {% set currentSection = 'movies' %}
 
-{% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
-
 {% block content %}
     {% set request = craft.app.request %}
     {% set selectedGenre = request.getQueryParam('genre') %}
@@ -45,6 +43,50 @@
     {% endif %}
 
     {% paginate query.limit(12) as pageInfo, entries %}
+
+    {# SEO для страницы раздела #}
+    {% set sectionTitle = 'Кино' %}
+    {% set sectionDescription = 'Каталог записей стримов Hard Play по разделу «Кино».' %}
+    {% set sectionUrl = url('movies') %}
+
+    {% set hasFilters = selectedGenre or selectedYear or selectedRatingMin or selectedRatingMax %}
+
+    {# Title с пагинацией #}
+    {% if pageInfo.currentPage > 1 %}
+        {% set seoTitle = sectionTitle ~ ' — стримы Hard Play — страница ' ~ pageInfo.currentPage %}
+    {% else %}
+        {% set seoTitle = sectionTitle ~ ' — стримы Hard Play' %}
+    {% endif %}
+
+    {# Canonical #}
+    {% if pageInfo.currentPage > 1 %}
+        {% set seoCanonical = pageInfo.currentUrl %}
+    {% else %}
+        {% set seoCanonical = sectionUrl %}
+    {% endif %}
+
+    {# Robots #}
+    {% if hasFilters %}
+        {% set seoRobots = 'noindex,follow' %}
+        {% set seoCanonical = sectionUrl %}
+    {% else %}
+        {% set seoRobots = 'index,follow' %}
+    {% endif %}
+
+    {% set seo = {
+        title: seoTitle,
+        description: sectionDescription,
+        canonical: seoCanonical,
+        robots: seoRobots,
+        ogType: 'website',
+        ogTitle: seoTitle,
+        ogDescription: sectionDescription,
+        ogUrl: seoCanonical,
+        ogImage: '',
+        twitterTitle: seoTitle,
+        twitterDescription: sectionDescription,
+        twitterImage: ''
+    } %}
 
     {% set totalMovies = craft.entries().section('movies').count() %}
     {% set totalGenres = allGenres|length %}

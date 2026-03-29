@@ -1,6 +1,25 @@
 {% extends "_layouts/base" %}
 {% set pageTitle = "Главная" %}
 
+{# SEO для главной страницы #}
+{% set seoTitle = 'Кроличья нора — каталог записей стримов Hard Play' %}
+{% set seoDescription = 'Каталог записей стримов Hard Play: кино, сериалы, аниме, игры, IRL и реакции.' %}
+
+{% set seo = {
+    title: seoTitle,
+    description: seoDescription,
+    canonical: siteUrl,
+    robots: 'index,follow',
+    ogType: 'website',
+    ogTitle: seoTitle,
+    ogDescription: seoDescription,
+    ogUrl: siteUrl,
+    ogImage: '',
+    twitterTitle: seoTitle,
+    twitterDescription: seoDescription,
+    twitterImage: ''
+} %}
+
 {% block content %}
 
     {# ================= HERO (цитата) ================= #}

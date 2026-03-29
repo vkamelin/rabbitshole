@@ -3,12 +3,38 @@
 <html lang="ru">
 <head>
     <meta charset="utf-8">
-    <title>{% block title %}{{ siteName ?? 'Кроличья нора' }}{% endblock %}</title>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="{% block metaDescription %}Каталог записей стримов Hard Play{% endblock %}">
-    <meta name="robots" content="{% block robots %}index,follow{% endblock %}">
     <meta name="theme-color" content="#0f172a">
+
+    {# SEO Meta Tags #}
+    {% if seo is defined %}
+        <title>{{ seo.title }}</title>
+        <meta name="description" content="{{ seo.description }}">
+        <link rel="canonical" href="{{ seo.canonical }}">
+        <meta name="robots" content="{{ seo.robots }}">
+
+        <meta property="og:type" content="{{ seo.ogType }}">
+        <meta property="og:site_name" content="rabbitshole.ru">
+        <meta property="og:title" content="{{ seo.ogTitle }}">
+        <meta property="og:description" content="{{ seo.ogDescription }}">
+        <meta property="og:url" content="{{ seo.ogUrl }}">
+
+        {% if seo.ogImage %}
+            <meta property="og:image" content="{{ seo.ogImage }}">
+        {% endif %}
+
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ seo.twitterTitle }}">
+        <meta name="twitter:description" content="{{ seo.twitterDescription }}">
+
+        {% if seo.twitterImage %}
+            <meta name="twitter:image" content="{{ seo.twitterImage }}">
+        {% endif %}
+    {% else %}
+        <title>{% block title %}{{ siteName ?? 'Кроличья нора' }}{% endblock %}</title>
+        <meta name="description" content="{% block metaDescription %}Каталог записей стримов Hard Play{% endblock %}">
+        <meta name="robots" content="{% block robots %}index,follow{% endblock %}">
+    {% endif %}
 
     {% block meta %}{% endblock %}
 

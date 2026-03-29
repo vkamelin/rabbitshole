@@ -1,0 +1,26 @@
+{# templates/_partials/seo-meta.twig #}
+{% if seo is defined %}
+<title>{{ seo.title }}</title>
+
+<meta name="description" content="{{ seo.description }}">
+<link rel="canonical" href="{{ seo.canonical }}">
+<meta name="robots" content="{{ seo.robots }}">
+
+<meta property="og:type" content="{{ seo.ogType }}">
+<meta property="og:site_name" content="rabbitshole.ru">
+<meta property="og:title" content="{{ seo.ogTitle }}">
+<meta property="og:description" content="{{ seo.ogDescription }}">
+<meta property="og:url" content="{{ seo.ogUrl }}">
+
+{% if seo.ogImage %}
+    <meta property="og:image" content="{{ seo.ogImage }}">
+{% endif %}
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ seo.twitterTitle }}">
+<meta name="twitter:description" content="{{ seo.twitterDescription }}">
+
+{% if seo.twitterImage %}
+    <meta name="twitter:image" content="{{ seo.twitterImage }}">
+{% endif %}
+{% endif %}

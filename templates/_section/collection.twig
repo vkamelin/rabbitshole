@@ -27,6 +27,30 @@
 
 {% set pageTitle = 'Подборка: ' ~ collection.title %}
 
+{# SEO для страницы категории подборки #}
+{% if collection.seoDescription %}
+    {% set seoDescription = collection.seoDescription %}
+{% else %}
+    {% set seoDescription = 'Подборка стримов Hard Play: ' ~ collection.title ~ '.' %}
+{% endif %}
+
+{% set seoTitle = collection.title ~ ' — подборка | rabbitshole.ru' %}
+
+{% set seo = {
+    title: seoTitle,
+    description: seoDescription,
+    canonical: collection.url,
+    robots: 'index,follow',
+    ogType: 'website',
+    ogTitle: seoTitle,
+    ogDescription: seoDescription,
+    ogUrl: collection.url,
+    ogImage: '',
+    twitterTitle: seoTitle,
+    twitterDescription: seoDescription,
+    twitterImage: ''
+} %}
+
 {% block content %}
 
     {% set entries = craft.entries()
