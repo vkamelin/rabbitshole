@@ -121,6 +121,27 @@
                                 {% endif %}
                             </div>
 
+                            {% if watchLinks %}
+                                <div class="mt-auto">
+                                    <h2 class="h3 mb-3">Ссылки на просмотр</h2>
+
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for link in watchLinks %}
+                                            {% if link.watchLink %}
+                                                <a
+                                                        href="{{ link.watchLink }}"
+                                                        class="btn btn-orange"
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                >
+                                                    <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.label ?: 'Смотреть' }}
+                                                </a>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+
                             {% if entry.description %}
                                 <div class="text-secondary">
                                     {{ entry.description }}
@@ -187,27 +208,6 @@
                                         >
                                             {{ collection.title }}
                                         </a>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        {% endif %}
-
-                        {% if watchLinks %}
-                            <div class="mt-auto">
-                                <h2 class="h3 mb-3">Ссылки на просмотр</h2>
-
-                                <div class="d-flex flex-wrap gap-2">
-                                    {% for link in watchLinks %}
-                                        {% if link.watchLink %}
-                                            <a
-                                                    href="{{ link.watchLink }}"
-                                                    class="btn btn-orange"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                            >
-                                                <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.label ?: 'Смотреть' }}
-                                            </a>
-                                        {% endif %}
                                     {% endfor %}
                                 </div>
                             </div>
