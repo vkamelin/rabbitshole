@@ -57,12 +57,13 @@
                     <img
                             src="{{ cover.url }}"
                             alt="{{ entry.title }}"
+                            title="{{ entry.title }}"
                             class="w-100 h-100"
                             style="object-fit: cover;"
                             loading="lazy"
                     >
                 {% else %}
-                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-secondary-lt text-secondary">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-secondary-lt text-secondary" title="{{ entry.title }}">
                         Нет обложки
                     </div>
                 {% endif %}
