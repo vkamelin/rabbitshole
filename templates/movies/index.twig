@@ -42,7 +42,7 @@
         {% set query = query.rating('<= ' ~ selectedRatingMax) %}
     {% endif %}
 
-    {% paginate query.limit(12) as pageInfo, entries %}
+    {% paginate query.limit(24) as pageInfo, entries %}
 
     {# SEO для страницы раздела #}
     {% set sectionTitle = 'Кино' %}
