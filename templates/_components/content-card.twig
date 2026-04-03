@@ -121,11 +121,11 @@
 
             {% if showDescription %}
                 {% if description %}
-                    <div class="text-secondary small">
+                    <div class="text-secondary small d-none d-md-block">
                         {{ description|striptags|trim|truncate(descriptionLength) }}
                     </div>
                 {% else %}
-                    <div class="text-secondary small">
+                    <div class="text-secondary small d-none d-md-block">
                         Описание пока не добавлено.
                     </div>
                 {% endif %}
