@@ -117,29 +117,23 @@
                     {% endif %}
 
                     {% if watchLinks %}
-                        <div>
-                            <h2 class="h4">Ссылки на просмотр</h2>
+                        <div class="mt-auto mb-4">
+                            <h2 class="h3 mb-3">Ссылки на просмотр</h2>
 
-                            <div class="list-group list-group-flush">
-                                {% for block in watchLinks %}
-                                    <div class="list-group-item px-0 d-flex justify-content-between align-items-center">
-
-                                        <div>
-                                            <div class="text-secondary small">
-                                                {{ block.url }}
-                                            </div>
-                                        </div>
-
-                                        <a href="{{ block.url }}"
-                                           class="btn btn-outline-danger"
-                                           target="_blank">
-                                            {{ block.label ?: 'Смотреть' }}
+                            <div class="d-flex flex-wrap gap-2">
+                                {% for link in watchLinks %}
+                                    {% if link.watchLink %}
+                                        <a
+                                                href="{{ link.watchLink }}"
+                                                class="btn btn-orange"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                        >
+                                            <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.label ?: 'Смотреть' }}
                                         </a>
-
-                                    </div>
+                                    {% endif %}
                                 {% endfor %}
                             </div>
-
                         </div>
                     {% endif %}
 
