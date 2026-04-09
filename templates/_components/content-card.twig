@@ -14,15 +14,15 @@
     {% if sectionHandle == 'irl' %}
         {% set cover = entry.irlCover is defined and entry.irlCover ? entry.irlCover.one() : null %}
     {% elseif sectionHandle == 'anime' %}
-        {% set coverField = 'animeCover' %}
+        {% set cover = entry.animeCover is defined and entry.animeCover ? entry.animeCover.one() : null %}
     {% elseif sectionHandle == 'games' %}
-        {% set coverField = 'gameCover' %}
+        {% set cover = entry.gameCover is defined and entry.gameCover ? entry.gameCover.one() : null %}
     {% elseif sectionHandle == 'reactions' %}
-        {% set coverField = 'reactionCover' %}
+        {% set cover = entry.reactionCover is defined and entry.reactionCover ? entry.reactionCover.one() : null %}
     {% elseif sectionHandle == 'series' %}
-        {% set coverField = 'seriesCover' %}
+        {% set cover = entry.seriesCover is defined and entry.seriesCover ? entry.seriesCover.one() : null %}
     {% elseif sectionHandle == 'movies' %}
-        {% set coverField = 'movieCover' %}
+        {% set cover = entry.movieCover is defined and entry.movieCover ? entry.movieCover.one() : null %}
     {% endif %}
 
     {% set genres = entry.genres is defined and entry.genres ? entry.genres.all() : [] %}
