@@ -25,21 +25,6 @@
     {% set seoOgImage = '' %}
 {% endif %}
 
-{% set seo = {
-    title: seoTitle,
-    description: seoDescription,
-    canonical: entry.url,
-    robots: 'index,follow',
-    ogType: 'article',
-    ogTitle: seoTitle,
-    ogDescription: seoDescription,
-    ogUrl: entry.url,
-    ogImage: seoOgImage,
-    twitterTitle: seoTitle,
-    twitterDescription: seoDescription,
-    twitterImage: seoOgImage
-} %}
-
 {% block content %}
     {% set watchLinks = entry.watchLinks.all() %}
     {% set genres = entry.genres.all() %}

@@ -25,21 +25,6 @@
     {% set seoOgImage = '' %}
 {% endif %}
 
-{% set seo = {
-    title: seoTitle,
-    description: seoDescription,
-    canonical: entry.url,
-    robots: 'index,follow',
-    ogType: 'article',
-    ogTitle: seoTitle,
-    ogDescription: seoDescription,
-    ogUrl: entry.url,
-    ogImage: seoOgImage,
-    twitterTitle: seoTitle,
-    twitterDescription: seoDescription,
-    twitterImage: seoOgImage
-} %}
-
 {% set rating = entry.rating is defined ? entry.rating : null %}
 
 {% set ratingBadgeClass = 'bg-secondary text-white' %}
