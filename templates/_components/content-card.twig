@@ -9,7 +9,7 @@
 {% if entry %}
     {% set coverField = 'cover' %}
     {% if sectionHandle == 'irl' %}
-        {% set coverField = 'irlCover' %}
+        {% set cover = entry.irlCover is defined and entry.irlCover ? entry.irlCover.one() : null %}
     {% elseif sectionHandle == 'anime' %}
         {% set coverField = 'animeCover' %}
     {% elseif sectionHandle == 'games' %}
@@ -21,7 +21,7 @@
     {% elseif sectionHandle == 'movies' %}
         {% set coverField = 'movieCover' %}
     {% endif %}
-    {% set cover = entry[coverField] is defined and entry[coverField] ? entry[coverField].one() : null %}
+
     {% set genres = entry.genres is defined and entry.genres ? entry.genres.all() : [] %}
     {% set collections = entry.collections is defined and entry.collections ? entry.collections.all() : [] %}
     {% set watchLinks = entry.watchLinks is defined and entry.watchLinks ? entry.watchLinks.all() : [] %}
