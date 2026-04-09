@@ -31,35 +31,28 @@
     <div class="row g-4">
 
         <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="card-body">
-
+            <section class="card border-0 shadow-sm overflow-hidden">
+                <div class="card-body p-0">
                     {% if cover %}
-                        <div class="text-center">
+                        <div class="text-center bg-dark">
                             <img
                                     src="{{ cover.url }}"
                                     alt="{{ entry.title }}"
-                                    class="img-fluid rounded"
-                                    style="
-                                    width: 100%;
-                                    max-width: 420px;
-                                    aspect-ratio: 2 / 3;
-                                    object-fit: contain;
-                                    background: #111;
-                                "
+                                    class="img-fluid w-100"
+                                    style="aspect-ratio: 2 / 3; object-fit: contain;"
+                                    loading="lazy"
                             >
                         </div>
                     {% else %}
                         <div
-                                class="d-flex align-items-center justify-content-center rounded bg-secondary-lt text-secondary"
+                                class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary"
                                 style="width: 100%; aspect-ratio: 2 / 3;"
                         >
                             Нет обложки
                         </div>
                     {% endif %}
-
                 </div>
-            </div>
+            </section>
         </div>
 
         <div class="col-12 col-lg-8">
