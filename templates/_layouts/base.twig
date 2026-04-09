@@ -38,7 +38,7 @@
     <meta name="twitter:url" content="{{ craft.app.request.absoluteUrl }}" />
     <meta name="twitter:title" content="{{ tw.title }}" />
     <meta name="twitter:description" content="{{ tw.description }}" />
-    <meta name="twitter:image" content="{{ craft.seo.twitterImage(tw.image) }}" />
+    <meta name="twitter:image" content="{{ seoOgImage }}" />
 
     {% if seo.robots -%}
         <meta name="robots" content="{{ seo.robots }}" />
