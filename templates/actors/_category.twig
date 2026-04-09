@@ -6,7 +6,7 @@
 {% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
 
 {% block content %}
-    {% set cover = category.cover.one() ?? null %}
+    {% set cover = category.actorPhoto.one() ?? null %}
     {% set relatedEntries = craft.entries()
         .section(['movies', 'series'])
         .relatedTo(category)

@@ -4,7 +4,7 @@
 {% set currentSection = 'movies' %}
 
 {# SEO #}
-{% set cover = entry.cover.one() %}
+{% set cover = entry.movieCover.one() %}
 
 {# Title #}
 {% set seoTitle = 'Hard Play смотрит ' ~ entry.title %}
