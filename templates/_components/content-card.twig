@@ -7,6 +7,9 @@
 {% set descriptionLength = descriptionLength ?? 140 %}
 
 {% if entry %}
+    {% set sectionHandle = entry.section is defined and entry.section ? entry.section.handle : null %}
+    {% set sectionName = entry.section is defined and entry.section ? entry.section.name : null %}
+
     {% set coverField = 'cover' %}
     {% if sectionHandle == 'irl' %}
         {% set cover = entry.irlCover is defined and entry.irlCover ? entry.irlCover.one() : null %}
@@ -30,9 +33,6 @@
     {% set duration = entry.duration is defined ? entry.duration : null %}
     {% set rating = entry.rating is defined ? entry.rating : null %}
     {% set description = entry.description is defined ? entry.description : null %}
-
-    {% set sectionHandle = entry.section is defined and entry.section ? entry.section.handle : null %}
-    {% set sectionName = entry.section is defined and entry.section ? entry.section.name : null %}
 
     {% set sectionBadgeClass = 'bg-secondary text-white' %}
     {% if sectionHandle == 'movies' %}
