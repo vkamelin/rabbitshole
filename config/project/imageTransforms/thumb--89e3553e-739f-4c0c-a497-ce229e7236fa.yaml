@@ -1,0 +1,11 @@
+fill: null
+format: webp
+handle: thumb
+height: 480
+interlace: none
+mode: crop
+name: Миниатюра
+position: center-center
+quality: 60
+upscale: true
+width: 320

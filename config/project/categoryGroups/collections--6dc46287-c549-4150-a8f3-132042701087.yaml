@@ -1,0 +1,66 @@
+defaultPlacement: end
+fieldLayouts:
+  3d203cd5-0080-4546-b8dd-b750b72b548b:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2026-04-09T12:41:32+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\TitleField
+            uid: 2cee98f7-1f7b-416b-9b88-d4a28c5a5a83
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T12:43:49+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 8b24d961-3ed9-4a04-bae0-ef4eaf9364e5 # Обложка подборки
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 12a20924-6fe3-4760-8333-5e494f0941ba
+            userCondition: null
+            warning: null
+            width: 100
+        name: Контент
+        uid: 7dbd8ad8-8c24-43a9-bbb1-e6ab7a04ac3e
+        userCondition: null
+    thumbFieldKey: null
+handle: collections
+name: Подборки
+siteSettings:
+  fed75cf2-ed40-4956-b83d-1365bc782763: # Rabbitshole
+    hasUrls: true
+    template: collections/_category.twig
+    uriFormat: 'collections/{slug}'
+structure:
+  maxLevels: 1
+  uid: a628b1c3-26dd-4e0c-bce4-4ec89c48c84f

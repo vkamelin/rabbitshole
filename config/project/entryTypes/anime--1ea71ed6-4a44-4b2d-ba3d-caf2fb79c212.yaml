@@ -1,0 +1,206 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  596b768e-475f-4be8-b5ca-059472ab94bc:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2026-04-09T14:16:26+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: de1dc6f6-8f12-4a2d-8272-505d219587fd
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 60dde785-c4f9-4891-b161-387b21002a05 # Описание
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 629e520d-1871-4ee5-a9d6-f22661325db6
+            userCondition: null
+            warning: null
+            width: 100
+        name: Контент
+        uid: 9a3b2a2e-8e37-4232-873c-9ac3188b167f
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9c2becd4-9fe0-430b-aaf9-579b4f5c25ef # Год
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6d857aa9-b7cb-4e55-a769-97db7ce11e2d
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4c81cd8b-2891-4df8-b4a7-e9fa32f35525 # Жанры
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3355d1fe-b187-412e-99b5-b79c5f94f400
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: a77256ae-08fb-4cc0-b98d-5438ddf86651 # Подборки
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6fb720d8-614a-466d-b3e4-4188c9a69c56
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1eb0ef57-2424-4479-947d-ea7218b5a7d7 # Рейтинг
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 855968ba-b340-404b-880a-4f10e5b04465
+            userCondition: null
+            warning: null
+            width: 100
+        name: Данные
+        uid: 17aa92c6-db8d-4497-8534-5f9e889262cd
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d8d9ac8e-615f-4c88-9740-f5a9f186b7df # Обложка аниме
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fcb7b0f3-6067-4c9f-8895-54183ae8d0fa
+            userCondition: null
+            warning: null
+            width: 100
+        name: Изображения
+        uid: 9b29678c-8e68-4296-ac3f-d692093b9881
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6c366edf-8c03-4f62-9109-3251e8c2db6d
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 483faaa8-0727-4f8a-bb3a-844a0438e08b
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4f627c6c-2a63-4aa3-98d1-2ad6e5981b6f # Ссылки на просмотр
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 67126d75-0d02-4d4a-8b36-005138719b8a
+            userCondition: null
+            warning: null
+            width: 100
+        name: Ссылки
+        uid: de8c4418-c911-4e67-a5bd-bc626267de9a
+        userCondition: null
+    thumbFieldKey: null
+handle: anime
+hasTitleField: true
+icon: alicorn
+name: Аниме
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

@@ -1,0 +1,9 @@
+baseUrl: 'http://rabbitshole.ru/'
+enabled: true
+handle: default
+hasUrls: true
+language: ru
+name: Rabbitshole
+primary: true
+siteGroup: 62999d04-95af-4003-bfe3-d9b96e21d42d # Rabbitshole
+sortOrder: 1

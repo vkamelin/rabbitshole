@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: actors
+instructions: null
+name: Актёры
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: 1000
+  minRelations: 0
+  selectionLabel: Актер
+  showSearchInput: true
+  showSiteMenu: true
+  source: 'group:040f39d4-95fe-4d4e-acc3-042e70ea588c' # Актеры
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list-inline
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories

@@ -1,0 +1,154 @@
+dateModified: 1775745160
+email:
+  fromEmail: vitaliy@kamelin.ru
+  fromName: Rabbitshole
+  transportType: craft\mail\transportadapters\Sendmail
+fs:
+  animeCoversFs:
+    hasUrls: true
+    name: 'Обложки аниме'
+    settings:
+      path: '@webroot/uploads/anime-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/anime-covers'
+  collectionsCoversFs:
+    hasUrls: true
+    name: 'Обложки подборок'
+    settings:
+      path: '@webroot/uploads/collections-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/collections-covers'
+  coversFs:
+    hasUrls: true
+    name: Обложки
+    settings:
+      path: '@webroot/uploads/covers'
+    type: craft\fs\Local
+    url: '@web/uploads/covers'
+  gamesCoversFs:
+    hasUrls: true
+    name: 'Обложки Игр'
+    settings:
+      path: '@webroot/uploads/games-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/games-covers'
+  genresCoversFs:
+    hasUrls: true
+    name: 'Обложки жанров'
+    settings:
+      path: '@webroot/uploads/genres-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/genres-covers'
+  irlCoversFs:
+    hasUrls: true
+    name: 'Обложки IRL'
+    settings:
+      path: '@webroot/uploads/irl-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/irl-covers'
+  movieCoversFs:
+    hasUrls: true
+    name: 'Обложки фильмов'
+    settings:
+      path: '@webroot/uploads/movie-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/movie-covers'
+  personsPhotosFs:
+    hasUrls: true
+    name: 'Фото персон'
+    settings:
+      path: '@webroot/uploads/persons-photos'
+    type: craft\fs\Local
+    url: '@web/uploads/persons-photos'
+  reactionsCoversFs:
+    hasUrls: true
+    name: 'Обложки реакций'
+    settings:
+      path: '@webroot/uploads/reactions-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/reactions-covers'
+  seriesCoversFs:
+    hasUrls: true
+    name: 'Обложки сериалов'
+    settings:
+      path: '@webroot/uploads/series-covers'
+    type: craft\fs\Local
+    url: '@web/uploads/series-covers'
+meta:
+  __names__:
+    0b6b1a20-512b-4d7a-a420-2f12e1fdcd58: Реакция # Реакция
+    0c720cbb-03bd-4172-af51-2b34097b16bb: Режиссёры # Режиссёры
+    00e688ae-0a92-4d98-abea-7a5644604812: 'Дата выпуска' # Дата выпуска
+    1ea71ed6-4a44-4b2d-ba3d-caf2fb79c212: Аниме # Аниме
+    1eb0ef57-2424-4479-947d-ea7218b5a7d7: Рейтинг # Рейтинг
+    01f81c7b-b4db-417c-88b9-35ba4b458048: Сериалы # Сериалы
+    3e96732e-b362-49f8-8457-542b0a367881: 'Обложка игры' # Обложка игры
+    4c81cd8b-2891-4df8-b4a7-e9fa32f35525: Жанры # Жанры
+    4f627c6c-2a63-4aa3-98d1-2ad6e5981b6f: 'Ссылки на просмотр' # Ссылки на просмотр
+    5a2aeb9c-39fe-474d-8819-94491206cbe8: 'Обложка фильма' # Обложка фильма
+    5b5a9272-8f34-4836-9548-c0cadb7a3938: Кино # Кино
+    5e6b495d-df93-49eb-9229-ac261195457d: 'Обложка сериала' # Обложка сериала
+    6c502087-d330-45df-a861-3c9f51bed3aa: 'Обложка игры' # Обложка игры
+    6dc46287-c549-4150-a8f3-132042701087: Подборки # Подборки
+    7ea07342-ab80-4e75-ae18-0ec4bc4014f6: Кино # Кино
+    8b24d961-3ed9-4a04-bae0-ef4eaf9364e5: 'Обложка подборки' # Обложка подборки
+    8d5fedda-9604-43d0-95fc-c8102d42263b: 'Обложка IRL' # Обложка IRL
+    08ebc92f-64c7-4e05-822f-d862d2571ac5: 'Обложка IRL' # Обложка IRL
+    9c2becd4-9fe0-430b-aaf9-579b4f5c25ef: Год # Год
+    9f8f635d-ce1d-487e-a8a2-c0a8be5ea823: Игры # Игры
+    13e4988e-def8-4a40-9a5c-315922192141: 'Обложка аниме' # Обложка аниме
+    13f7d0ca-8b85-4ff6-9b4a-395a9438fd4b: Актёры # Актёры
+    29e7c515-bc75-4a45-99ff-4c9ba93bc41f: 'Обложка реакции' # Обложка реакции
+    30fe5b75-935c-46f8-80cc-0b5b51e1c481: 'Обложка реакции' # Обложка реакции
+    040f39d4-95fe-4d4e-acc3-042e70ea588c: Актеры # Актеры
+    45d3bd20-a2e5-45e3-b367-a174bbb1b188: Режиссеры # Режиссеры
+    56db5bfa-64a7-4de8-be8e-fc9ed8cf6e83: Игры # Игры
+    60dde785-c4f9-4891-b161-387b21002a05: Описание # Описание
+    67e04d9e-7c59-4742-aaf7-1b9d1f15f412: Жанры # Жанры
+    85dbf6da-91e9-4821-8d7e-bb1df44ecef7: Сериалы # Сериалы
+    89e3553e-739f-4c0c-a497-ce229e7236fa: Миниатюра # Миниатюра
+    111f14d3-a24f-48d2-b515-39c551a24352: IRL # IRL
+    119e1d64-b01a-4b1f-8259-aa17a2108f96: 'Обложка жанра' # Обложка жанра
+    203a51ca-366c-4990-b133-5be407e35f9b: Обложка # Обложка
+    683d5500-bf15-4b7c-8c06-c1742e5fe69f: Обложка # Обложка
+    38423f9c-236d-48b2-af69-08129ca90745: Ссылка # Ссылка
+    62999d04-95af-4003-bfe3-d9b96e21d42d: Rabbitshole # Rabbitshole
+    97424a15-48e3-4baf-865e-c256eb46878f: Аниме # Аниме
+    a7afb69a-efa4-48b4-960b-dd8731140265: 'Обложка подборки' # Обложка подборки
+    a77256ae-08fb-4cc0-b98d-5438ddf86651: Подборки # Подборки
+    abaf3ed7-b574-4685-87f6-1db699733034: 'SEO Описание' # SEO Описание
+    abd632a7-f589-46b5-a566-b3511e608b6b: 'Фото персоны' # Фото персоны
+    ad55b404-2035-40ac-a7ef-388f320c6287: 'Обложка сериала' # Обложка сериала
+    b33a1416-f71b-4a66-a3c6-f312779361d7: 'Обложка жанра' # Обложка жанра
+    ba5e6aca-1a97-4949-97ac-5df4c35b8b5f: 'Обложка фильма' # Обложка фильма
+    bee3b092-1b1e-47cb-b676-092ea0165aac: 'Ссылки на просмотр' # Ссылки на просмотр
+    d8d9ac8e-615f-4c88-9740-f5a9f186b7df: 'Обложка аниме' # Обложка аниме
+    d5970aef-f123-4189-ba1a-3802f8ec398e: Длительность # Длительность
+    d6290bf1-63ce-46ca-850e-8145f2d72438: 'Фото актера' # Фото актера
+    da6df899-f4bd-4969-8c28-b57e69cf4af0: 'Фото режиссера' # Фото режиссера
+    db4e2213-8c34-4071-8c14-3531bca7e7e7: Реакции # Реакции
+    e9b57674-17c1-4dab-bc0b-a669153ba149: SEO # SEO
+    f9fe4b2c-1f27-4c15-b8d8-fddb4c74b4ca: IRL # IRL
+    fed75cf2-ed40-4956-b83d-1365bc782763: Rabbitshole # Rabbitshole
+plugins:
+  ckeditor:
+    edition: standard
+    enabled: true
+    schemaVersion: 5.0.0.1
+  seo:
+    edition: standard
+    enabled: true
+    schemaVersion: 3.2.0
+system:
+  edition: solo
+  live: true
+  name: Rabbitshole
+  schemaVersion: 5.9.0.8
+  timeZone: America/Los_Angeles
+users:
+  allowPublicRegistration: false
+  defaultGroup: null
+  photoSubpath: null
+  photoVolumeUid: null
+  require2fa: false
+  requireEmailVerification: true

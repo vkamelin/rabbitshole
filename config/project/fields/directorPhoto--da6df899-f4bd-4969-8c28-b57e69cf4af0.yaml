@@ -1,0 +1,37 @@
+columnSuffix: null
+handle: directorPhoto
+instructions: null
+name: 'Фото режиссера'
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: false
+  allowUploads: true
+  allowedKinds:
+    - image
+  branchLimit: null
+  defaultPlacement: end
+  defaultUploadLocationSource: 'volume:abd632a7-f589-46b5-a566-b3511e608b6b' # Фото персоны
+  defaultUploadLocationSubpath: '{slug}'
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  previewMode: full
+  restrictFiles: true
+  restrictLocation: false
+  restrictedDefaultUploadSubpath: null
+  restrictedLocationSource: 'volume:13e4988e-def8-4a40-9a5c-315922192141' # Обложка аниме
+  restrictedLocationSubpath: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: true
+  showUnpermittedFiles: true
+  showUnpermittedVolumes: false
+  sources:
+    - 'volume:abd632a7-f589-46b5-a566-b3511e608b6b' # Фото персоны
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: thumbs
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

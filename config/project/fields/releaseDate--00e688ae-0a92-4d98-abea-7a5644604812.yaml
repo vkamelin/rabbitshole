@@ -1,0 +1,15 @@
+columnSuffix: null
+handle: releaseDate
+instructions: null
+name: 'Дата выпуска'
+searchable: false
+settings:
+  max: null
+  min: '1900-01-01T00:00:00-08:00'
+  minuteIncrement: 30
+  showDate: true
+  showTime: false
+  showTimeZone: false
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Date

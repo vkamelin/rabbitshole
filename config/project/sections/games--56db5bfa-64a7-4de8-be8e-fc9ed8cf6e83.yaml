@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 9f8f635d-ce1d-487e-a8a2-c0a8be5ea823 # Игры
+handle: games
+maxAuthors: 1
+name: Игры
+previewTargets:
+  -
+    label: 'Основная запись страница'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fed75cf2-ed40-4956-b83d-1365bc782763: # Rabbitshole
+    enabledByDefault: true
+    hasUrls: true
+    template: games/_entry.twig
+    uriFormat: 'games/{slug}'
+type: channel

@@ -1,0 +1,67 @@
+columnSuffix: null
+handle: description
+instructions: null
+name: Описание
+searchable: true
+settings:
+  advancedLinkFields: null
+  availableTransforms: '*'
+  availableVolumes: '*'
+  characterLimit: null
+  css: null
+  cssFile: null
+  defaultTransform: null
+  defaultUploadLocationSubpath: null
+  defaultUploadLocationVolume: 683d5500-bf15-4b7c-8c06-c1742e5fe69f # Обложка
+  fullGraphqlData: true
+  headingLevels:
+    - '1'
+    - '2'
+    - '3'
+    - '4'
+    - '5'
+    - '6'
+  imageEntryTypeUid: null
+  imageFieldUid: null
+  imageMode: img
+  js: null
+  jsFile: null
+  options:
+    __assoc__:
+      -
+        - alignment
+        -
+          __assoc__:
+            -
+              - options
+              -
+                - left
+                - right
+  parseEmbeds: false
+  purifierConfig: null
+  purifyHtml: true
+  showUnpermittedFiles: true
+  showUnpermittedVolumes: true
+  showWordCount: true
+  sourceEditingGroups:
+    - __ADMINS__
+  toolbar:
+    - heading
+    - alignment
+    - '|'
+    - bold
+    - italic
+    - underline
+    - strikethrough
+    - link
+    - '|'
+    - insertImage
+    - mediaEmbed
+    - htmlEmbed
+    - createEntry
+    - '|'
+    - sourceEditing
+  wordLimit: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\ckeditor\Field

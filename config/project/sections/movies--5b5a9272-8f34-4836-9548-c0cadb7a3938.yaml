@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 7ea07342-ab80-4e75-ae18-0ec4bc4014f6 # Кино
+handle: movies
+maxAuthors: 1
+name: Кино
+previewTargets:
+  -
+    label: 'Основная запись страница'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fed75cf2-ed40-4956-b83d-1365bc782763: # Rabbitshole
+    enabledByDefault: true
+    hasUrls: true
+    template: movies/_entry.twig
+    uriFormat: 'movies/{slug}'
+type: channel

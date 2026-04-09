@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: genres
+instructions: null
+name: Жанры
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: 1000
+  minRelations: 0
+  selectionLabel: Жанр
+  showSearchInput: true
+  showSiteMenu: true
+  source: 'group:67e04d9e-7c59-4742-aaf7-1b9d1f15f412' # Жанры
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list-inline
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories

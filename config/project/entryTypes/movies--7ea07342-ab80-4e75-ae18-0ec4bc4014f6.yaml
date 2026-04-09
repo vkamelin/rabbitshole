@@ -1,0 +1,254 @@
+allowLineBreaksInTitles: false
+color: null
+description: null
+fieldLayouts:
+  203c6036-5787-4577-ae8c-00d83d659487:
+    cardThumbAlignment: end
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2026-04-09T13:09:38+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            required: true
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\entries\EntryTitleField
+            uid: d3a63840-38f8-4ddb-928d-053067ea06be
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 60dde785-c4f9-4891-b161-387b21002a05 # Описание
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7032af0f-59aa-444d-9aa5-c78532ef88f1
+            userCondition: null
+            warning: null
+            width: 100
+        name: Контент
+        uid: c3921fc8-6db1-40f9-b043-c89c16160a50
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 9c2becd4-9fe0-430b-aaf9-579b4f5c25ef # Год
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 3b1249cb-b00c-479c-af52-737bd8933d79
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 13f7d0ca-8b85-4ff6-9b4a-395a9438fd4b # Актёры
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ec07f2e3-db99-4c3f-96ed-d642584fcdc4
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 00e688ae-0a92-4d98-abea-7a5644604812 # Дата выпуска
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 342123dd-b2d6-402d-a32a-c990ab9ed9d5
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: d5970aef-f123-4189-ba1a-3802f8ec398e # Длительность
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 930e56d7-2697-4665-a4cf-3c062016479c
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4c81cd8b-2891-4df8-b4a7-e9fa32f35525 # Жанры
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: fbc7445b-4493-4f0d-af98-f23fdc429420
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: a77256ae-08fb-4cc0-b98d-5438ddf86651 # Подборки
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 325d72fe-2453-4fe6-9d4b-d8b006f1373e
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T14:20:33+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 1eb0ef57-2424-4479-947d-ea7218b5a7d7 # Рейтинг
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: ab68c06f-451a-4d15-abff-cc2b39d774db
+            userCondition: null
+            warning: null
+            width: 100
+        name: Данные
+        uid: 12e49e64-928d-4563-98f4-a07498a1d221
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 5a2aeb9c-39fe-474d-8819-94491206cbe8 # Обложка фильма
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 926ed057-c91e-4d97-9de5-8edc1c4a8ddd
+            userCondition: null
+            warning: null
+            width: 100
+        name: Изображения
+        uid: 37f05811-0b5c-48e4-adad-f2136e67ce76
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 86b87650-2e90-4159-87b8-0b81c574cd8a
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 2183a6af-816e-4cd1-9799-39f3f694c653
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T13:14:50+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 4f627c6c-2a63-4aa3-98d1-2ad6e5981b6f # Ссылки на просмотр
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6e5ea204-ca90-4313-bce4-ee294df0d457
+            userCondition: null
+            warning: null
+            width: 100
+        name: Ссылки
+        uid: 47b2f825-7caa-4629-a085-eff3a544f2a5
+        userCondition: null
+    thumbFieldKey: null
+handle: movies
+hasTitleField: true
+icon: film
+name: Кино
+showSlugField: true
+showStatusField: true
+slugTranslationKeyFormat: null
+slugTranslationMethod: site
+titleFormat: null
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+uiLabelFormat: '{title}'

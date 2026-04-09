@@ -1,0 +1,22 @@
+columnSuffix: null
+handle: directors
+instructions: null
+name: Режиссёры
+searchable: false
+settings:
+  allowSelfRelations: false
+  branchLimit: null
+  defaultPlacement: end
+  maintainHierarchy: false
+  maxRelations: 1000
+  minRelations: 0
+  selectionLabel: Режиссер
+  showSearchInput: true
+  showSiteMenu: true
+  source: 'group:45d3bd20-a2e5-45e3-b367-a174bbb1b188' # Режиссеры
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: list-inline
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Categories

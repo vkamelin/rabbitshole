@@ -1,0 +1,53 @@
+altTranslationKeyFormat: null
+altTranslationMethod: none
+fieldLayouts:
+  4bcf5ab8-e14d-4fd0-bb8e-ab06d151c69b:
+    cardThumbAlignment: start
+    cardView:
+      - filename
+      - imageSize
+    tabs:
+      -
+        elementCondition: null
+        elements:
+          -
+            autocapitalize: true
+            autocomplete: false
+            autocorrect: true
+            class: null
+            dateAdded: '2026-04-09T12:37:22+00:00'
+            disabled: false
+            elementCondition: null
+            id: null
+            inputType: null
+            instructions: null
+            label: null
+            max: null
+            min: null
+            name: null
+            orientation: null
+            placeholder: null
+            readonly: false
+            requirable: false
+            size: null
+            step: null
+            tip: null
+            title: null
+            type: craft\fieldlayoutelements\assets\AssetTitleField
+            uid: fafe1c88-6ecb-44fe-8d0e-89ee0fa8cd4e
+            userCondition: null
+            warning: null
+            width: 100
+        name: Контент
+        uid: d79e1b47-ea65-4406-9d82-3585d2c1b426
+        userCondition: null
+    thumbFieldKey: null
+fs: genresCoversFs
+handle: genreCover
+name: 'Обложка жанра'
+sortOrder: 8
+subpath: ''
+titleTranslationKeyFormat: null
+titleTranslationMethod: site
+transformFs: ''
+transformSubpath: ''

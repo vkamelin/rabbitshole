@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 0b6b1a20-512b-4d7a-a420-2f12e1fdcd58 # Реакция
+handle: reactions
+maxAuthors: 1
+name: Реакции
+previewTargets:
+  -
+    label: 'Основная запись страница'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fed75cf2-ed40-4956-b83d-1365bc782763: # Rabbitshole
+    enabledByDefault: true
+    hasUrls: true
+    template: reactions/_entry.twig
+    uriFormat: 'reactions/{slug}'
+type: channel

@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: year
+instructions: null
+name: Год
+searchable: false
+settings:
+  decimals: 0
+  defaultValue: 2000
+  max: 2026
+  min: 1900
+  prefix: null
+  previewCurrency: null
+  previewFormat: none
+  size: null
+  step: 1
+  suffix: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number

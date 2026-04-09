@@ -1,0 +1,37 @@
+columnSuffix: null
+handle: seriesCover
+instructions: null
+name: 'Обложка сериала'
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: false
+  allowUploads: true
+  allowedKinds:
+    - image
+  branchLimit: null
+  defaultPlacement: end
+  defaultUploadLocationSource: 'volume:5e6b495d-df93-49eb-9229-ac261195457d' # Обложка сериала
+  defaultUploadLocationSubpath: '{slug}'
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: 0
+  previewMode: full
+  restrictFiles: true
+  restrictLocation: false
+  restrictedDefaultUploadSubpath: null
+  restrictedLocationSource: 'volume:13e4988e-def8-4a40-9a5c-315922192141' # Обложка аниме
+  restrictedLocationSubpath: null
+  selectionLabel: null
+  showSearchInput: true
+  showSiteMenu: true
+  showUnpermittedFiles: true
+  showUnpermittedVolumes: false
+  sources:
+    - 'volume:5e6b495d-df93-49eb-9229-ac261195457d' # Обложка сериала
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: thumbs
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

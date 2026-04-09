@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: f9fe4b2c-1f27-4c15-b8d8-fddb4c74b4ca # IRL
+handle: irl
+maxAuthors: 1
+name: IRL
+previewTargets:
+  -
+    label: 'Основная запись страница'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fed75cf2-ed40-4956-b83d-1365bc782763: # Rabbitshole
+    enabledByDefault: true
+    hasUrls: true
+    template: irl/_entry.twig
+    uriFormat: 'irl/{slug}'
+type: channel

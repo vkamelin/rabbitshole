@@ -1,0 +1,29 @@
+columnSuffix: null
+handle: watchLinks
+instructions: null
+name: 'Ссылки на просмотр'
+searchable: false
+settings:
+  createButtonLabel: null
+  defaultIndexViewMode: cards
+  enableVersioning: false
+  entryTypes:
+    -
+      __assoc__:
+        -
+          - uid
+          - bee3b092-1b1e-47cb-b676-092ea0165aac # Ссылки на просмотр
+        -
+          - group
+          - Общие
+  includeTableView: false
+  maxEntries: 1000
+  minEntries: null
+  pageSize: 50
+  propagationKeyFormat: null
+  propagationMethod: all
+  showCardsInGrid: false
+  viewMode: cards
+translationKeyFormat: null
+translationMethod: site
+type: craft\fields\Matrix

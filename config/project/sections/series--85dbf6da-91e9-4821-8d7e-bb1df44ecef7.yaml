@@ -1,0 +1,21 @@
+defaultPlacement: end
+enableVersioning: true
+entryTypes:
+  -
+    uid: 01f81c7b-b4db-417c-88b9-35ba4b458048 # Сериалы
+handle: series
+maxAuthors: 1
+name: Сериалы
+previewTargets:
+  -
+    label: 'Основная запись страница'
+    refresh: '1'
+    urlFormat: '{url}'
+propagationMethod: all
+siteSettings:
+  fed75cf2-ed40-4956-b83d-1365bc782763: # Rabbitshole
+    enabledByDefault: true
+    hasUrls: true
+    template: series/_entry.twig
+    uriFormat: 'series/{slug}'
+type: channel

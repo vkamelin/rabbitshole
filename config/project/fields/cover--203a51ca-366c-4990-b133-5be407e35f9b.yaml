@@ -1,0 +1,37 @@
+columnSuffix: null
+handle: cover
+instructions: null
+name: Обложка
+searchable: false
+settings:
+  allowSelfRelations: false
+  allowSubfolders: false
+  allowUploads: true
+  allowedKinds:
+    - image
+  branchLimit: null
+  defaultPlacement: end
+  defaultUploadLocationSource: 'volume:683d5500-bf15-4b7c-8c06-c1742e5fe69f' # Обложка
+  defaultUploadLocationSubpath: '{slug}'
+  maintainHierarchy: false
+  maxRelations: null
+  minRelations: null
+  previewMode: full
+  restrictFiles: true
+  restrictLocation: false
+  restrictedDefaultUploadSubpath: null
+  restrictedLocationSource: 'volume:13e4988e-def8-4a40-9a5c-315922192141' # Обложка аниме
+  restrictedLocationSubpath: null
+  selectionLabel: Добавить
+  showSearchInput: true
+  showSiteMenu: true
+  showUnpermittedFiles: true
+  showUnpermittedVolumes: false
+  sources:
+    - 'volume:683d5500-bf15-4b7c-8c06-c1742e5fe69f' # Обложка
+  targetSiteId: null
+  validateRelatedElements: false
+  viewMode: thumbs
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Assets

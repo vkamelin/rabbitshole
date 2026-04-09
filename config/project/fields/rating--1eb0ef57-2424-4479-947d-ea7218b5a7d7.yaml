@@ -1,0 +1,19 @@
+columnSuffix: null
+handle: rating
+instructions: null
+name: Рейтинг
+searchable: false
+settings:
+  decimals: 1
+  defaultValue: 6.1
+  max: 10
+  min: 0
+  prefix: null
+  previewCurrency: null
+  previewFormat: decimal
+  size: null
+  step: 0.1
+  suffix: null
+translationKeyFormat: null
+translationMethod: none
+type: craft\fields\Number
