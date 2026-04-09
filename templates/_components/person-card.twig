@@ -3,10 +3,10 @@
 {% if person %}
     {% set imageAsset = null %}
 
-    {% if person.photo is defined and person.photo %}
-        {% set imageAsset = person.photo.one() %}
-    {% elseif person.cover is defined and person.cover %}
-        {% set imageAsset = person.cover.one() %}
+    {% if person.directorPhoto is defined and person.directorPhoto %}
+        {% set imageAsset = person.directorPhoto.one() %}
+    {% elseif person.actorPhoto is defined and person.actorPhoto %}
+        {% set imageAsset = person.actorPhoto.one() %}
     {% elseif person.image is defined and person.image %}
         {% set imageAsset = person.image.one() %}
     {% endif %}
