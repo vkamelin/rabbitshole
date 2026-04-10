@@ -29,6 +29,8 @@
     {% set watchLinks = entry.watchLinks.all() %}
     {% set genres = entry.genres.all() %}
     {% set collections = entry.collections.all() %}
+    {% set actors = entry.actors is defined ? entry.actors.all() : [] %}
+    {% set directors = entry.directors is defined ? entry.directors.all() : [] %}
 
     <div class="row g-4">
 
