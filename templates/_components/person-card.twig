@@ -12,8 +12,9 @@
     {% endif %}
 
     {% set personUrl = person.url ?? null %}
+    {% set isFemale = person.female == true %}
 
-    <div class="col-6 col-md-3 col-xl-2">
+    <div class="col-6 col-md-3 col-xl-2" data-gender="{{ isFemale ? 'female' : 'male' }}" data-name="{{ person.title|lower }}">
         <div class="card h-100 overflow-hidden">
             {% if imageAsset %}
                 <div class="ratio ratio-3x4 bg-dark">

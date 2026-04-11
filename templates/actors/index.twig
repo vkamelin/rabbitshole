@@ -66,14 +66,9 @@
                     {% if categories %}
                         <div class="row row-cards" id="actorsContainer">
                             {% for actor in categories %}
-                                {% set isFemale = actor.female == true %}
-                                <div class="actor-item"
-                                     data-gender="{{ isFemale ? 'female' : 'male' }}"
-                                     data-name="{{ actor.title|lower }}">
-                                    {% include "_components/person-card" with {
-                                        person: actor
-                                    } only %}
-                                </div>
+                                {% include "_components/person-card" with {
+                                    person: actor
+                                } only %}
                             {% endfor %}
                         </div>
 

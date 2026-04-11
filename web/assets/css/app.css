@@ -1,3 +1,7 @@
 body {
     font-family: Inter, -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, Roboto, Helvetica Neue, sans-serif !important;
 }
+
+.actor-item {
+    display: inline-block;
+}
