@@ -55,7 +55,7 @@
         </a>
 
         {% if currentUser and currentUser.can('editEntries') %}
-            <a href="admin/content/entries/movies/{{ entry.id }}-{{ entry.slug }}" class="btn btn-primary btn-sm" target="_blank">
+            <a href="/admin/content/entries/movies/{{ entry.id }}-{{ entry.slug }}" class="btn btn-primary btn-sm" target="_blank">
                 <i class="ti ti-edit"></i> Редактировать
             </a>
         {% endif %}
