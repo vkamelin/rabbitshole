@@ -5,30 +5,6 @@
 
 {% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
 
-{% block styles %}
-    {{ parent() }}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-{% endblock %}
-
-{% block scripts %}
-    {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const lightbox = Glightbox({
-                selector: '.photo-album-lightbox',
-                openEffect: 'zoom',
-                closeEffect: 'zoom',
-                zoomable: true,
-                draggable: true,
-                touchNavigation: true,
-                loop: true,
-                preload: true
-            });
-        });
-    </script>
-{% endblock %}
-
 {% block content %}
     {% set cover = category.actorPhoto.one() ?? null %}
     {% set relatedEntries = craft.entries()
@@ -108,10 +84,7 @@
                         <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                             <div class="card h-100 overflow-hidden">
                                 <div class="ratio ratio-1x1 bg-light">
-                                    <a href="{{ photo.url }}"
-                                       class="d-block w-100 h-100 photo-album-lightbox"
-                                       data-gallery="actor-{{ category.id }}"
-                                       data-title="{{ photo.title ?? category.title }}">
+                                    <a href="{{ photo.url }}" class="d-block w-100 h-100 photo-album-lightbox">
                                         <img
                                                 src="{{ photo.url }}"
                                                 alt="{{ photo.title ?? 'Фото ' ~ loop.index }}"
