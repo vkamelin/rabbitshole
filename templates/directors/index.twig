@@ -1,0 +1,145 @@
+{% extends "_layouts/base" %}
+
+{% set pageTitle = 'Режиссеры' %}
+{% set currentSection = 'directors' %}
+
+{% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
+
+{% block content %}
+    {% set request = craft.app.request %}
+    {% set searchQuery = request.getQueryParam('search') ?? '' %}
+
+    {% set query = craft.categories()
+        .group('directors')
+        .orderBy('title asc')
+    %}
+
+    {% if searchQuery %}
+        {% set query = query.search(searchQuery) %}
+    {% endif %}
+
+    {% paginate query.limit(48) as pageInfo, directors %}
+
+    {% set totalDirectors = craft.categories().group('directors').count() %}
+
+    {% set hasFilters = searchQuery %}
+
+    {# Title с пагинацией #}
+    {% if pageInfo.currentPage > 1 %}
+        {% set seoTitle = pageTitle ~ ' — страница ' ~ pageInfo.currentPage %}
+    {% else %}
+        {% set seoTitle = pageTitle %}
+    {% endif %}
+
+    <section class="mb-4">
+        <div class="card border-0 bg-dark text-white overflow-hidden">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-xl-8">
+                        <div class="text-uppercase text-secondary fw-semibold small mb-2">Каталог rabbitshole.ru</div>
+                        <h1 class="display-4 fw-bold mb-3">Режиссеры</h1>
+                        <p class="lead text-secondary mb-0">
+                            Все режиссеры, чьи фильмы и сериалы были показаны в стримах Hard Play. Всего: {{ totalDirectors }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="row g-3 align-items-end">
+                        <div class="col-12 col-md-6">
+                            <label for="searchQuery" class="form-label">Поиск по имени</label>
+                            <input
+                                type="text"
+                                id="searchQuery"
+                                name="search"
+                                class="form-control"
+                                value="{{ searchQuery }}"
+                                placeholder="Введите имя режиссера"
+                            >
+                        </div>
+
+                        <div class="col-12 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Применить</button>
+                            <a href="{{ url('directors') }}" class="btn btn-outline-secondary">Сбросить</a>
+                        </div>
+                    </form>
+
+                    {% if hasFilters %}
+                        <div class="mt-4 pt-3 border-top">
+                            <span class="text-secondary small">Активные фильтры:</span>
+                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                {% if searchQuery %}
+                                    <span class="badge bg-blue-lt">
+                                        Поиск: "{{ searchQuery }}"
+                                        <a href="{{ url('directors') }}" class="text-white ms-1" title="Убрать фильтр">×</a>
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if directors and directors|length > 0 %}
+        <div class="row row-cards" id="directorsContainer">
+            {% for director in directors %}
+                {% include "_components/person-card" with {
+                    person: director
+                } only %}
+            {% endfor %}
+        </div>
+
+        {% if pageInfo.totalPages > 1 %}
+            <nav class="mt-4 d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if pageInfo.prevUrl %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ pageInfo.prevUrl }}">←</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page, url in pageInfo.getPrevUrls(2) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    <li class="page-item active">
+                        <span class="page-link">{{ pageInfo.currentPage }}</span>
+                    </li>
+
+                    {% for page, url in pageInfo.getNextUrls(2) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if pageInfo.nextUrl %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ pageInfo.nextUrl }}">→</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <div class="text-center py-5">
+            <div class="text-secondary mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-film" viewBox="0 0 16 16">
+                    <path d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1zm1 0v6.207l5.844 2.922L15 7.527V1a.5.5 0 0 0-.5-.5H1.5A.5.5 0 0 0 1 1zm14 13.207L9.156 11.29 1 7.473V15a.5.5 0 0 0 .5.5h13a.5.5 0 0 0 .5-.5zM4.5 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5m0 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </div>
+            <h3 class="h4">Режиссеры не найдены</h3>
+            <p class="text-secondary">Попробуйте изменить параметры фильтрации или вернуться ко всему каталогу.</p>
+            <a href="{{ url('directors') }}" class="btn btn-primary">Сбросить фильтры</a>
+        </div>
+    {% endif %}
+{% endblock %}
