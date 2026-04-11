@@ -12,6 +12,7 @@
 
     {% set query = craft.categories()
         .group('actors')
+        .actorPhoto(':not-empty:')
         .orderBy('title asc')
     %}
 
