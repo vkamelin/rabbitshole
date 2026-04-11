@@ -210,5 +210,12 @@
 <script src="/assets/js/lightbox-plus-jquery.min.js"></script>
 {% block scripts %}{% endblock %}
 {% block footerScripts %}{% endblock %}
+<script>
+    lightbox.option({
+      'fitImagesInViewport': true,
+      'resizeDuration': 200,
+      'wrapAround': true
+    })
+</script>
 </body>
 </html>
