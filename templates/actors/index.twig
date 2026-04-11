@@ -36,18 +36,16 @@
         {% set allActors = filteredActors %}
     {% endif %}
 
-    {# Подсчет фильмов для каждого актера (используем кэширование) #}
+    {# Подсчет фильмов для каждого актера #}
     {% set movieCounts = {} %}
     {% if sortBy == 'movieCount' and allActors|length > 0 %}
         {% for actor in allActors %}
-            {% set cacheKey = 'actor_movie_count_' ~ actor.id ~ '_' ~ craft.app.request.siteId %}
-            {% set movieCount = craft.app.cache.getOrSet(cacheKey, 86400, function() {
-                return craft.entries()
-                    .section(['movies', 'series'])
-                    .relatedTo(actor)
-                    .status(null)
-                    .count()
-            }) %}
+            {% set movieCount = craft.entries()
+                .section(['movies', 'series'])
+                .relatedTo(actor)
+                .status(null)
+                .count()
+            %}
             {% set movieCounts = movieCounts|merge({(actor.id): movieCount}) %}
         {% endfor %}
 
