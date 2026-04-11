@@ -68,13 +68,13 @@
                 <div class="card-body p-0">
                     {% if cover %}
                         <div class="text-center bg-dark">
-                            <img
+                            <a href="{{ cover.url }}" data-lightbox="gallery" title="{{ entry.title }}">
+                                <img
                                     src="{{ cover.url }}"
-                                    alt="Hard Play смотрит {{ entry.title }}"
-                                    class="img-fluid w-100"
-                                    style="aspect-ratio: 2 / 3; object-fit: contain;"
-                                    loading="lazy"
-                            >
+                                    alt="{{ entry.title }}"
+                                    class="w-100 h-100 object-fit-cover"
+                                    loading="lazy">
+                            </a>
                         </div>
                     {% else %}
                         <div
