@@ -6,98 +6,155 @@
 {% block title %}{{ pageTitle }} — {{ siteName ?? 'Кроличья нора' }}{% endblock %}
 
 {% block content %}
-    {% set categories = craft.categories()
+    {% set request = craft.app.request %}
+    {% set genderFilter = request.getQueryParam('gender') %}
+    {% set searchQuery = request.getQueryParam('search') ?? '' %}
+
+    {% set query = craft.categories()
         .group('actors')
         .orderBy('title asc')
-        .all()
     %}
 
-    {% set femaleActors = categories|filter(c => c.female == true) %}
-    {% set maleActors = categories|filter(c => c.female != true) %}
+    {% if genderFilter == 'female' %}
+        {% set query = query.female(true) %}
+    {% elseif genderFilter == 'male' %}
+        {% set query = query.female(false) %}
+    {% endif %}
+
+    {% if searchQuery %}
+        {% set query = query.search(searchQuery) %}
+    {% endif %}
+
+    {% paginate query.limit(48) as pageInfo, actors %}
+
+    {% set totalActors = craft.categories().group('actors').count() %}
+    {% set femaleActorsCount = craft.categories().group('actors').female(true).count() %}
+    {% set maleActorsCount = craft.categories().group('actors').female(false).count() %}
+
+    {% set hasFilters = genderFilter or searchQuery %}
+
+    {# Title с пагинацией #}
+    {% if pageInfo.currentPage > 1 %}
+        {% set seoTitle = pageTitle ~ ' — страница ' ~ pageInfo.currentPage %}
+    {% else %}
+        {% set seoTitle = pageTitle %}
+    {% endif %}
 
     <div class="mb-4">
         <h1 class="display-5 fw-bold mb-3">{{ pageTitle }}</h1>
         <p class="text-secondary">
-            Все актеры, которые появлялись в стримах Hard Play. Используйте фильтры для поиска по полу.
+            Все актеры, которые появлялись в стримах Hard Play. Всего: {{ totalActors }} (женщины: {{ femaleActorsCount }}, мужчины: {{ maleActorsCount }}).
         </p>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <!-- TODO: добавить фильтры по полу и по имени -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <form method="get" class="row g-3 align-items-end">
+                        <div class="col-12 col-md-6">
+                            <label for="genderFilter" class="form-label">Пол</label>
+                            <select id="genderFilter" name="gender" class="form-select">
+                                <option value="">Все актеры</option>
+                                <option value="female" {{ genderFilter == 'female' ? 'selected' }}>Женщины</option>
+                                <option value="male" {{ genderFilter == 'male' ? 'selected' }}>Мужчины</option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label for="searchQuery" class="form-label">Поиск по имени</label>
+                            <input
+                                type="text"
+                                id="searchQuery"
+                                name="search"
+                                class="form-control"
+                                value="{{ searchQuery }}"
+                                placeholder="Введите имя актера"
+                            >
+                        </div>
+
+                        <div class="col-12 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Применить</button>
+                            <a href="{{ url('actors') }}" class="btn btn-outline-secondary">Сбросить</a>
+                        </div>
+                    </form>
+
+                    {% if hasFilters %}
+                        <div class="mt-4 pt-3 border-top">
+                            <span class="text-secondary small">Активные фильтры:</span>
+                            <div class="d-flex flex-wrap gap-2 mt-2">
+                                {% if genderFilter %}
+                                    <span class="badge bg-primary-lt">
+                                        {{ genderFilter == 'female' ? 'Женщины' : 'Мужчины' }}
+                                        <a href="{{ url('actors', { search: searchQuery }) }}" class="text-white ms-1" title="Убрать фильтр">×</a>
+                                    </span>
+                                {% endif %}
+                                {% if searchQuery %}
+                                    <span class="badge bg-blue-lt">
+                                        Поиск: "{{ searchQuery }}"
+                                        <a href="{{ url('actors', { gender: genderFilter }) }}" class="text-white ms-1" title="Убрать фильтр">×</a>
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row g-4">
-        {% if categories and categories|length > 0 %}
-            <div class="row row-cards" id="actorsContainer">
-                {% for actor in categories %}
-                    {% include "_components/person-card" with {
-                        person: actor
-                    } only %}
-                {% endfor %}
-            </div>
-        {% else %}
-            <div class="text-center py-5">
-                <div class="text-secondary mb-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
-                        <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
-                    </svg>
-                </div>
-                <h3 class="h4">Актеры еще не добавлены</h3>
-                <p class="text-secondary">В каталоге пока нет актеров. Они появятся позже.</p>
-            </div>
-        {% endif %}
-    </div>
-{% endblock %}
+    {% if actors and actors|length > 0 %}
+        <div class="row row-cards" id="actorsContainer">
+            {% for actor in actors %}
+                {% include "_components/person-card" with {
+                    person: actor
+                } only %}
+            {% endfor %}
+        </div>
 
-{% block js %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const filterLinks = document.querySelectorAll('[data-filter]');
-            const searchInput = document.getElementById('actorSearch');
-            const actorItems = document.querySelectorAll('.actor-item');
-            
-            // Если элементов нет, выходим
-            if (actorItems.length === 0) {
-                return;
-            }
-            
-            function filterActors() {
-                const activeFilter = document.querySelector('[data-filter].active')?.dataset.filter || 'all';
-                const searchTerm = searchInput ? searchInput.value.toLowerCase().trim() : '';
-                
-                actorItems.forEach(item => {
-                    const gender = item.dataset.gender;
-                    const name = item.dataset.name;
-                    const matchesFilter = activeFilter === 'all' || gender === activeFilter;
-                    const matchesSearch = searchTerm === '' || (name && name.includes(searchTerm));
-                    
-                    if (matchesFilter && matchesSearch) {
-                        item.style.display = '';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            }
-            
-            filterLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    filterLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    filterActors();
-                });
-            });
-            
-            if (searchInput) {
-                searchInput.addEventListener('input', filterActors);
-            }
-            
-            // Инициализация фильтрации
-            filterActors();
-        });
-    </script>
+        {% if pageInfo.totalPages > 1 %}
+            <nav class="mt-4 d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if pageInfo.prevUrl %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ pageInfo.prevUrl }}">←</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page, url in pageInfo.getPrevUrls(2) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    <li class="page-item active">
+                        <span class="page-link">{{ pageInfo.currentPage }}</span>
+                    </li>
+
+                    {% for page, url in pageInfo.getNextUrls(2) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if pageInfo.nextUrl %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ pageInfo.nextUrl }}">→</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <div class="text-center py-5">
+            <div class="text-secondary mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+                    <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022ZM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4m3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0M6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816M4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275ZM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0m3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4"/>
+                </svg>
+            </div>
+            <h3 class="h4">Актеры не найдены</h3>
+            <p class="text-secondary">Попробуйте изменить параметры фильтрации или вернуться ко всему каталогу.</p>
+            <a href="{{ url('actors') }}" class="btn btn-primary">Сбросить фильтры</a>
+        </div>
+    {% endif %}
 {% endblock %}
