@@ -19,6 +19,15 @@
         <a href="{{ url('actors') }}" class="btn btn-sm">
             ← Все актеры
         </a>
+
+        {# Кнопка редактирования для администраторов #}
+        {% if currentUser and currentUser.can('accessCp') %}
+            <div class="mb-3">
+                <a href="{{ category.getUrl('edit') }}" class="btn btn-primary btn-sm" target="_blank">
+                    <i class="ti ti-edit"></i> Редактировать
+                </a>
+            </div>
+        {% endif %}
     </div>
 
     <div class="row g-4 align-items-start">

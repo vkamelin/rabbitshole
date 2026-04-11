@@ -53,6 +53,12 @@
         <a href="{{ url('movies') }}" class="btn btn-sm">
             ← Назад к фильмам
         </a>
+
+        {% if currentUser and currentUser.can('editEntries') %}
+            <a href="{{ entry.getUrl('edit') }}" class="btn btn-primary btn-sm" target="_blank">
+                <i class="ti ti-edit"></i> Редактировать
+            </a>
+        {% endif %}
     </div>
 
     <div class="row g-4 align-items-start">
