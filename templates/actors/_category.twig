@@ -22,7 +22,7 @@
 
         {# Кнопка редактирования для администраторов #}
         {% if currentUser and currentUser.can('accessCp') %}
-            <a href="/admin/categories/actors/{{ category.id }}-{{ category.slug }}" class="btn btn-primary btn-sm" target="_blank">
+            <a href="/admin/categories/actors/{{ category.id }}-{{ category.slug }}" class="btn btn-primary btn-sm">
                 <i class="ti ti-edit"></i> Редактировать
             </a>
         {% endif %}
