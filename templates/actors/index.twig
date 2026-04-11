@@ -9,7 +9,6 @@
     {% set request = craft.app.request %}
     {% set genderFilter = request.getQueryParam('gender') %}
     {% set searchQuery = request.getQueryParam('search') ?? '' %}
-    {% set sortBy = request.getQueryParam('sortBy') ?? 'title' %}
 
     {# Базовый запрос для получения всех актеров с фото #}
     {% set baseQuery = craft.categories()
@@ -22,41 +21,18 @@
         {% set baseQuery = baseQuery.female(false) %}
     {% endif %}
 
-    {# Получаем всех актеров для последующей фильтрации и подсчета #}
-    {% set allActors = baseQuery.status(null).all() %}
+    {# Получаем всех актеров для последующей фильтрации #}
+    {% set allActors = baseQuery.status(null).orderBy('title asc').all() %}
 
     {# Фильтрация по поиску #}
     {% if searchQuery %}
         {% set filteredActors = [] %}
         {% for actor in allActors %}
-            {% if searchQuery|lower in actor.title|lower %}
+            {% if actor.title|lower contains searchQuery|lower %}
                 {% set filteredActors = filteredActors|merge([actor]) %}
             {% endif %}
         {% endfor %}
         {% set allActors = filteredActors %}
-    {% endif %}
-
-    {# Подсчет фильмов для каждого актера #}
-    {% set movieCounts = {} %}
-    {% if sortBy == 'movieCount' and allActors|length > 0 %}
-        {% for actor in allActors %}
-            {% set movieCount = craft.entries()
-                .section(['movies', 'series'])
-                .relatedTo(actor)
-                .status(null)
-                .count()
-            %}
-            {% set movieCounts = movieCounts|merge({(actor.id): movieCount}) %}
-        {% endfor %}
-
-        {# Сортировка по количеству фильмов (убывание), затем по имени (возрастание) #}
-        {% set allActors = allActors|sort((a, b) => 
-            movieCounts[b.id]|default(0) <=> movieCounts[a.id]|default(0) 
-            ?: a.title <=> b.title
-        ) %}
-    {% else %}
-        {# Сортировка по имени (А-Я) #}
-        {% set allActors = allActors|sort((a, b) => a.title <=> b.title) %}
     {% endif %}
 
     {# Пагинация #}
@@ -72,14 +48,13 @@
     {% set femaleActorsCount = allActors|filter(a => a.female == true)|length %}
     {% set maleActorsCount = allActors|filter(a => a.female != true)|length %}
 
-    {% set hasFilters = genderFilter or searchQuery or sortBy %}
+    {% set hasFilters = genderFilter or searchQuery %}
 
     {# URL для пагинации с сохранением параметров #}
     {% set baseUrl = 'actors' %}
     {% set currentParams = {} %}
     {% if genderFilter %}{% set currentParams = currentParams|merge({gender: genderFilter}) %}{% endif %}
     {% if searchQuery %}{% set currentParams = currentParams|merge({search: searchQuery}) %}{% endif %}
-    {% if sortBy != 'title' %}{% set currentParams = currentParams|merge({sortBy: sortBy}) %}{% endif %}
 
     {# Title с пагинацией #}
     {% if currentPage > 1 %}
@@ -130,7 +105,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <form method="get" class="row g-3 align-items-end">
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
                             <label for="genderFilter" class="form-label">Пол</label>
                             <select id="genderFilter" name="gender" class="form-select">
                                 <option value="">Все актеры</option>
@@ -139,7 +114,7 @@
                             </select>
                         </div>
 
-                        <div class="col-12 col-md-4">
+                        <div class="col-12 col-md-6">
                             <label for="searchQuery" class="form-label">Поиск по имени</label>
                             <input
                                 type="text"
@@ -149,14 +124,6 @@
                                 value="{{ searchQuery }}"
                                 placeholder="Введите имя актера"
                             >
-                        </div>
-
-                        <div class="col-12 col-md-4">
-                            <label for="sortBy" class="form-label">Сортировка</label>
-                            <select id="sortBy" name="sortBy" class="form-select">
-                                <option value="title" {{ sortBy == 'title' ? 'selected' }}>По имени (А-Я)</option>
-                                <option value="movieCount" {{ sortBy == 'movieCount' ? 'selected' }}>По количеству фильмов</option>
-                            </select>
                         </div>
 
                         <div class="col-12 d-flex gap-2">
@@ -192,10 +159,8 @@
     {% if actors and actors|length > 0 %}
         <div class="row row-cards" id="actorsContainer">
             {% for actor in actors %}
-                {% set actorMovieCount = movieCounts[actor.id]|default(0) %}
                 {% include "_components/person-card" with {
-                    person: actor,
-                    movieCount: actorMovieCount
+                    person: actor
                 } only %}
             {% endfor %}
         </div>
