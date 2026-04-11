@@ -63,7 +63,7 @@
     {% set itemsPerPage = 48 %}
     {% set totalActors = allActors|length %}
     {% set totalPages = (totalActors / itemsPerPage)|round(0, 'ceil') %}
-    {% set currentPage = request.getQueryParam('p') ? request.getQueryParam('p')|int : 1 %}
+    {% set currentPage = request.getQueryParam('p') ? request.getQueryParam('p')|integer : 1 %}
     {% set currentPage = currentPage > totalPages ? totalPages : currentPage %}
     {% set currentPage = currentPage < 1 ? 1 : currentPage %}
     {% set offset = (currentPage - 1) * itemsPerPage %}
