@@ -70,12 +70,10 @@
     <!-- /Yandex.Metrika counter -->
 </head>
 
+<body class="layout-fluid {% block bodyClass %}{{ bodyClass ?? '' }}{% endblock %}">
+
 {{ craft.quickEdit.render() }}
 
-<body class="
-    layout-fluid
-    {% block bodyClass %}{{ bodyClass ?? '' }}{% endblock %}
-">
 <div class="page">
     {# Header #}
     <header class="navbar navbar-expand-md navbar-light d-print-none border-bottom bg-white">
