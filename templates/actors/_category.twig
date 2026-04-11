@@ -111,9 +111,7 @@
                                     <a href="{{ photo.url }}"
                                        class="d-block w-100 h-100 photo-album-lightbox"
                                        data-gallery="actor-{{ category.id }}"
-                                       data-title="{{ photo.title ?? category.title }}"
-                                       target="_blank"
-                                       rel="noopener noreferrer">
+                                       data-title="{{ photo.title ?? category.title }}">
                                         <img
                                                 src="{{ photo.url }}"
                                                 alt="{{ photo.title ?? 'Фото ' ~ loop.index }}"
