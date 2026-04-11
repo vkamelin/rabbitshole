@@ -29,7 +29,7 @@
     {% if searchQuery %}
         {% set filteredActors = [] %}
         {% for actor in allActors %}
-            {% if actor.title|lower contains searchQuery|lower %}
+            {% if searchQuery|lower in actor.title|lower %}
                 {% set filteredActors = filteredActors|merge([actor]) %}
             {% endif %}
         {% endfor %}
