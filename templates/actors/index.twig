@@ -9,33 +9,82 @@
     {% set request = craft.app.request %}
     {% set genderFilter = request.getQueryParam('gender') %}
     {% set searchQuery = request.getQueryParam('search') ?? '' %}
+    {% set sortBy = request.getQueryParam('sortBy') ?? 'title' %}
 
-    {% set query = craft.categories()
+    {# Базовый запрос для получения всех актеров с фото #}
+    {% set baseQuery = craft.categories()
         .group('actors')
-        .orderBy('title asc')
     %}
 
     {% if genderFilter == 'female' %}
-        {% set query = query.female(true) %}
+        {% set baseQuery = baseQuery.female(true) %}
     {% elseif genderFilter == 'male' %}
-        {% set query = query.female(false) %}
+        {% set baseQuery = baseQuery.female(false) %}
     {% endif %}
 
+    {# Получаем всех актеров для последующей фильтрации и подсчета #}
+    {% set allActors = baseQuery.status(null).all() %}
+
+    {# Фильтрация по поиску #}
     {% if searchQuery %}
-        {% set query = query.search(searchQuery) %}
+        {% set filteredActors = [] %}
+        {% for actor in allActors %}
+            {% if actor.title|lower contains searchQuery|lower %}
+                {% set filteredActors = filteredActors|merge([actor]) %}
+            {% endif %}
+        {% endfor %}
+        {% set allActors = filteredActors %}
     {% endif %}
 
-    {% paginate query.limit(48) as pageInfo, actors %}
+    {# Подсчет фильмов для каждого актера (используем кэширование) #}
+    {% set movieCounts = {} %}
+    {% if sortBy == 'movieCount' and allActors|length > 0 %}
+        {% for actor in allActors %}
+            {% set cacheKey = 'actor_movie_count_' ~ actor.id ~ '_' ~ craft.app.request.siteId %}
+            {% set movieCount = craft.app.cache.getOrSet(cacheKey, 86400, function() {
+                return craft.entries()
+                    .section(['movies', 'series'])
+                    .relatedTo(actor)
+                    .status(null)
+                    .count()
+            }) %}
+            {% set movieCounts = movieCounts|merge({(actor.id): movieCount}) %}
+        {% endfor %}
 
-    {% set totalActors = craft.categories().group('actors').count() %}
-    {% set femaleActorsCount = craft.categories().group('actors').female(true).count() %}
-    {% set maleActorsCount = craft.categories().group('actors').female(false).count() %}
+        {# Сортировка по количеству фильмов (убывание), затем по имени (возрастание) #}
+        {% set allActors = allActors|sort((a, b) => 
+            movieCounts[b.id]|default(0) <=> movieCounts[a.id]|default(0) 
+            ?: a.title <=> b.title
+        ) %}
+    {% else %}
+        {# Сортировка по имени (А-Я) #}
+        {% set allActors = allActors|sort((a, b) => a.title <=> b.title) %}
+    {% endif %}
 
-    {% set hasFilters = genderFilter or searchQuery %}
+    {# Пагинация #}
+    {% set itemsPerPage = 48 %}
+    {% set totalActors = allActors|length %}
+    {% set totalPages = (totalActors / itemsPerPage)|ceil %}
+    {% set currentPage = (request.getQueryParam('p') | default(1)) | max(1) %}
+    {% set currentPage = currentPage > totalPages ? totalPages : currentPage %}
+    {% set offset = (currentPage - 1) * itemsPerPage %}
+    {% set actors = allActors|slice(offset, itemsPerPage) %}
+
+    {% set femaleActorsCount = allActors|filter(a => a.female == true)|length %}
+    {% set maleActorsCount = allActors|filter(a => a.female != true)|length %}
+
+    {% set hasFilters = genderFilter or searchQuery or sortBy %}
+
+    {# URL для пагинации с сохранением параметров #}
+    {% set baseUrl = 'actors' %}
+    {% set currentParams = {} %}
+    {% if genderFilter %}{% set currentParams = currentParams|merge({gender: genderFilter}) %}{% endif %}
+    {% if searchQuery %}{% set currentParams = currentParams|merge({search: searchQuery}) %}{% endif %}
+    {% if sortBy != 'title' %}{% set currentParams = currentParams|merge({sortBy: sortBy}) %}{% endif %}
 
     {# Title с пагинацией #}
-    {% if pageInfo.currentPage > 1 %}
-        {% set seoTitle = pageTitle ~ ' — страница ' ~ pageInfo.currentPage %}
+    {% if currentPage > 1 %}
+        {% set seoTitle = pageTitle ~ ' — страница ' ~ currentPage %}
     {% else %}
         {% set seoTitle = pageTitle %}
     {% endif %}
@@ -82,7 +131,7 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-body">
                     <form method="get" class="row g-3 align-items-end">
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-4">
                             <label for="genderFilter" class="form-label">Пол</label>
                             <select id="genderFilter" name="gender" class="form-select">
                                 <option value="">Все актеры</option>
@@ -91,7 +140,7 @@
                             </select>
                         </div>
 
-                        <div class="col-12 col-md-6">
+                        <div class="col-12 col-md-4">
                             <label for="searchQuery" class="form-label">Поиск по имени</label>
                             <input
                                 type="text"
@@ -101,6 +150,14 @@
                                 value="{{ searchQuery }}"
                                 placeholder="Введите имя актера"
                             >
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label for="sortBy" class="form-label">Сортировка</label>
+                            <select id="sortBy" name="sortBy" class="form-select">
+                                <option value="title" {{ sortBy == 'title' ? 'selected' }}>По имени (А-Я)</option>
+                                <option value="movieCount" {{ sortBy == 'movieCount' ? 'selected' }}>По количеству фильмов</option>
+                            </select>
                         </div>
 
                         <div class="col-12 d-flex gap-2">
@@ -136,40 +193,44 @@
     {% if actors and actors|length > 0 %}
         <div class="row row-cards" id="actorsContainer">
             {% for actor in actors %}
+                {% set actorMovieCount = movieCounts[actor.id]|default(0) %}
                 {% include "_components/person-card" with {
-                    person: actor
+                    person: actor,
+                    movieCount: actorMovieCount
                 } only %}
             {% endfor %}
         </div>
 
-        {% if pageInfo.totalPages > 1 %}
+        {% if totalPages > 1 %}
             <nav class="mt-4 d-flex justify-content-center">
                 <ul class="pagination">
-                    {% if pageInfo.prevUrl %}
+                    {% if currentPage > 1 %}
+                        {% set prevParams = currentParams|merge({p: currentPage - 1}) %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ pageInfo.prevUrl }}">←</a>
+                            <a class="page-link" href="{{ url(baseUrl, prevParams) }}">←</a>
                         </li>
                     {% endif %}
 
-                    {% for page, url in pageInfo.getPrevUrls(2) %}
-                        <li class="page-item">
-                            <a class="page-link" href="{{ url }}">{{ page }}</a>
-                        </li>
+                    {% set startPage = max(1, currentPage - 2) %}
+                    {% set endPage = min(totalPages, currentPage + 2) %}
+
+                    {% for page in startPage..endPage %}
+                        {% if page == currentPage %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ page }}</span>
+                            </li>
+                        {% else %}
+                            {% set pageParams = currentParams|merge({p: page}) %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ url(baseUrl, pageParams) }}">{{ page }}</a>
+                            </li>
+                        {% endif %}
                     {% endfor %}
 
-                    <li class="page-item active">
-                        <span class="page-link">{{ pageInfo.currentPage }}</span>
-                    </li>
-
-                    {% for page, url in pageInfo.getNextUrls(2) %}
+                    {% if currentPage < totalPages %}
+                        {% set nextParams = currentParams|merge({p: currentPage + 1}) %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ url }}">{{ page }}</a>
-                        </li>
-                    {% endfor %}
-
-                    {% if pageInfo.nextUrl %}
-                        <li class="page-item">
-                            <a class="page-link" href="{{ pageInfo.nextUrl }}">→</a>
+                            <a class="page-link" href="{{ url(baseUrl, nextParams) }}">→</a>
                         </li>
                     {% endif %}
                 </ul>

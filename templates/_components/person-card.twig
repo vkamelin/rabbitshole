@@ -1,4 +1,5 @@
 {% set person = person ?? null %}
+{% set movieCount = movieCount ?? null %}
 
 {% if person %}
     {% set imageAsset = null %}
@@ -56,6 +57,18 @@
                 {% else %}
                     <div class="fw-semibold text-body">
                         {{ person.title }}
+                    </div>
+                {% endif %}
+
+                {% if movieCount is defined and movieCount is not null %}
+                    <div class="text-secondary small mt-1">
+                        {% if movieCount == 1 %}
+                            <span class="badge bg-secondary-lt">{{ movieCount }} фильм</span>
+                        {% elseif movieCount >= 2 and movieCount <= 4 %}
+                            <span class="badge bg-secondary-lt">{{ movieCount }} фильма</span>
+                        {% else %}
+                            <span class="badge bg-secondary-lt">{{ movieCount }} фильмов</span>
+                        {% endif %}
                     </div>
                 {% endif %}
             </div>
