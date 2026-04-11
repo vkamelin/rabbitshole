@@ -70,7 +70,7 @@
     <!-- /Yandex.Metrika counter -->
 </head>
 
-<body class="layout-fluid {% block bodyClass %}{{ bodyClass ?? '' }}{% endblock %}">
+<body class="{% block bodyClass %}{{ bodyClass ?? '' }}{% endblock %}">
 
 <div class="page">
     {# Header #}
@@ -151,7 +151,7 @@
 
         {# Main content #}
         <main class="page-body">
-            <div class="container-xl">
+            <div class="container-xxl">
                 {% block content %}{% endblock %}
             </div>
         </main>
