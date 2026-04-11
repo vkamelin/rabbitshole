@@ -1,4 +1,4 @@
-baseUrl: 'http://rabbitshole.ru/'
+baseUrl: 'https://rabbitshole.ru/'
 enabled: true
 handle: default
 hasUrls: true
