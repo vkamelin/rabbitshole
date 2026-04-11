@@ -1,0 +1,6 @@
+siteUid: null
+sortOrder: 1
+template: actors/index.twig
+uriParts:
+  - actors
+uriPattern: actors

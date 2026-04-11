@@ -1,4 +1,4 @@
-dateModified: 1775865696
+dateModified: 1775895568
 email:
   fromEmail: vitaliy@kamelin.ru
   fromName: Rabbitshole
@@ -127,6 +127,7 @@ meta:
     b33a1416-f71b-4a66-a3c6-f312779361d7: 'Обложка жанра' # Обложка жанра
     ba5e6aca-1a97-4949-97ac-5df4c35b8b5f: 'Обложка фильма' # Обложка фильма
     bee3b092-1b1e-47cb-b676-092ea0165aac: 'Ссылки на просмотр' # Ссылки на просмотр
+    c70ffbc7-1fa5-4c18-95bf-1c8d3575b482: Фотоальбом # Фотоальбом
     d8cc0d74-3979-4241-9e00-3e12176e9904: 'SEO Ключевые слова' # SEO Ключевые слова
     d8d9ac8e-615f-4c88-9740-f5a9f186b7df: 'Обложка аниме' # Обложка аниме
     d5970aef-f123-4189-ba1a-3802f8ec398e: Длительность # Длительность
@@ -145,6 +146,12 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 1.0.0
+    settings:
+      autoInject: false
+      isGlobalDisabled: false
+      isStandalonePreview: false
+      linkText: +
+      targetBlank: false
   seo:
     edition: standard
     enabled: true

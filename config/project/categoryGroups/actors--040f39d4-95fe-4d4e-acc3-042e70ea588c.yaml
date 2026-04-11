@@ -85,6 +85,28 @@ fieldLayouts:
         name: Контент
         uid: a150a6ff-0324-4d45-86c5-4f78ca79a6dd
         userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-11T08:18:53+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: c70ffbc7-1fa5-4c18-95bf-1c8d3575b482 # Фотоальбом
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 2c5d47c9-058e-4cc0-82a1-b49ca5e9cf44
+            userCondition: null
+            warning: null
+            width: 100
+        name: Фотоальбом
+        uid: 2e2e94d5-521f-4caf-b6dc-3d091115e681
+        userCondition: null
     thumbFieldKey: null
 handle: actors
 name: Актеры

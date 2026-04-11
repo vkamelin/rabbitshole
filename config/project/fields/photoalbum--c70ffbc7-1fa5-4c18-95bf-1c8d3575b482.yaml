@@ -1,7 +1,7 @@
 columnSuffix: null
-handle: actorPhoto
+handle: photoalbum
 instructions: null
-name: 'Фото актера'
+name: Фотоальбом
 searchable: false
 settings:
   allowSelfRelations: false
@@ -11,24 +11,23 @@ settings:
     - image
   branchLimit: null
   defaultPlacement: end
-  defaultUploadLocationSource: 'volume:abd632a7-f589-46b5-a566-b3511e608b6b' # Фото персоны
-  defaultUploadLocationSubpath: '{slug}'
+  defaultUploadLocationSource: 'volume:13e4988e-def8-4a40-9a5c-315922192141' # Обложка аниме
+  defaultUploadLocationSubpath: null
   maintainHierarchy: false
-  maxRelations: 1
-  minRelations: null
+  maxRelations: 100
+  minRelations: 0
   previewMode: full
   restrictFiles: true
-  restrictLocation: false
+  restrictLocation: true
   restrictedDefaultUploadSubpath: null
-  restrictedLocationSource: 'volume:13e4988e-def8-4a40-9a5c-315922192141' # Обложка аниме
-  restrictedLocationSubpath: null
+  restrictedLocationSource: 'volume:abd632a7-f589-46b5-a566-b3511e608b6b' # Фото персоны
+  restrictedLocationSubpath: '{slug}'
   selectionLabel: null
   showSearchInput: true
   showSiteMenu: true
-  showUnpermittedFiles: true
+  showUnpermittedFiles: false
   showUnpermittedVolumes: false
-  sources:
-    - 'volume:abd632a7-f589-46b5-a566-b3511e608b6b' # Фото персоны
+  sources: '*'
   targetSiteId: null
   validateRelatedElements: false
   viewMode: thumbs
