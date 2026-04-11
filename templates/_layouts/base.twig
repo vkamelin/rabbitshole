@@ -63,6 +63,8 @@
 
     {% block head %}{% endblock %}
 
+    {% block styles %}{% endblock %}
+
     <meta name="yandex-verification" content="8f17e9ee31e67560" />
 
     <!-- Yandex.Metrika counter -->
@@ -196,7 +198,7 @@
 {# JS #}
 <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.4.0/dist/js/tabler.min.js"></script>
 <script src="/assets/js/app.js"></script>
-
+{% block scripts %}{% endblock %}
 {% block footerScripts %}{% endblock %}
 </body>
 </html>
