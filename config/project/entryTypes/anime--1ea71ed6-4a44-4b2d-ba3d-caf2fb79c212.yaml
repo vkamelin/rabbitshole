@@ -129,6 +129,22 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
+            dateAdded: '2026-04-09T17:23:06+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: abaf3ed7-b574-4685-87f6-1db699733034 # SEO Описание
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: c25fcb54-d4d3-4e31-a163-7a57a2a6a6d0
+            userCondition: null
+            warning: null
+            width: 100
+          -
             dateAdded: '2026-04-09T14:20:10+00:00'
             editCondition: null
             elementCondition: null
@@ -155,28 +171,6 @@ fieldLayouts:
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 6c366edf-8c03-4f62-9109-3251e8c2db6d
-            userCondition: null
-            warning: null
-            width: 100
-        name: SEO
-        uid: 483faaa8-0727-4f8a-bb3a-844a0438e08b
-        userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
-            dateAdded: '2026-04-09T14:20:10+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
             fieldUid: 4f627c6c-2a63-4aa3-98d1-2ad6e5981b6f # Ссылки на просмотр
             handle: null
             instructions: null
@@ -190,6 +184,28 @@ fieldLayouts:
             width: 100
         name: Ссылки
         uid: de8c4418-c911-4e67-a5bd-bc626267de9a
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T14:20:10+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 6c366edf-8c03-4f62-9109-3251e8c2db6d
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 483faaa8-0727-4f8a-bb3a-844a0438e08b
         userCondition: null
     thumbFieldKey: null
 handle: anime

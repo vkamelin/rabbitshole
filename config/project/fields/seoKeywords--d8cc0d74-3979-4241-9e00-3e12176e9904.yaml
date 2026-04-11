@@ -1,8 +1,8 @@
 columnSuffix: null
-handle: seoDescription
+handle: seoKeywords
 instructions: null
-name: 'SEO Описание'
-searchable: true
+name: 'SEO Ключевые слова'
+searchable: false
 settings:
   byteLimit: null
   charLimit: 160
@@ -10,7 +10,7 @@ settings:
   initialRows: 4
   multiline: false
   placeholder: null
-  uiMode: enlarged
+  uiMode: normal
 translationKeyFormat: null
 translationMethod: none
 type: craft\fields\PlainText

@@ -2,7 +2,10 @@ altTranslationKeyFormat: null
 altTranslationMethod: none
 fieldLayouts:
   c11bc0f1-2cdd-45a5-bd3e-b1c466d18fc7:
-    cardThumbAlignment: end
+    cardThumbAlignment: start
+    cardView:
+      - filename
+      - imageSize
     tabs:
       -
         elementCondition: null

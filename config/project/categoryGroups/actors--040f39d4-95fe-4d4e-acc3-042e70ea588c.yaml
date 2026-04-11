@@ -33,7 +33,23 @@ fieldLayouts:
             uid: b5b2c9a7-402a-43c0-a4e6-1c31f1184a13
             userCondition: null
             warning: null
-            width: 100
+            width: 75
+          -
+            dateAdded: '2026-04-09T22:44:55+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 83a4b0c1-10c4-4e82-9853-631531d85991 # Ж
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 14eb3420-0095-4ce1-a9ba-3ba1ecd800d3
+            userCondition: null
+            warning: null
+            width: 25
           -
             dateAdded: '2026-04-09T12:54:09+00:00'
             editCondition: null
@@ -47,6 +63,22 @@ fieldLayouts:
             tip: null
             type: craft\fieldlayoutelements\CustomField
             uid: 189a3c06-d2b1-48e4-a368-090d64b4adec
+            userCondition: null
+            warning: null
+            width: 100
+          -
+            dateAdded: '2026-04-09T21:38:08+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: 60dde785-c4f9-4891-b161-387b21002a05 # Описание
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 33679ab1-68c8-4755-9bcb-3ca47e979900
             userCondition: null
             warning: null
             width: 100

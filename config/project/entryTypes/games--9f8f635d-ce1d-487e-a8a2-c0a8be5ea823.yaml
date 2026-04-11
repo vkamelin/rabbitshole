@@ -144,30 +144,24 @@ fieldLayouts:
             userCondition: null
             warning: null
             width: 100
-        name: Изображения
-        uid: d700170f-fdf8-4a5a-b134-c5a5b0544cce
-        userCondition: null
-      -
-        elementCondition: null
-        elements:
           -
-            dateAdded: '2026-04-09T14:24:24+00:00'
+            dateAdded: '2026-04-09T17:23:14+00:00'
             editCondition: null
             elementCondition: null
             elementEditCondition: null
-            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
+            fieldUid: abaf3ed7-b574-4685-87f6-1db699733034 # SEO Описание
             handle: null
             instructions: null
             label: null
             required: false
             tip: null
             type: craft\fieldlayoutelements\CustomField
-            uid: 0c3a7230-cf3c-410d-92d4-2e1d062bcac5
+            uid: 825b8021-751b-495a-b6c4-546427938991
             userCondition: null
             warning: null
             width: 100
-        name: SEO
-        uid: fd645228-dd83-4373-8513-dee9c082f0e5
+        name: Изображения
+        uid: d700170f-fdf8-4a5a-b134-c5a5b0544cce
         userCondition: null
       -
         elementCondition: null
@@ -190,6 +184,28 @@ fieldLayouts:
             width: 100
         name: Ссылки
         uid: 1256ff3b-7fe5-4b2b-a32c-7c29ba22a4a8
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T14:24:24+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 0c3a7230-cf3c-410d-92d4-2e1d062bcac5
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: fd645228-dd83-4373-8513-dee9c082f0e5
         userCondition: null
     thumbFieldKey: null
 handle: games

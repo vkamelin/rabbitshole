@@ -183,28 +183,6 @@ fieldLayouts:
         elementCondition: null
         elements:
           -
-            dateAdded: '2026-04-09T14:11:16+00:00'
-            editCondition: null
-            elementCondition: null
-            elementEditCondition: null
-            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
-            handle: null
-            instructions: null
-            label: null
-            required: false
-            tip: null
-            type: craft\fieldlayoutelements\CustomField
-            uid: 7cafc628-b517-44fa-b737-1829bb39d38d
-            userCondition: null
-            warning: null
-            width: 100
-        name: SEO
-        uid: 302b9162-1afb-48ab-8409-0dd04d9314ce
-        userCondition: null
-      -
-        elementCondition: null
-        elements:
-          -
             dateAdded: '2026-04-09T14:12:57+00:00'
             editCondition: null
             elementCondition: null
@@ -222,6 +200,28 @@ fieldLayouts:
             width: 100
         name: Ссылки
         uid: a9173b7a-3dce-4461-8cd0-4f93a6fb0c97
+        userCondition: null
+      -
+        elementCondition: null
+        elements:
+          -
+            dateAdded: '2026-04-09T14:11:16+00:00'
+            editCondition: null
+            elementCondition: null
+            elementEditCondition: null
+            fieldUid: e9b57674-17c1-4dab-bc0b-a669153ba149 # SEO
+            handle: null
+            instructions: null
+            label: null
+            required: false
+            tip: null
+            type: craft\fieldlayoutelements\CustomField
+            uid: 7cafc628-b517-44fa-b737-1829bb39d38d
+            userCondition: null
+            warning: null
+            width: 100
+        name: SEO
+        uid: 302b9162-1afb-48ab-8409-0dd04d9314ce
         userCondition: null
     thumbFieldKey: null
 handle: series

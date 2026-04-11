@@ -1,4 +1,4 @@
-dateModified: 1775745160
+dateModified: 1775865696
 email:
   fromEmail: vitaliy@kamelin.ru
   fromName: Rabbitshole
@@ -74,6 +74,10 @@ fs:
       path: '@webroot/uploads/series-covers'
     type: craft\fs\Local
     url: '@web/uploads/series-covers'
+graphql:
+  publicToken:
+    enabled: false
+    expiryDate: null
 meta:
   __names__:
     0b6b1a20-512b-4d7a-a420-2f12e1fdcd58: Реакция # Реакция
@@ -105,6 +109,7 @@ meta:
     56db5bfa-64a7-4de8-be8e-fc9ed8cf6e83: Игры # Игры
     60dde785-c4f9-4891-b161-387b21002a05: Описание # Описание
     67e04d9e-7c59-4742-aaf7-1b9d1f15f412: Жанры # Жанры
+    83a4b0c1-10c4-4e82-9853-631531d85991: Ж # Ж
     85dbf6da-91e9-4821-8d7e-bb1df44ecef7: Сериалы # Сериалы
     89e3553e-739f-4c0c-a497-ce229e7236fa: Миниатюра # Миниатюра
     111f14d3-a24f-48d2-b515-39c551a24352: IRL # IRL
@@ -122,6 +127,7 @@ meta:
     b33a1416-f71b-4a66-a3c6-f312779361d7: 'Обложка жанра' # Обложка жанра
     ba5e6aca-1a97-4949-97ac-5df4c35b8b5f: 'Обложка фильма' # Обложка фильма
     bee3b092-1b1e-47cb-b676-092ea0165aac: 'Ссылки на просмотр' # Ссылки на просмотр
+    d8cc0d74-3979-4241-9e00-3e12176e9904: 'SEO Ключевые слова' # SEO Ключевые слова
     d8d9ac8e-615f-4c88-9740-f5a9f186b7df: 'Обложка аниме' # Обложка аниме
     d5970aef-f123-4189-ba1a-3802f8ec398e: Длительность # Длительность
     d6290bf1-63ce-46ca-850e-8145f2d72438: 'Фото актера' # Фото актера
@@ -135,14 +141,60 @@ plugins:
     edition: standard
     enabled: true
     schemaVersion: 5.0.0.1
+  quick-edit:
+    edition: standard
+    enabled: true
+    schemaVersion: 1.0.0
   seo:
     edition: standard
     enabled: true
     schemaVersion: 3.2.0
+    settings:
+      description: ''
+      facebookAppId: ''
+      metaTemplate: ''
+      removeAlternateUrls: ''
+      robots:
+        - ''
+        - ''
+        - ''
+        - ''
+        - ''
+        - ''
+      robotsTxt: "{# Sitemap URL #}\r\nSitemap: {{ url(seo.sitemapName ~ '.xml') }}\r\n\r\n{# Disallows #}\r\n{% if craft.app.config.env != 'production' %}\r\n\r\n{# Disallow access to everything when NOT in production #}\r\nUser-agent: *\r\nDisallow: /\r\n\r\n{% else %}\r\n\r\n{# Disallow access to cpresources/ when live #}\r\nUser-agent: *\r\nDisallow: /cpresources/\r\n\r\n{% endif %}"
+      sitemapLimit: '1000'
+      sitemapName: sitemap
+      socialImage:
+        - '18'
+      title:
+        -
+          __assoc__:
+            -
+              - key
+              - '1'
+            -
+              - locked
+              - '0'
+            -
+              - template
+              - '{title}'
+        -
+          __assoc__:
+            -
+              - key
+              - '2'
+            -
+              - locked
+              - '1'
+            -
+              - template
+              - ' - {{ siteName }}'
+      twitterHandle: ''
 system:
   edition: solo
   live: true
-  name: Rabbitshole
+  name: 'Кроличья нора'
+  retryDuration: null
   schemaVersion: 5.9.0.8
   timeZone: America/Los_Angeles
 users:
