@@ -40,12 +40,42 @@
         {% set seoTitle = pageTitle %}
     {% endif %}
 
-    <div class="mb-4">
-        <h1 class="display-5 fw-bold mb-3">{{ pageTitle }}</h1>
-        <p class="text-secondary">
-            Все актеры, которые появлялись в стримах Hard Play. Всего: {{ totalActors }} (женщины: {{ femaleActorsCount }}, мужчины: {{ maleActorsCount }}).
-        </p>
-    </div>
+    <section class="mb-4">
+        <div class="card border-0 bg-dark text-white overflow-hidden">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-xl-7">
+                        <div class="text-uppercase text-secondary fw-semibold small mb-2">Каталог rabbitshole.ru</div>
+                        <h1 class="display-4 fw-bold mb-3">Актеры</h1>
+                        <p class="lead text-secondary mb-0">
+                            Все актеры, которые появлялись в стримах Hard Play. Всего: {{ totalActors }}
+                        </p>
+                    </div>
+                    <div class="col-12 col-xl-5">
+                        <div class="row g-3">
+                            <div class="col-6">
+                                <div class="card bg-white-lt border-0 h-100">
+                                    <div class="card-body text-center py-3">
+                                        <div class="h1 mb-1">{{ femaleActorsCount }}</div>
+                                        <div class="text-secondary small">Женщин</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="card bg-white-lt border-0 h-100">
+                                    <div class="card-body text-center py-3">
+                                        <div class="h1 mb-1">{{ maleActorsCount }}</div>
+                                        <div class="text-secondary small">Мужчин</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 
     <div class="row mb-4">
         <div class="col-12">
