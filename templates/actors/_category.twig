@@ -84,7 +84,7 @@
                         <div class="col-6 col-md-4 col-lg-3 col-xl-2">
                             <div class="card h-100 overflow-hidden">
                                 <div class="ratio ratio-1x1 bg-light">
-                                    <a href="{{ photo.url }}" class="d-block w-100 h-100 photo-album-lightbox">
+                                    <a href="{{ photo.url }}" data-lightbox="gallery" class="d-block w-100 h-100 photo-album-lightbox">
                                         <img
                                                 src="{{ photo.url }}"
                                                 alt="{{ photo.title ?? 'Фото ' ~ loop.index }}"
