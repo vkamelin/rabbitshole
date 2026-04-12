@@ -218,10 +218,10 @@
             <div class="card-body">
                 <div class="row g-3">
                     {% for collection in collections %}
-                        {% set collectionImage = null %}
+                        {% set collectionCover = null %}
 
                         {% if collection.cover is defined and collection.cover %}
-                            {% set collectionImage = collection.cover.one() %}
+                            {% set collectionCover = collection.collectionCover.one() %}
                         {% endif %}
 
                         <div class="col-6 col-md-3 col-xl-2">
@@ -232,7 +232,7 @@
                                 {% if collectionImage %}
                                     <div class="ratio bg-dark" style="aspect-ratio: 2 / 3;">
                                         <img
-                                                src="{{ collectionCever.url }}"
+                                                src="{{ collectionCover.url }}"
                                                 alt="{{ collection.title }}"
                                                 class="w-100 h-100 object-fit-cover"
                                                 loading="lazy"
