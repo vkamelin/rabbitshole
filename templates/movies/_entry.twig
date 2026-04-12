@@ -229,7 +229,7 @@
                                     href="{{ collection.url }}"
                                     class="card card-link text-decoration-none h-100 overflow-hidden"
                             >
-                                {% if collectionImage %}
+                                {% if collectionCover %}
                                     <div class="ratio bg-dark" style="aspect-ratio: 2 / 3;">
                                         <img
                                                 src="{{ collectionCover.url }}"
@@ -239,7 +239,7 @@
                                         >
                                     </div>
                                 {% else %}
-                                    <div class="ratio bg-secondary-lt d-flex align-items-center justify-content-center text-secondary"
+                                    <div class="ratio bg-dark-lt d-flex align-items-center justify-content-center text-secondary"
                                          style="aspect-ratio: 2 / 3;">
                                         Нет обложки
                                     </div>
