@@ -220,7 +220,7 @@
                     {% for collection in collections %}
                         {% set collectionCover = null %}
 
-                        {% if collection.cover is defined and collection.cover %}
+                        {% if collection.collectionCover is defined and collection.collectionCover %}
                             {% set collectionCover = collection.collectionCover.one() %}
                         {% endif %}
 
