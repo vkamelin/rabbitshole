@@ -10,55 +10,38 @@
     {% set genderFilter = request.getQueryParam('gender') %}
     {% set searchQuery = request.getQueryParam('search') ?? '' %}
 
-    {# Базовый запрос для получения всех актеров с фото #}
-    {% set baseQuery = craft.categories()
+    {# Базовый запрос для получения актеров с фильтрами #}
+    {% set filteredQuery = craft.categories()
         .group('actors')
+        .orderBy('title asc')
     %}
 
     {% if genderFilter == 'female' %}
-        {% set baseQuery = baseQuery.female(true) %}
+        {% set filteredQuery = filteredQuery.female(true) %}
     {% elseif genderFilter == 'male' %}
-        {% set baseQuery = baseQuery.female(false) %}
+        {% set filteredQuery = filteredQuery.female(false) %}
     {% endif %}
 
-    {# Получаем всех актеров для последующей фильтрации #}
-    {% set allActors = baseQuery.status(null).orderBy('title asc').all() %}
-
-    {# Фильтрация по поиску #}
     {% if searchQuery %}
-        {% set filteredActors = [] %}
-        {% for actor in allActors %}
-            {% if searchQuery|lower in actor.title|lower %}
-                {% set filteredActors = filteredActors|merge([actor]) %}
-            {% endif %}
-        {% endfor %}
-        {% set allActors = filteredActors %}
+        {% set filteredQuery = filteredQuery.search(searchQuery) %}
     {% endif %}
 
-    {# Пагинация #}
-    {% set itemsPerPage = 48 %}
-    {% set totalActors = allActors|length %}
-    {% set totalPages = (totalActors / itemsPerPage)|round(0, 'ceil') %}
-    {% set currentPage = request.getQueryParam('p') ? request.getQueryParam('p')|integer : 1 %}
-    {% set currentPage = currentPage > totalPages ? totalPages : currentPage %}
-    {% set currentPage = currentPage < 1 ? 1 : currentPage %}
-    {% set offset = (currentPage - 1) * itemsPerPage %}
-    {% set actors = allActors|slice(offset, itemsPerPage) %}
+    {# Количество актеров после фильтрации (для отображения) #}
+    {% set totalActors = filteredQuery.count() %}
 
-    {% set femaleActorsCount = allActors|filter(a => a.female == true)|length %}
-    {% set maleActorsCount = allActors|filter(a => a.female != true)|length %}
+    {# Общее количество актеров (без фильтров) для статистики #}
+    {% set totalAllActors = craft.categories().group('actors').count() %}
+    {% set femaleActorsCount = craft.categories().group('actors').female(true).count() %}
+    {% set maleActorsCount = craft.categories().group('actors').female(false).count() %}
+
+    {# Пагинация через Craft CMS #}
+    {% paginate filteredQuery.limit(48) as pageInfo, actors %}
 
     {% set hasFilters = genderFilter or searchQuery %}
 
-    {# URL для пагинации с сохранением параметров #}
-    {% set baseUrl = 'actors' %}
-    {% set currentParams = {} %}
-    {% if genderFilter %}{% set currentParams = currentParams|merge({gender: genderFilter}) %}{% endif %}
-    {% if searchQuery %}{% set currentParams = currentParams|merge({search: searchQuery}) %}{% endif %}
-
     {# Title с пагинацией #}
-    {% if currentPage > 1 %}
-        {% set seoTitle = pageTitle ~ ' — страница ' ~ currentPage %}
+    {% if pageInfo.currentPage > 1 %}
+        {% set seoTitle = pageTitle ~ ' — страница ' ~ pageInfo.currentPage %}
     {% else %}
         {% set seoTitle = pageTitle %}
     {% endif %}
@@ -165,33 +148,34 @@
             {% endfor %}
         </div>
 
-        {% if actors.totalPages > 1 %}
+        {% if pageInfo.totalPages > 1 %}
             <nav class="mt-4 d-flex justify-content-center">
                 <ul class="pagination">
-                    {% if actors.currentPage > 1 %}
+                    {% if pageInfo.prevUrl %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ actors.prevPageUrl }}">←</a>
+                            <a class="page-link" href="{{ pageInfo.prevUrl }}">←</a>
                         </li>
                     {% endif %}
 
-                    {% set startPage = max(1, actors.currentPage - 2) %}
-                    {% set endPage = min(actors.totalPages, actors.currentPage + 2) %}
-
-                    {% for page in startPage..endPage %}
-                        {% if page == actors.currentPage %}
-                            <li class="page-item active">
-                                <span class="page-link">{{ page }}</span>
-                            </li>
-                        {% else %}
-                            <li class="page-item">
-                                <a class="page-link" href="{{ actors.getPageUrl(page) }}">{{ page }}</a>
-                            </li>
-                        {% endif %}
+                    {% for page, url in pageInfo.getPrevUrls(2) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
                     {% endfor %}
 
-                    {% if actors.currentPage < actors.totalPages %}
+                    <li class="page-item active">
+                        <span class="page-link">{{ pageInfo.currentPage }}</span>
+                    </li>
+
+                    {% for page, url in pageInfo.getNextUrls(2) %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ actors.nextPageUrl }}">→</a>
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if pageInfo.nextUrl %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ pageInfo.nextUrl }}">→</a>
                         </li>
                     {% endif %}
                 </ul>
