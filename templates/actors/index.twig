@@ -10,21 +10,19 @@
     {% set genderFilter = request.getQueryParam('gender') %}
     {% set searchQuery = request.getQueryParam('search') ?? '' %}
 
-    {# Базовый запрос для получения всех актеров #}
-    {% set allActorsQuery = craft.categories()
+    {# Базовый запрос для получения всех актеров с фото #}
+    {% set baseQuery = craft.categories()
         .group('actors')
-        .status(null)
-        .orderBy('title asc')
     %}
 
     {% if genderFilter == 'female' %}
-        {% set allActorsQuery = allActorsQuery.female(true) %}
+        {% set baseQuery = baseQuery.female(true) %}
     {% elseif genderFilter == 'male' %}
-        {% set allActorsQuery = allActorsQuery.female(false) %}
+        {% set baseQuery = baseQuery.female(false) %}
     {% endif %}
 
-    {# Получаем всех актеров для фильтрации по поиску #}
-    {% set allActors = allActorsQuery.all() %}
+    {# Получаем всех актеров для последующей фильтрации #}
+    {% set allActors = baseQuery.status(null).orderBy('title asc').all() %}
 
     {# Фильтрация по поиску #}
     {% if searchQuery %}
@@ -37,21 +35,26 @@
         {% set allActors = filteredActors %}
     {% endif %}
 
-    {# Получаем общее количество для статистики #}
-    {% set totalActors = allActors|length %}
-    {% set femaleActorsCount = craft.categories().group('actors').female(true).status(null).count() %}
-    {% set maleActorsCount = craft.categories().group('actors').female(false).status(null).count() %}
-
-    {# Пагинация вручную для отфильтрованного массива #}
+    {# Пагинация #}
     {% set itemsPerPage = 48 %}
-    {% set totalPages = totalActors > 0 ? (totalActors / itemsPerPage)|round(0, 'ceil') : 1 %}
-    {% set currentPage = request.getQueryParam('p')|default(1)|int %}
+    {% set totalActors = allActors|length %}
+    {% set totalPages = (totalActors / itemsPerPage)|round(0, 'ceil') %}
+    {% set currentPage = request.getQueryParam('p') ? request.getQueryParam('p')|integer : 1 %}
     {% set currentPage = currentPage > totalPages ? totalPages : currentPage %}
     {% set currentPage = currentPage < 1 ? 1 : currentPage %}
     {% set offset = (currentPage - 1) * itemsPerPage %}
     {% set actors = allActors|slice(offset, itemsPerPage) %}
 
+    {% set femaleActorsCount = allActors|filter(a => a.female == true)|length %}
+    {% set maleActorsCount = allActors|filter(a => a.female != true)|length %}
+
     {% set hasFilters = genderFilter or searchQuery %}
+
+    {# URL для пагинации с сохранением параметров #}
+    {% set baseUrl = 'actors' %}
+    {% set currentParams = {} %}
+    {% if genderFilter %}{% set currentParams = currentParams|merge({gender: genderFilter}) %}{% endif %}
+    {% if searchQuery %}{% set currentParams = currentParams|merge({search: searchQuery}) %}{% endif %}
 
     {# Title с пагинацией #}
     {% if currentPage > 1 %}
