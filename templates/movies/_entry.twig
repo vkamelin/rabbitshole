@@ -107,12 +107,14 @@
               {% endif %}
 
               {% if genres %}
-                <br>Жанры:<br>
+                <div>
+                Жанры:
                 {% for genre in genres %}
                   <a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-green-lt text-decoration-none" title="Жанр: {{ genre.title }}">
                     {{ genre.title }}
                   </a>
                 {% endfor %}
+                </div>
               {% endif %}
 
               {% if collections %}
