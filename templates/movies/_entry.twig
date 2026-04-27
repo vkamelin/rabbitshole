@@ -149,22 +149,21 @@
 								{% endif %}
 							</div>
 
-							<h1 class="display-5 fw-bold mb-3">{{ entry.title }}</h1>
-
-							<div class="d-flex flex-wrap gap-2 mb-3">
-								{% if entry.year %}
-									<span class="badge bg-teal text-teal-fg" title="Год">{{ entry.year }}</span>
-								{% endif %}
-
-								{% if entry.duration %}
-									<span class="badge bg-purple text-purple-fg" title="Продолжительность">{{ entry.duration|date('H:i') }}</span>
-								{% endif %}
+							<h1 class="display-5 fw-bold mb-3">
+								{{ entry.title }} ({{ entry.year }})
 
 								{% if rating is not null %}
 									<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
 										★
 										{{ rating }}
 									</span>
+								{% endif %}
+
+							</h1>
+
+							<div class="d-flex flex-wrap gap-2 mb-3">
+								{% if entry.duration %}
+									<span class="badge bg-purple text-purple-fg" title="Продолжительность">{{ entry.duration|date('H:i') }}</span>
 								{% endif %}
 
 								{% if genres %}
