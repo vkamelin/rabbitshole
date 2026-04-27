@@ -153,10 +153,14 @@
 								{{ entry.title }} ({{ entry.year }})
 
 								{% if rating is not null %}
-									<span class="badge {{ ratingBadgeClass }} h3" title="Рейтинг Кинопоиска">
-										★
-										{{ rating }}
+									<span class="h3">
+<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
+	★
+	{{ rating }}
+</span>
+
 									</span>
+									
 								{% endif %}
 							</h1>
 
