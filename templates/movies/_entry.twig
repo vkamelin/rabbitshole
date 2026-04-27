@@ -150,16 +150,14 @@
 							</div>
 
 							<h1 class="h1 fw-bold mb-3 d-flex justify-content-start align-items-start">
-								{{ entry.title }} ({{ entry.year }})
-
 								{% if rating is not null %}
-									<span class="h3">
-										<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
-											★ {{ rating }}
-										</span>
+									<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
+										★ {{ rating }}
 									</span>
-									
 								{% endif %}
+
+								{{ entry.title }}
+								({{ entry.year }})
 							</h1>
 
 							<div class="d-flex flex-wrap gap-2 mb-3">
