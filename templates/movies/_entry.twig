@@ -119,6 +119,18 @@
 							<div class="text-center bg-dark">
 								<a href="{{ cover.url }}" data-lightbox="gallery" title="{{ entry.title }}">
 									<img src="{{ cover.url }}" alt="{{ entry.title }}" class="w-100 h-100 object-fit-cover" loading="lazy">
+
+<div class="position-absolute top-0 start-0 w-100 p-2 d-flex justify-content-between align-items-start gap-2">
+	<span class="badge bg-red text-red-fg">
+		Кино
+	</span>
+
+	<span class="badge bg-lime text-lime-fg" title="Рейтинг Кинопоиска">
+		★
+									7.2
+	</span>
+</div>
+
 								</a>
 							</div>
 						{% else %}
