@@ -122,11 +122,8 @@
 
 									<div class="position-absolute h3 top-0 start-0 w-100 p-2 d-flex justify-content-end align-items-start gap-2">
 										{% if rating is not null %}
-											<span class="h3 mb-0">
-												<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
-													★
-													{{ rating }}
-												</span>
+											<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
+												★ {{ rating }}
 											</span>
 										{% endif %}
 
