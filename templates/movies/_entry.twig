@@ -48,12 +48,14 @@
 <style>
   .movie-hero-bg {
     position: relative;
-    width: 100%;
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
     aspect-ratio: 16 / 9;
     background-image: url('{{ bigCover.url }}');
     background-size: cover;
     background-position: center center;
     background-repeat: no-repeat;
+    z-index: 0;
   }
   
   .movie-hero-bg::after {
@@ -79,7 +81,7 @@
   .movie-content-wrapper {
     position: relative;
     z-index: 1;
-    margin-top: calc(-1 * 100vw * 0.39375);
+    margin-top: -30%;
   }
   
   .movie-content-wrapper .card {
@@ -108,7 +110,7 @@
   {% endif %}
 
   <div class="movie-content-wrapper">
-    <div class="mb-3">
+    <div class="mb-3 pt-4">
       <a href="{{ url('movies') }}" class="btn btn-sm btn-outline-light">
         ← Назад к фильмам
       </a>
