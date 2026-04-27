@@ -1,0 +1,54 @@
+{% set collection = collection ?? null %}
+
+{% if collection %}
+    {% set cover = collection.collectionCover.one() ?? null %}
+    {% set collectionUrl = collection.url ?? null %}
+
+    <div class="col-6 col-md-3 col-xl-2 collection-item" data-name="{{ collection.title|lower }}">
+        <div class="card h-100 overflow-hidden">
+            {% if cover %}
+                <div class="ratio ratio-3x4 bg-dark">
+                    {% if collectionUrl %}
+                        <a href="{{ collectionUrl }}" class="d-block w-100 h-100 text-decoration-none">
+                            <img
+                                    src="{{ cover.url }}"
+                                    alt="{{ collection.title }}"
+                                    class="w-100 h-100 object-fit-cover"
+                                    loading="lazy"
+                            >
+                        </a>
+                    {% else %}
+                        <img
+                                src="{{ cover.url }}"
+                                alt="{{ collection.title }}"
+                                class="w-100 h-100 object-fit-cover"
+                                loading="lazy"
+                        >
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="ratio ratio-3x4 bg-secondary-lt d-flex align-items-center justify-content-center text-secondary">
+                    {% if collectionUrl %}
+                        <a href="{{ collectionUrl }}" class="d-flex align-items-center justify-content-center w-100 h-100 text-secondary text-decoration-none">
+                            Нет обложки
+                        </a>
+                    {% else %}
+                        <span>Нет обложки</span>
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div class="card-body">
+                {% if collectionUrl %}
+                    <a href="{{ collectionUrl }}" class="text-body text-decoration-none fw-semibold small">
+                        {{ collection.title }}
+                    </a>
+                {% else %}
+                    <div class="fw-semibold text-body">
+                        {{ collection.title }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
