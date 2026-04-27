@@ -7,171 +7,183 @@
 {% set descriptionLength = descriptionLength ?? 140 %}
 
 {% if entry %}
-    {% set sectionHandle = entry.section is defined and entry.section ? entry.section.handle : null %}
-    {% set sectionName = entry.section is defined and entry.section ? entry.section.name : null %}
+	{% set sectionHandle = entry.section is defined and entry.section ? entry.section.handle : null %}
+	{% set sectionName = entry.section is defined and entry.section ? entry.section.name : null %}
 
-    {% set coverField = 'cover' %}
-    {% if sectionHandle == 'irl' %}
-        {% set cover = entry.irlCover is defined and entry.irlCover ? entry.irlCover.one() : null %}
-    {% elseif sectionHandle == 'anime' %}
-        {% set cover = entry.animeCover is defined and entry.animeCover ? entry.animeCover.one() : null %}
-    {% elseif sectionHandle == 'games' %}
-        {% set cover = entry.gameCover is defined and entry.gameCover ? entry.gameCover.one() : null %}
-    {% elseif sectionHandle == 'reactions' %}
-        {% set cover = entry.reactionCover is defined and entry.reactionCover ? entry.reactionCover.one() : null %}
-    {% elseif sectionHandle == 'series' %}
-        {% set cover = entry.seriesCover is defined and entry.seriesCover ? entry.seriesCover.one() : null %}
-    {% elseif sectionHandle == 'movies' %}
-        {% set cover = entry.movieCover is defined and entry.movieCover ? entry.movieCover.one() : null %}
-    {% endif %}
+	{% set coverField = 'cover' %}
+	{% if sectionHandle == 'irl' %}
+		{% set cover = entry.irlCover is defined and entry.irlCover ? entry.irlCover.one() : null %}
+	{% elseif sectionHandle == 'anime' %}
+		{% set cover = entry.animeCover is defined and entry.animeCover ? entry.animeCover.one() : null %}
+	{% elseif sectionHandle == 'games' %}
+		{% set cover = entry.gameCover is defined and entry.gameCover ? entry.gameCover.one() : null %}
+	{% elseif sectionHandle == 'reactions' %}
+		{% set cover = entry.reactionCover is defined and entry.reactionCover ? entry.reactionCover.one() : null %}
+	{% elseif sectionHandle == 'series' %}
+		{% set cover = entry.seriesCover is defined and entry.seriesCover ? entry.seriesCover.one() : null %}
+	{% elseif sectionHandle == 'movies' %}
+		{% set cover = entry.movieCover is defined and entry.movieCover ? entry.movieCover.one() : null %}
+	{% endif %}
 
-    {% set genres = entry.genres is defined and entry.genres ? entry.genres.all() : [] %}
-    {% set collections = entry.collections is defined and entry.collections ? entry.collections.all() : [] %}
-    {% set watchLinks = entry.watchLinks is defined and entry.watchLinks ? entry.watchLinks.all() : [] %}
+	{% set genres = entry.genres is defined and entry.genres ? entry.genres.all() : [] %}
+	{% set collections = entry.collections is defined and entry.collections ? entry.collections.all() : [] %}
+	{% set watchLinks = entry.watchLinks is defined and entry.watchLinks ? entry.watchLinks.all() : [] %}
 
-    {% set year = entry.year is defined ? entry.year : null %}
-    {% set duration = entry.duration is defined ? entry.duration : null %}
-    {% set rating = entry.rating is defined ? entry.rating : null %}
-    {% set description = entry.description is defined ? entry.description : null %}
+	{% set year = entry.year is defined ? entry.year : null %}
+	{% set duration = entry.duration is defined ? entry.duration : null %}
+	{% set rating = entry.rating is defined ? entry.rating : null %}
+	{% set description = entry.description is defined ? entry.description : null %}
 
-    {% set sectionBadgeClass = 'bg-secondary text-white' %}
-    {% if sectionHandle == 'movies' %}
-        {% set sectionBadgeClass = 'bg-red text-white' %}
-    {% elseif sectionHandle == 'series' %}
-        {% set sectionBadgeClass = 'bg-blue text-white' %}
-    {% elseif sectionHandle == 'anime' %}
-        {% set sectionBadgeClass = 'bg-pink text-white' %}
-    {% elseif sectionHandle == 'games' %}
-        {% set sectionBadgeClass = 'bg-green text-white' %}
-    {% elseif sectionHandle == 'irl' %}
-        {% set sectionBadgeClass = 'bg-yellow text-white' %}
-    {% elseif sectionHandle == 'reactions' %}
-        {% set sectionBadgeClass = 'bg-orange text-white' %}
-    {% endif %}
+	{% set sectionBadgeClass = 'bg-secondary text-white-fg' %}
+	{% if sectionHandle == 'movies' %}
+		{% set sectionBadgeClass = 'bg-red text-white-fg' %}
 
-    {% set ratingBadgeClass = 'bg-secondary text-white' %}
-    {% if rating is not null %}
-        {% if rating >= 8.5 %}
-            {% set ratingBadgeClass = 'bg-green text-white' %}
-        {% elseif rating >= 7.0 %}
-            {% set ratingBadgeClass = 'bg-lime text-white' %}
-        {% elseif rating >= 5.5 %}
-            {% set ratingBadgeClass = 'bg-yellow text-white' %}
-        {% elseif rating >= 4.0 %}
-            {% set ratingBadgeClass = 'bg-orange text-white' %}
-        {% else %}
-            {% set ratingBadgeClass = 'bg-red text-white' %}
-        {% endif %}
-    {% endif %}
+	{% elseif sectionHandle == 'series' %}
+		{% set sectionBadgeClass = 'bg-blue text-white-fg' %}
 
-    <article class="card card-link h-100 border-0 shadow-sm overflow-hidden">
-        <a href="{{ entry.url }}" class="text-decoration-none text-reset">
-            <div class="position-relative bg-dark" style="aspect-ratio: 2 / 3; overflow: hidden;">
-                {% if cover %}
-                    <img
-                            src="{{ cover.url }}"
-                            alt="{{ entry.title }}"
-                            title="{{ entry.title }}"
-                            class="w-100 h-100"
-                            style="object-fit: cover;"
-                            loading="lazy"
-                    >
-                {% else %}
-                    <div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-secondary text-secondary" title="{{ entry.title }}">
-                        Нет обложки
-                    </div>
-                {% endif %}
+	{% elseif sectionHandle == 'anime' %}
+		{% set sectionBadgeClass = 'bg-pink text-white-fg' %}
 
-                <div class="position-absolute top-0 start-0 w-100 p-2 d-flex justify-content-between align-items-start gap-2">
-                    {% if showSectionBadge and sectionName %}
-                        <span class="badge {{ sectionBadgeClass }}">
-                            {{ sectionName }}
-                        </span>
-                    {% else %}
-                        <span></span>
-                    {% endif %}
+	{% elseif sectionHandle == 'games' %}
+		{% set sectionBadgeClass = 'bg-green text-white-fg' %}
 
-                    {% if rating is not null %}
-                        <span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
-                            ★ {{ rating }}
-                        </span>
-                    {% endif %}
-                </div>
+	{% elseif sectionHandle == 'irl' %}
+		{% set sectionBadgeClass = 'bg-yellow text-white-fg' %}
 
-                <div class="position-absolute bottom-0 start-0 w-100 p-3"
-                     style="background: linear-gradient(to top, rgba(0,0,0,.92), rgba(0,0,0,.68), rgba(0,0,0,.18), rgba(0,0,0,0));">
-                    <h3 class="h3 mb-0 text-white text-truncate"
-                        style="text-shadow: 0 2px 6px rgba(0,0,0,.95);">
-                        {{ entry.title }}
-                    </h3>
-                </div>
-            </div>
-        </a>
+	{% elseif sectionHandle == 'reactions' %}
+		{% set sectionBadgeClass = 'bg-orange text-white-fg' %}
 
-        <div class="card-body d-flex flex-column gap-3">
-            <div class="d-flex flex-wrap gap-2">
-                {% if year %}
-                    <span class="badge badge-blu" title="Год">
-                        {{ year }}
-                    </span>
-                {% endif %}
+	{% endif %}
 
-                {% if duration %}
-                    <span class="badge badge-azure" title="Длительность">
-                        {{ duration|date('H:i') }}
-                    </span>
-                {% endif %}
+	{% set ratingBadgeClass = 'bg-secondary text-white-fg' %}
 
-                {% if watchLinks|length > 1 %}
-                    <span class="badge badge-green" title="Ссылки на просмотр">
-                        {{ watchLinks|length }} ссылок
-                    </span>
-                {% elseif watchLinks|length == 1 %}
-                    <span class="badge badge-green" title="Ссылки на просмотр">
-                        1 ссылка
-                    </span>
-                {% endif %}
-            </div>
+	{% if rating is not null %}
+		{% if rating >= 8.5 %}
+			{% set ratingBadgeClass = 'bg-green text-white-fg' %}
 
-            {% if showDescription %}
-                {% if description %}
-                    <div class="text-secondary small d-none d-md-block">
-                        {{ description|striptags|trim|truncate(descriptionLength) }}
-                    </div>
-                {% else %}
-                    <div class="text-secondary small d-none d-md-block">
-                        Описание пока не добавлено.
-                    </div>
-                {% endif %}
-            {% endif %}
+		{% elseif rating >= 7.0 %}
+			{% set ratingBadgeClass = 'bg-lime text-white-fg' %}
 
-            {% if showGenres and genres %}
-                <div class="d-flex flex-wrap gap-2">
-                    {% for genre in genres|slice(0, 3) %}
-                        <span class="badge badge-primary">
-                            {{ genre.title }}
-                        </span>
-                    {% endfor %}
-                </div>
-            {% endif %}
+		{% elseif rating >= 5.5 %}
+			{% set ratingBadgeClass = 'bg-yellow text-white-fg' %}
 
-            {% if showCollections and collections %}
-                <div class="d-flex flex-wrap gap-2">
-                    {% for collection in collections|slice(0, 2) %}
-                        <span class="badge badge-orange">
-                            {{ collection.title }}
-                        </span>
-                    {% endfor %}
-                </div>
-            {% endif %}
+		{% elseif rating >= 4.0 %}
+			{% set ratingBadgeClass = 'bg-orange text-white-fg' %}
 
-            {% if showFooterButton %}
-                <div class="mt-auto pt-2">
-                    <a href="{{ entry.url }}" class="btn btn-outline-dark w-100">
-                        Открыть
-                    </a>
-                </div>
-            {% endif %}
-        </div>
-    </article>
+		{% else %}
+			{% set ratingBadgeClass = 'bg-red text-white-fg' %}
+
+		{% endif %}
+	{% endif %}
+
+	<article class="card card-link h-100 border-0 shadow-sm overflow-hidden">
+		<a href="{{ entry.url }}" class="text-decoration-none text-reset">
+			<div class="position-relative bg-dark" style="aspect-ratio: 2 / 3; overflow: hidden;">
+				{% if cover %}
+					<img src="{{ cover.url }}" alt="{{ entry.title }}" title="{{ entry.title }}" class="w-100 h-100" style="object-fit: cover;" loading="lazy">
+				{% else %}
+					<div class="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-secondary text-secondary" title="{{ entry.title }}">
+						Нет обложки
+					</div>
+				{% endif %}
+
+				<div class="position-absolute top-0 start-0 w-100 p-2 d-flex justify-content-between align-items-start gap-2">
+					{% if showSectionBadge and sectionName %}
+						<span class="badge {{ sectionBadgeClass }}">
+							{{ sectionName }}
+						</span>
+					{% else %}
+						<span></span>
+					{% endif %}
+
+					{% if rating is not null %}
+						<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
+							★
+							{{ rating }}
+						</span>
+					{% endif %}
+				</div>
+
+				<div class="position-absolute bottom-0 start-0 w-100 p-3" style="background: linear-gradient(to top, rgba(0,0,0,.92), rgba(0,0,0,.68), rgba(0,0,0,.18), rgba(0,0,0,0));">
+					<h3 class="h3 mb-0 text-white text-truncate" style="text-shadow: 0 2px 6px rgba(0,0,0,.95);">
+						{{ entry.title }}
+					</h3>
+				</div>
+			</div>
+		</a>
+
+		<div class="card-body d-flex flex-column gap-3">
+			<div class="d-flex flex-wrap gap-2">
+				{% if year %}
+					<span class="badge bg-blue text-blue-fg" title="Год">
+
+						{{ year }}
+					</span>
+				{% endif %}
+
+				{% if duration %}
+					<span class="badge bg-azure-fg" title="Длительность">
+
+						{{ duration|date('H:i') }}
+					</span>
+				{% endif %}
+
+				{% if watchLinks|length > 1 %}
+					<span class="badge bg-green-fg" title="Ссылки на просмотр">
+
+						{{ watchLinks|length }}
+						ссылок
+					</span>
+				{% elseif watchLinks|length == 1 %}
+					<span class="badge bg-green text-green-fg" title="Ссылки на просмотр">
+
+						1 ссылка
+					</span>
+				{% endif %}
+			</div>
+
+			{% if showDescription %}
+				{% if description %}
+					<div class="text-secondary small d-none d-md-block">
+						{{ description|striptags|trim|truncate(descriptionLength) }}
+					</div>
+				{% else %}
+					<div class="text-secondary small d-none d-md-block-fg">
+
+						Описание пока не добавлено.
+					</div>
+				{% endif %}
+			{% endif %}
+
+			{% if showGenres and genres %}
+				<div class="d-flex flex-wrap gap-2">
+					{% for genre in genres|slice(0, 3) %}
+						<span class="badge bg-primary text-primary-fg">
+
+							{{ genre.title }}
+						</span>
+					{% endfor %}
+				</div>
+			{% endif %}
+
+			{% if showCollections and collections %}
+				<div class="d-flex flex-wrap gap-2">
+					{% for collection in collections|slice(0, 2) %}
+						<span class="badge bg-orange text-orange-fg">
+
+							{{ collection.title }}
+						</span>
+					{% endfor %}
+				</div>
+			{% endif %}
+
+			{% if showFooterButton %}
+				<div class="mt-auto pt-2">
+					<a href="{{ entry.url }}" class="btn btn-outline-dark w-100">
+						Открыть
+					</a>
+				</div>
+			{% endif %}
+		</div>
+	</article>
 {% endif %}
