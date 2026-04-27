@@ -147,6 +147,22 @@
 						{% endif %}
 					</div>
 				</section>
+
+				{% if collections %}
+					<div class="col-12">
+						<h2 class="h3 mb-2">Режиссёры</h2>
+
+						<div class="row g-3">
+							{% for collection in collections %}
+								{% include "_components/person-card" with {
+													person: collection,
+													filterParam: 'collection',
+													section: 'movies'
+												} only %}
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
 			</div>
 
 			{# ===== ИНФОРМАЦИЯ ===== #}
