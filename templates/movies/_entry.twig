@@ -126,6 +126,14 @@
 								Нет обложки
 							</div>
 						{% endif %}
+
+{% if rating is not null %}
+	<span class="badge {{ ratingBadgeClass }} badge-notification" title="Рейтинг Кинопоиска">
+		★
+		{{ rating }}
+	</span>
+{% endif %}
+
 					</div>
 				</section>
 			</div>
@@ -152,12 +160,7 @@
 							<h1 class="h1 fw-bold mb-3">
 								{{ entry.title }} ({{ entry.year }})
 
-								{% if rating is not null %}
-									<span class="badge {{ ratingBadgeClass }} badge-notification" title="Рейтинг Кинопоиска">
-										★
-										{{ rating }}
-									</span>
-								{% endif %}
+								
 
 							</h1>
 
