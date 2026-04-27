@@ -47,16 +47,24 @@
 {% if bigCover %}
 <style>
   .movie-hero-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100vh;
-    z-index: -1;
+    aspect-ratio: 16 / 9;
+    z-index: 0;
     background-image: url('{{ bigCover.url }}');
     background-size: cover;
-    background-position: center bottom;
+    background-position: center center;
     background-repeat: no-repeat;
+  }
+  
+  .movie-hero-bg::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%;
+    background: linear-gradient(to bottom, rgba(15, 23, 42, 0) 0%, #0f172a 100%);
   }
   
   @media (max-width: 768px) {
@@ -72,7 +80,7 @@
   .movie-content-wrapper {
     position: relative;
     z-index: 1;
-    padding-top: 18vh;
+    margin-top: -35%;
   }
   
   .movie-content-wrapper .card {
