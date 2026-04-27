@@ -16,11 +16,6 @@ body {
   line-height: 100%;
 }
 
-.page-body {
-  margin-top: 0px !important;
-  padding-top: var(--tblr-page-padding-y) !important;
-}
-
 .movie-hero-bg {
   position: relative;
   width: 100vw;
