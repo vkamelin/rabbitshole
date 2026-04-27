@@ -31,15 +31,15 @@
 {% set ratingBadgeClass = 'bg-secondary text-white' %}
 {% if rating is not null %}
 	{% if rating >= 8.5 %}
-		{% set ratingBadgeClass = 'bg-green text-white' %}
+		{% set ratingBadgeClass = 'bg-green text-green-fg' %}
 	{% elseif rating >= 7.0 %}
-		{% set ratingBadgeClass = 'bg-lime text-white' %}
+		{% set ratingBadgeClass = 'bg-lime text-lime-fg' %}
 	{% elseif rating >= 5.5 %}
-		{% set ratingBadgeClass = 'bg-yellow text-white' %}
+		{% set ratingBadgeClass = 'bg-yellow text-yellow-fg' %}
 	{% elseif rating >= 4.0 %}
-		{% set ratingBadgeClass = 'bg-orange text-white' %}
+		{% set ratingBadgeClass = 'bg-orange text-orange-fg' %}
 	{% else %}
-		{% set ratingBadgeClass = 'bg-red text-white' %}
+		{% set ratingBadgeClass = 'bg-red text-red-fg' %}
 	{% endif %}
 {% endif %}
 
@@ -204,34 +204,6 @@
 								</div>
 							{% endif %}
 
-							{% if actors %}
-								<h2 class="h3 mb-3">Актёры</h2>
-
-								<div class="row g-3">
-									{% for actor in actors %}
-										{% include "_components/person-card" with {
-                      person: actor,
-                      filterParam: 'actor',
-                      section: 'movies'
-                    } only %}
-									{% endfor %}
-								</div>
-							{% endif %}
-
-							{% if directors %}
-								<h2 class="h3 mb-3">Режиссёры</h2>
-
-								<div class="row g-3">
-									{% for director in directors %}
-										{% include "_components/person-card" with {
-                      person: director,
-                      filterParam: 'director',
-                      section: 'movies'
-                    } only %}
-									{% endfor %}
-								</div>
-							{% endif %}
-
 							{% if entry.description %}
 								<div class="text-secondary">
 									{{ entry.description }}
@@ -243,6 +215,39 @@
 					</div>
 				</section>
 			</div>
+
+			{% if actors %}
+				<div class="col-12">
+					<h2 class="h3 mb-0">Актёры</h2>
+
+					<div class="row g-3">
+						{% for actor in actors %}
+							{% include "_components/person-card" with {
+                      person: actor,
+                      filterParam: 'actor',
+                      section: 'movies'
+                    } only %}
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+
+			{% if directors %}
+				<div class="col-12">
+					<h2 class="h3 mb-0">Режиссёры</h2>
+
+					<div class="row g-3">
+						{% for director in directors %}
+							{% include "_components/person-card" with {
+                      person: director,
+                      filterParam: 'director',
+                      section: 'movies'
+                    } only %}
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
+
 		</div>
 	</div>
 {% endblock %}
