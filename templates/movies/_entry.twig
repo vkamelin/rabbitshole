@@ -72,7 +72,7 @@
   .movie-content-wrapper {
     position: relative;
     z-index: 1;
-    padding-top: 2rem;
+    padding-top: 18vh;
   }
   
   .movie-content-wrapper .card {
@@ -84,6 +84,14 @@
   .movie-content-wrapper .card-body {
     background: rgba(255, 255, 255, 0.85);
     border-radius: 0.5rem;
+  }
+</style>
+{% else %}
+<style>
+  .movie-content-wrapper {
+    position: relative;
+    z-index: 1;
+    padding-top: 2rem;
   }
 </style>
 {% endif %}
