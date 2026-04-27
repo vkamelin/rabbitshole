@@ -36,43 +36,32 @@
 
 	{% set sectionBadgeClass = 'bg-secondary text-white-fg' %}
 	{% if sectionHandle == 'movies' %}
-		{% set sectionBadgeClass = 'bg-red text-white-fg' %}
-
+		{% set sectionBadgeClass = 'bg-red text-red-fg' %}
 	{% elseif sectionHandle == 'series' %}
-		{% set sectionBadgeClass = 'bg-blue text-white-fg' %}
-
+		{% set sectionBadgeClass = 'bg-blue text-blue-fg' %}
 	{% elseif sectionHandle == 'anime' %}
-		{% set sectionBadgeClass = 'bg-pink text-white-fg' %}
-
+		{% set sectionBadgeClass = 'bg-pink text-pink-fg' %}
 	{% elseif sectionHandle == 'games' %}
-		{% set sectionBadgeClass = 'bg-green text-white-fg' %}
-
+		{% set sectionBadgeClass = 'bg-green text-green-fg' %}
 	{% elseif sectionHandle == 'irl' %}
-		{% set sectionBadgeClass = 'bg-yellow text-white-fg' %}
-
+		{% set sectionBadgeClass = 'bg-yellow text-yellow-fg' %}
 	{% elseif sectionHandle == 'reactions' %}
-		{% set sectionBadgeClass = 'bg-orange text-white-fg' %}
-
+		{% set sectionBadgeClass = 'bg-orange text-orange-fg' %}
 	{% endif %}
 
 	{% set ratingBadgeClass = 'bg-secondary text-white-fg' %}
 
 	{% if rating is not null %}
 		{% if rating >= 8.5 %}
-			{% set ratingBadgeClass = 'bg-green text-white-fg' %}
-
+			{% set ratingBadgeClass = 'bg-green text-green-fg' %}
 		{% elseif rating >= 7.0 %}
-			{% set ratingBadgeClass = 'bg-lime text-white-fg' %}
-
+			{% set ratingBadgeClass = 'bg-lime text-lime-fg' %}
 		{% elseif rating >= 5.5 %}
-			{% set ratingBadgeClass = 'bg-yellow text-white-fg' %}
-
+			{% set ratingBadgeClass = 'bg-yellow text-yellow-fg' %}
 		{% elseif rating >= 4.0 %}
-			{% set ratingBadgeClass = 'bg-orange text-white-fg' %}
-
+			{% set ratingBadgeClass = 'bg-orange text-orange-fg' %}
 		{% else %}
-			{% set ratingBadgeClass = 'bg-red text-white-fg' %}
-
+			{% set ratingBadgeClass = 'bg-red text-red-fg' %}
 		{% endif %}
 	{% endif %}
 
