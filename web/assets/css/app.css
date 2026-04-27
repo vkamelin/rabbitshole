@@ -46,20 +46,10 @@ body {
   }
 }
 
-.page-wrapper {
-  background: transparent;
-}
-
 .movie-content-wrapper {
   position: relative;
   z-index: 1;
   margin-top: -30%;
-}
-
-.movie-content-wrapper .card {
-  background: transparent;
-  box-shadow: none !important;
-  border: none !important;
 }
 
 .movie-content-wrapper .card-body {
