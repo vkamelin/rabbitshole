@@ -153,11 +153,11 @@
 
 							<div class="d-flex flex-wrap gap-2 mb-3">
 								{% if entry.year %}
-									<span class="badge bg-blue-lt" title="Год">{{ entry.year }}</span>
+									<span class="badge bg-teal text-teal-fg" title="Год">{{ entry.year }}</span>
 								{% endif %}
 
 								{% if entry.duration %}
-									<span class="badge bg-azure-lt" title="Продолжительность">{{ entry.duration|date('H:i') }}</span>
+									<span class="badge bg-purple text-purple-fg" title="Продолжительность">{{ entry.duration|date('H:i') }}</span>
 								{% endif %}
 
 								{% if rating is not null %}
