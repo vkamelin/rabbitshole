@@ -138,16 +138,6 @@
 				</div>
 			{% endif %}
 
-			{% if showCollections and collections %}
-				<div class="d-flex flex-wrap gap-2">
-					{% for collection in collections|slice(0, 2) %}
-						<span class="badge bg-orange text-orange-fg">
-							{{ collection.title }}
-						</span>
-					{% endfor %}
-				</div>
-			{% endif %}
-
 			{% if showFooterButton %}
 				<div class="mt-auto pt-2">
 					<a href="{{ entry.url }}" class="btn btn-outline-dark w-100">
