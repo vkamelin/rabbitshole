@@ -149,10 +149,13 @@
 								{% endif %}
 							</div>
 
-							<h1 class="h1 fw-bold mb-3 d-flex justify-content-start align-items-start">
+							<h1 class="display-6 fw-bold mb-3 d-flex justify-content-start align-items-center">
 								{% if rating is not null %}
-									<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
-										★ {{ rating }}
+									<span clas="h3">
+										<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
+											★
+											{{ rating }}
+										</span>
 									</span>
 								{% endif %}
 
