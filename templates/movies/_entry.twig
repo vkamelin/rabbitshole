@@ -147,20 +147,6 @@
 						{% endif %}
 					</div>
 				</section>
-
-				{% if collections %}
-					<div class="col-12">
-						<h2 class="h3 mb-2 mt-4">Подборки</h2>
-
-						<div class="row g-3">
-							{% for collection in collections %}
-								{% include "_components/collection-big-card" with {
-									collection: collection
-								} only %}
-							{% endfor %}
-						</div>
-					</div>
-				{% endif %}
 			</div>
 
 			{# ===== ИНФОРМАЦИЯ ===== #}
@@ -235,6 +221,20 @@
 					</div>
 				</section>
 			</div>
+
+			{% if collections %}
+				<div class="col-12">
+					<h2 class="h3 mb-2 mt-4">Подборки</h2>
+
+					<div class="row g-3">
+						{% for collection in collections %}
+							{% include "_components/collection-big-card" with {
+												collection: collection
+											} only %}
+						{% endfor %}
+					</div>
+				</div>
+			{% endif %}
 
 			{% if directors %}
 				<div class="col-12">
