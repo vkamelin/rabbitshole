@@ -50,7 +50,6 @@
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    z-index: 0;
     background-image: url('{{ bigCover.url }}');
     background-size: cover;
     background-position: center center;
@@ -80,7 +79,7 @@
   .movie-content-wrapper {
     position: relative;
     z-index: 1;
-    margin-top: -35%;
+    margin-top: calc(-1 * 100vw * 0.39375);
   }
   
   .movie-content-wrapper .card {
@@ -92,14 +91,6 @@
   .movie-content-wrapper .card-body {
     background: rgba(255, 255, 255, 0.85);
     border-radius: 0.5rem;
-  }
-</style>
-{% else %}
-<style>
-  .movie-content-wrapper {
-    position: relative;
-    z-index: 1;
-    padding-top: 2rem;
   }
 </style>
 {% endif %}
