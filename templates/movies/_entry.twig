@@ -176,7 +176,6 @@
 							<div class="d-flex flex-wrap gap-2 mb-3">
 								{% if genres %}
 									<div>
-										Жанры:
 										{% for genre in genres %}
 											<a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-blue text-blue-fg text-decoration-none" title="Жанр: {{ genre.title }}">
 												{{ genre.title }}
@@ -223,21 +222,21 @@
 				</section>
 			</div>
 
-      {% if directors %}
-        <div class="col-12">
-          <h2 class="h3 mb-2">Режиссёры</h2>
+			{% if directors %}
+				<div class="col-12">
+				<h2 class="h3 mb-2">Режиссёры</h2>
 
-          <div class="row g-3">
-            {% for director in directors %}
-              {% include "_components/person-card" with {
-                            person: director,
-                            filterParam: 'director',
-                            section: 'movies'
-                          } only %}
-            {% endfor %}
-          </div>
-        </div>
-      {% endif %}
+				<div class="row g-3">
+					{% for director in directors %}
+					{% include "_components/person-card" with {
+									person: director,
+									filterParam: 'director',
+									section: 'movies'
+								} only %}
+					{% endfor %}
+				</div>
+				</div>
+			{% endif %}
 
 
 			{% if actors %}
