@@ -12,238 +12,194 @@
 
 {# Description #}
 {% if entry.seoDescription %}
-  {% set seoDescription = entry.seoDescription %}
+	{% set seoDescription = entry.seoDescription %}
 {% elseif entry.description %}
-  {% set seoDescription = entry.description|striptags|trim|replace({"\n": ' ', "\r": ' '})|slice(0, 160) %}
+	{% set seoDescription = entry.description|striptags|trim|replace({"\n": ' ', "\r": ' '})|slice(0, 160) %}
 {% else %}
-  {% set seoDescription = 'Запись стрима Hard Play: ' ~ entry.title ~ '.' %}
+	{% set seoDescription = 'Запись стрима Hard Play: ' ~ entry.title ~ '.' %}
 {% endif %}
 
 {# OG Image #}
 {% if cover %}
-  {% set seoOgImage = cover.url %}
+	{% set seoOgImage = cover.url %}
 {% else %}
-  {% set seoOgImage = '' %}
+	{% set seoOgImage = '' %}
 {% endif %}
 
 {% set rating = entry.rating is defined ? entry.rating : null %}
 
 {% set ratingBadgeClass = 'bg-secondary text-white' %}
 {% if rating is not null %}
-  {% if rating >= 8.5 %}
-    {% set ratingBadgeClass = 'bg-green text-white' %}
-  {% elseif rating >= 7.0 %}
-    {% set ratingBadgeClass = 'bg-lime text-white' %}
-  {% elseif rating >= 5.5 %}
-    {% set ratingBadgeClass = 'bg-yellow text-white' %}
-  {% elseif rating >= 4.0 %}
-    {% set ratingBadgeClass = 'bg-orange text-white' %}
-  {% else %}
-    {% set ratingBadgeClass = 'bg-red text-white' %}
-  {% endif %}
+	{% if rating >= 8.5 %}
+		{% set ratingBadgeClass = 'bg-green text-white' %}
+	{% elseif rating >= 7.0 %}
+		{% set ratingBadgeClass = 'bg-lime text-white' %}
+	{% elseif rating >= 5.5 %}
+		{% set ratingBadgeClass = 'bg-yellow text-white' %}
+	{% elseif rating >= 4.0 %}
+		{% set ratingBadgeClass = 'bg-orange text-white' %}
+	{% else %}
+		{% set ratingBadgeClass = 'bg-red text-white' %}
+	{% endif %}
 {% endif %}
 
 {% block styles %}
-{% if bigCover %}
-<style>
-  .movie-hero-bg {
-    position: relative;
-    width: 100vw;
-    margin-left: calc(-50vw + 50%);
-    aspect-ratio: 16 / 9;
-    background-image: url('{{ bigCover.url }}');
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
-  
-  .movie-hero-bg::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 30%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 1) 100%);
-  }
-  
-  @media (max-width: 768px) {
-    .movie-hero-bg {
-      background-position: center top;
-    }
-  }
-  
-  .page-wrapper {
-    background: transparent;
-  }
-  
-  .movie-content-wrapper {
-    position: relative;
-    z-index: 1;
-    margin-top: -30%;
-  }
-  
-  .movie-content-wrapper .card {
-    background: transparent;
-    box-shadow: none !important;
-    border: none !important;
-  }
-  
-  .movie-content-wrapper .card-body {
-    background: rgba(255, 255, 255);
-    border-radius: 0.5rem;
-  }
-</style>
-{% endif %}
+	{% if bigCover %}
+		<style>
+			.movie-hero-bg {
+				background-image: url("{{ bigCover.url }}");
+			}
+		</style>
+	{% endif %}
 {% endblock %}
 
 {% block content %}
-  {% set genres = entry.genres.all() %}
-  {% set collections = entry.collections.all() %}
-  {% set watchLinks = entry.watchLinks.all() %}
-  {% set actors = entry.actors is defined ? entry.actors.all() : [] %}
-  {% set directors = entry.directors is defined ? entry.directors.all() : [] %}
+	{% set genres = entry.genres.all() %}
+	{% set collections = entry.collections.all() %}
+	{% set watchLinks = entry.watchLinks.all() %}
+	{% set actors = entry.actors is defined ? entry.actors.all() : [] %}
+	{% set directors = entry.directors is defined ? entry.directors.all() : [] %}
 
-  {% if bigCover %}
-  <div class="movie-hero-bg"></div>
-  <div class="movie-hero-gradient"></div>
-  {% endif %}
+	{% if bigCover %}
+		<div class="movie-hero-bg"></div>
+		<div class="movie-hero-gradient"></div>
+	{% endif %}
 
-  <div class="movie-content-wrapper">
-    <div class="mb-3 pt-4">
-      <a href="{{ url('movies') }}" class="btn btn-sm btn-outline-light">
-        ← Назад к фильмам
-      </a>
+	<div class="movie-content-wrapper">
+		<div class="mb-3 pt-4">
+			<a href="{{ url('movies') }}" class="btn btn-sm btn-outline-light">
+				← Назад к фильмам
+			</a>
 
-      {% if currentUser and currentUser.can('editEntries') %}
-        <a href="/admin/content/entries/movies/{{ entry.id }}-{{ entry.slug }}" class="btn btn-primary btn-sm">
-          <i class="ti ti-edit"></i> Редактировать
-        </a>
-      {% endif %}
-    </div>
+			{% if currentUser and currentUser.can('editEntries') %}
+				<a href="/admin/content/entries/movies/{{ entry.id }}-{{ entry.slug }}" class="btn btn-primary btn-sm">
+					<i class="ti ti-edit"></i>
+					Редактировать
+				</a>
+			{% endif %}
+		</div>
 
-    <div class="row g-4 align-items-start">
-      {# ===== ОБЛОЖКА ===== #}
-      <div class="col-12 col-lg-4">
-        <section class="card border-0 shadow-sm overflow-hidden">
-          <div class="card-body p-0">
-            {% if cover %}
-              <div class="text-center bg-dark">
-                <a href="{{ cover.url }}" data-lightbox="gallery" title="{{ entry.title }}">
-                  <img src="{{ cover.url }}" alt="{{ entry.title }}" class="w-100 h-100 object-fit-cover"
-                       loading="lazy">
-                </a>
-              </div>
-            {% else %}
-              <div class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary"
-                   style="width: 100%; aspect-ratio: 2 / 3;">
-                Нет обложки
-              </div>
-            {% endif %}
-          </div>
-        </section>
-      </div>
+		<div
+			class="row g-4 align-items-start">
+			{# ===== ОБЛОЖКА ===== #}
+			<div class="col-12 col-lg-4">
+				<section class="card border-0 shadow-sm overflow-hidden">
+					<div class="card-body p-0">
+						{% if cover %}
+							<div class="text-center bg-dark">
+								<a href="{{ cover.url }}" data-lightbox="gallery" title="{{ entry.title }}">
+									<img src="{{ cover.url }}" alt="{{ entry.title }}" class="w-100 h-100 object-fit-cover" loading="lazy">
+								</a>
+							</div>
+						{% else %}
+							<div class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary" style="width: 100%; aspect-ratio: 2 / 3;">
+								Нет обложки
+							</div>
+						{% endif %}
+					</div>
+				</section>
+			</div>
 
-      {# ===== ИНФОРМАЦИЯ ===== #}
-      <div class="col-12 col-lg-8">
-        <section class="card border-0 shadow-sm h-100">
-          <div class="card-body p-4 p-lg-5">
-            <div class="d-flex flex-column gap-4 h-100">
+			{# ===== ИНФОРМАЦИЯ ===== #}
+			<div class="col-12 col-lg-8">
+				<section class="card border-0 shadow-sm h-100">
+					<div class="card-body p-4 p-lg-5">
+						<div class="d-flex flex-column gap-4 h-100">
 
-              <h1 class="display-5 fw-bold mb-3">{{ entry.title }}</h1>
+							<h1 class="display-5 fw-bold mb-3">{{ entry.title }}</h1>
 
-              <div class="d-flex flex-wrap gap-2 mb-3">
-                {% if entry.year %}
-                  <span class="badge bg-blue-lt" title="Год">{{ entry.year }}</span>
-                {% endif %}
+							<div class="d-flex flex-wrap gap-2 mb-3">
+								{% if entry.year %}
+									<span class="badge bg-blue-lt" title="Год">{{ entry.year }}</span>
+								{% endif %}
 
-                {% if entry.duration %}
-                  <span class="badge bg-azure-lt" title="Продолжительность">{{ entry.duration|date('H:i') }}</span>
-                {% endif %}
+								{% if entry.duration %}
+									<span class="badge bg-azure-lt" title="Продолжительность">{{ entry.duration|date('H:i') }}</span>
+								{% endif %}
 
-                {% if rating is not null %}
-                  <span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
-                    ★ {{ rating }}
-                  </span>
-                {% endif %}
+								{% if rating is not null %}
+									<span class="badge {{ ratingBadgeClass }}" title="Рейтинг Кинопоиска">
+										★
+										{{ rating }}
+									</span>
+								{% endif %}
 
-                {% if genres %}
-                  <div>
-                  Жанры:
-                  {% for genre in genres %}
-                    <a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-green-lt text-decoration-none" title="Жанр: {{ genre.title }}">
-                      {{ genre.title }}
-                    </a>
-                  {% endfor %}
-                  </div>
-                {% endif %}
+								{% if genres %}
+									<div>
+										Жанры:
+										{% for genre in genres %}
+											<a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-green-lt text-decoration-none" title="Жанр: {{ genre.title }}">
+												{{ genre.title }}
+											</a>
+										{% endfor %}
+									</div>
+								{% endif %}
 
-                {% if collections %}
-                  <br>Подборки:<br>
-                  {% for collection in collections %}
-                    <a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none" title="Подборка: {{ collection.title }}">
-                      {{ collection.title }}
-                    </a>
-                  {% endfor %}
-                {% endif %}
-              </div>
+								{% if collections %}
+									<br>Подборки:<br>
+									{% for collection in collections %}
+										<a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none" title="Подборка: {{ collection.title }}">
+											{{ collection.title }}
+										</a>
+									{% endfor %}
+								{% endif %}
+							</div>
 
-              {% if watchLinks %}
-                <div class="mt-auto mb-4">
-                  <h2 class="h3 mb-3">Ссылки на просмотр</h2>
+							{% if watchLinks %}
+								<div class="mt-auto mb-4">
+									<h2 class="h3 mb-3">Ссылки на просмотр</h2>
 
-                  <div class="d-flex flex-wrap gap-2">
-                    {% for link in watchLinks %}
-                      {% if link.watchLink %}
-                        <a href="{{ link.watchLink }}" class="btn btn-orange btn-lg"
-                           target="_blank" rel="noopener noreferrer">
-                          <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.title ?: 'Смотреть' }}
-                        </a>
-                      {% endif %}
-                    {% endfor %}
-                  </div>
-                </div>
-              {% endif %}
+									<div class="d-flex flex-wrap gap-2">
+										{% for link in watchLinks %}
+											{% if link.watchLink %}
+												<a href="{{ link.watchLink }}" class="btn btn-orange btn-lg" target="_blank" rel="noopener noreferrer">
+													<i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.title ?: 'Смотреть' }}
+												</a>
+											{% endif %}
+										{% endfor %}
+									</div>
+								</div>
+							{% endif %}
 
-              {% if actors %}
-                <h2 class="h3 mb-3">Актёры</h2>
+							{% if actors %}
+								<h2 class="h3 mb-3">Актёры</h2>
 
-                <div class="row g-3">
-                  {% for actor in actors %}
-                    {% include "_components/person-card" with {
+								<div class="row g-3">
+									{% for actor in actors %}
+										{% include "_components/person-card" with {
                       person: actor,
                       filterParam: 'actor',
                       section: 'movies'
                     } only %}
-                  {% endfor %}
-                </div>
-              {% endif %}
+									{% endfor %}
+								</div>
+							{% endif %}
 
-              {% if directors %}
-                <h2 class="h3 mb-3">Режиссёры</h2>
+							{% if directors %}
+								<h2 class="h3 mb-3">Режиссёры</h2>
 
-                <div class="row g-3">
-                  {% for director in directors %}
-                    {% include "_components/person-card" with {
+								<div class="row g-3">
+									{% for director in directors %}
+										{% include "_components/person-card" with {
                       person: director,
                       filterParam: 'director',
                       section: 'movies'
                     } only %}
-                  {% endfor %}
-                </div>
-              {% endif %}
+									{% endfor %}
+								</div>
+							{% endif %}
 
-              {% if entry.description %}
-                <div class="text-secondary">
-                  {{ entry.description }}
-                </div>
-              {% else %}
-                <p class="lead text-secondary mb-0">Описание фильма скоро появится.</p>
-              {% endif %}
-            </div>
-          </div>
-        </section>
-      </div>
-    </div>
-  </div>
+							{% if entry.description %}
+								<div class="text-secondary">
+									{{ entry.description }}
+								</div>
+							{% else %}
+								<p class="lead text-secondary mb-0">Описание фильма скоро появится.</p>
+							{% endif %}
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
 {% endblock %}
