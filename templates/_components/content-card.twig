@@ -105,28 +105,13 @@
 			<div class="d-flex flex-wrap gap-2">
 				{% if year %}
 					<span class="badge bg-blue text-blue-fg" title="Год">
-
 						{{ year }}
 					</span>
 				{% endif %}
 
 				{% if duration %}
 					<span class="badge bg-azure-fg" title="Длительность">
-
 						{{ duration|date('H:i') }}
-					</span>
-				{% endif %}
-
-				{% if watchLinks|length > 1 %}
-					<span class="badge bg-green-fg" title="Ссылки на просмотр">
-
-						{{ watchLinks|length }}
-						ссылок
-					</span>
-				{% elseif watchLinks|length == 1 %}
-					<span class="badge bg-green text-green-fg" title="Ссылки на просмотр">
-
-						1 ссылка
 					</span>
 				{% endif %}
 			</div>
@@ -138,7 +123,6 @@
 					</div>
 				{% else %}
 					<div class="text-secondary small d-none d-md-block-fg">
-
 						Описание пока не добавлено.
 					</div>
 				{% endif %}
@@ -148,7 +132,6 @@
 				<div class="d-flex flex-wrap gap-2">
 					{% for genre in genres|slice(0, 3) %}
 						<span class="badge bg-primary text-primary-fg">
-
 							{{ genre.title }}
 						</span>
 					{% endfor %}
@@ -159,7 +142,6 @@
 				<div class="d-flex flex-wrap gap-2">
 					{% for collection in collections|slice(0, 2) %}
 						<span class="badge bg-orange text-orange-fg">
-
 							{{ collection.title }}
 						</span>
 					{% endfor %}
