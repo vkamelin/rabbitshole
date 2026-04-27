@@ -147,6 +147,20 @@
 						{% endif %}
 					</div>
 				</section>
+
+				{% if collections %}
+					<div class="col-12">
+						<h2 class="h3 mb-2">Подборки</h2>
+
+						<div class="row g-3">
+							{% for collection in collections %}
+								{% include "_components/collection-card" with {
+												collection: collection
+											} only %}
+							{% endfor %}
+						</div>
+					</div>
+				{% endif %}
 			</div>
 
 			{# ===== ИНФОРМАЦИЯ ===== #}
@@ -249,20 +263,6 @@
 								person: actor,
 								filterParam: 'actor',
 								section: 'movies'
-							} only %}
-						{% endfor %}
-					</div>
-				</div>
-			{% endif %}
-
-			{% if collections %}
-				<div class="col-12">
-					<h2 class="h3 mb-2">Подборки</h2>
-
-					<div class="row g-3">
-						{% for collection in collections %}
-							{% include "_components/collection-card" with {
-								collection: collection
 							} only %}
 						{% endfor %}
 					</div>
