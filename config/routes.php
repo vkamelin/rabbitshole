@@ -10,6 +10,7 @@
  */
 
 return [
+    'collections' => ['template' => 'collections/index'],
     '<sectionHandle:{slug}>/genre/<categorySlug:{slug}>' => ['template' => '_section/genre'],
     '<sectionHandle:{slug}>/collection/<categorySlug:{slug}>' => ['template' => '_section/collection'],
 ];

@@ -1,0 +1,141 @@
+{% extends "_layouts/base" %}
+
+{% set pageTitle = 'Подборки' %}
+{% set currentSection = 'collections' %}
+
+{% block content %}
+    {% set request = craft.app.request %}
+    {% set searchQuery = request.getQueryParam('search') ?? '' %}
+
+    {% set query = craft.categories()
+        .group('collections')
+        .orderBy('title asc')
+    %}
+
+    {% if searchQuery %}
+        {% set query = query.search(searchQuery) %}
+    {% endif %}
+
+    {% paginate query.limit(48) as pageInfo, collections %}
+
+    {% set totalCollections = craft.categories().group('collections').count() %}
+    {% set hasFilters = searchQuery %}
+
+    {% if pageInfo.currentPage > 1 %}
+        {% set seoTitle = pageTitle ~ ' — страница ' ~ pageInfo.currentPage %}
+    {% else %}
+        {% set seoTitle = pageTitle %}
+    {% endif %}
+
+    {% set seoDescription = 'Подборки контента из стримов Hard Play: тематические списки фильмов, сериалов, аниме, игр и реакций.' %}
+    {% set seo = {
+        title: seoTitle,
+        description: seoDescription,
+        canonical: url('collections'),
+        robots: hasFilters ? 'noindex,follow' : 'index,follow',
+        ogType: 'website',
+        ogTitle: seoTitle,
+        ogDescription: seoDescription,
+        ogUrl: url('collections'),
+        ogImage: '',
+        twitterTitle: seoTitle,
+        twitterDescription: seoDescription,
+        twitterImage: ''
+    } %}
+
+    <section class="mb-4">
+        <div class="card border-0 bg-dark text-white overflow-hidden">
+            <div class="card-body p-4 p-lg-5">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-xl-8">
+                        <div class="text-uppercase text-secondary fw-semibold small mb-2">Каталог rabbitshole.ru</div>
+                        <h1 class="display-4 fw-bold mb-3">Подборки</h1>
+                        <p class="lead text-secondary mb-0">
+                            Тематические коллекции контента из стримов Hard Play. Всего подборок: {{ totalCollections }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <form method="get" class="row g-3 align-items-end">
+                    <div class="col-12 col-md-8">
+                        <label for="searchQuery" class="form-label">Поиск по названию</label>
+                        <input
+                            type="text"
+                            id="searchQuery"
+                            name="search"
+                            class="form-control"
+                            value="{{ searchQuery }}"
+                            placeholder="Введите название подборки"
+                        >
+                    </div>
+
+                    <div class="col-12 col-md-4 d-flex gap-2">
+                        <button type="submit" class="btn btn-primary">Применить</button>
+                        <a href="{{ url('collections') }}" class="btn btn-outline-secondary">Сбросить</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    {% if collections and collections|length > 0 %}
+        <div class="row g-3 row-cards">
+            {% for collection in collections %}
+                {% include "_components/collection-card" with {
+                    collection: collection
+                } only %}
+            {% endfor %}
+        </div>
+
+        {% if pageInfo.totalPages > 1 %}
+            <nav class="mt-4 d-flex justify-content-center">
+                <ul class="pagination">
+                    {% if pageInfo.prevUrl %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ pageInfo.prevUrl }}">←</a>
+                        </li>
+                    {% endif %}
+
+                    {% for page, url in pageInfo.getPrevUrls(2) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    <li class="page-item active">
+                        <span class="page-link">{{ pageInfo.currentPage }}</span>
+                    </li>
+
+                    {% for page, url in pageInfo.getNextUrls(2) %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url }}">{{ page }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% if pageInfo.nextUrl %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ pageInfo.nextUrl }}">→</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        {% endif %}
+    {% else %}
+        <div class="empty">
+            <div class="empty-header">0</div>
+            <p class="empty-title">Подборки не найдены</p>
+            <p class="empty-subtitle text-secondary">
+                Попробуйте изменить запрос или вернуться ко всему списку.
+            </p>
+            <div class="empty-action">
+                <a href="{{ url('collections') }}" class="btn btn-primary">Сбросить фильтры</a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
