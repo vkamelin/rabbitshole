@@ -3,13 +3,9 @@
 {% set pageTitle = entry.title %}
 {% set currentSection = 'games' %}
 
-{# SEO #}
 {% set cover = entry.gameCover.one() %}
-
-{# Title #}
 {% set seoTitle = 'Hard Play играет в ' ~ entry.title %}
 
-{# Description #}
 {% if entry.seoDescription %}
     {% set seoDescription = entry.seoDescription %}
 {% elseif entry.description %}
@@ -18,7 +14,6 @@
     {% set seoDescription = 'Запись стрима Hard Play: ' ~ entry.title ~ '.' %}
 {% endif %}
 
-{# OG Image #}
 {% if cover %}
     {% set seoOgImage = cover.url %}
 {% else %}
@@ -26,105 +21,121 @@
 {% endif %}
 
 {% block content %}
-    {% set watchLinks = entry.watchLinks.all() %}
-    {% set genres = entry.genres.all() %}
-    {% set collections = entry.collections.all() %}
+    {% set watchLinks = entry.watchLinks is defined and entry.watchLinks ? entry.watchLinks.all() : [] %}
+    {% set genres = entry.genres is defined and entry.genres ? entry.genres.all() : [] %}
+    {% set collections = entry.collections is defined and entry.collections ? entry.collections.all() : [] %}
+    {% set materialType = entry.type is defined and entry.type ? entry.type.name : (entry.section is defined and entry.section ? entry.section.name : 'Игра') %}
 
     <div class="row g-4">
-
-        {# Обложка #}
-        <div class="col-12 col-lg-4">
-            <div class="card">
-                <div class="card-body">
-
-                    {% if cover %}
-                        <div class="text-center">
-                            <img
-                                    src="{{ cover.url }}"
-                                    alt="{{ entry.title }}"
-                                    class="img-fluid rounded"
-                                    style="
-                                    width: 100%;
-                                    max-width: 420px;
-                                    aspect-ratio: 2 / 3;
-                                    object-fit: contain;
-                                    background: #111;
-                                "
-                            >
+        <div class="col-12">
+            <section class="card border-0 shadow-sm overflow-hidden">
+                <div class="card-body p-3 p-lg-4">
+                    <div class="row g-4 align-items-start">
+                        <div class="col-12 col-md-4 col-lg-3">
+                            {% if cover %}
+                                <div class="bg-dark rounded overflow-hidden">
+                                    <img src="{{ cover.url }}" alt="{{ entry.title }}" class="img-fluid w-100" style="aspect-ratio: 2 / 3; object-fit: cover;" loading="lazy">
+                                </div>
+                            {% else %}
+                                <div class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary rounded" style="aspect-ratio: 2 / 3;">
+                                    Нет обложки
+                                </div>
+                            {% endif %}
                         </div>
-                    {% else %}
-                        <div class="d-flex align-items-center justify-content-center bg-secondary-lt text-secondary rounded"
-                             style="aspect-ratio: 2 / 3;">
-                            Нет обложки
-                        </div>
-                    {% endif %}
 
-                </div>
-            </div>
-        </div>
-
-        {# Информация #}
-        <div class="col-12 col-lg-8">
-            <div class="card">
-                <div class="card-body">
-
-                    <h1 class="mb-3">{{ entry.title }}</h1>
-
-                    {% if entry.description %}
-                        <div class="mb-4">
-                            <h2 class="h4">Описание</h2>
-                            <div class="text-secondary">
-                                {{ entry.description }}
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    {% if genres %}
-                        <div class="mb-4">
-                            <h2 class="h4">Жанры</h2>
-                            <div class="d-flex flex-wrap gap-2">
-                                {% for genre in genres %}
-                                    <span class="badge bg-green-lt">{{ genre.title }}</span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    {% if collections %}
-                        <div class="mb-4">
-                            <h2 class="h4">Подборки</h2>
-                            <div class="d-flex flex-wrap gap-2">
-                                {% for collection in collections %}
-                                    <span class="badge bg-orange-lt">{{ collection.title }}</span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endif %}
-
-                    {% if watchLinks %}
-                        <div class="mt-auto mb-4">
-                            <h2 class="h3 mb-3">Ссылки на просмотр</h2>
-
-                            <div class="d-flex flex-wrap gap-2">
-                                {% for link in watchLinks %}
-                                    {% if link.watchLink %}
-                                        <a
-                                                href="{{ link.watchLink }}"
-                                                class="btn btn-orange"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                        >
-                                            <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.title ?: 'Смотреть' }}
-                                        </a>
+                        <div class="col-12 col-md-8 col-lg-9 d-flex flex-column gap-3">
+                            <div>
+                                <h1 class="mb-2">{{ entry.title }}</h1>
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% if materialType %}
+                                        <span class="badge bg-azure-lt">{{ materialType }}</span>
                                     {% endif %}
-                                {% endfor %}
+                                    {% if entry.year is defined and entry.year %}
+                                        <span class="badge bg-secondary-lt">{{ entry.year }}</span>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
-                    {% endif %}
 
+                            {% if genres %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for genre in genres %}
+                                        <a href="{{ url('games', { genre: genre.slug }) }}" class="badge bg-green-lt text-decoration-none">{{ genre.title }}</a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if collections %}
+                                <div class="d-flex align-items-center flex-wrap gap-2">
+                                    <span class="small text-secondary">Подборки:</span>
+                                    {% for collection in collections %}
+                                        <a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none">{{ collection.title }}</a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if watchLinks %}
+                                <div class="d-flex flex-wrap gap-2">
+                                    {% for link in watchLinks %}
+                                        {% if link.watchLink %}
+                                            <a href="{{ link.watchLink }}" class="btn btn-orange" target="_blank" rel="noopener noreferrer">
+                                                <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.title ?: 'Смотреть' }}
+                                            </a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                            {% if entry.description %}
+                                <div class="text-secondary">{{ entry.description }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
 
+        {% if materialType or entry.year is defined and entry.year or genres or collections %}
+            <div class="col-12">
+                <section class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h2 class="h3 mb-3">Информация</h2>
+                        <div class="d-flex flex-column gap-3">
+                            {% if materialType %}
+                                <div>
+                                    <div class="small text-secondary mb-1">Тип материала</div>
+                                    <div class="fw-semibold">{{ materialType }}</div>
+                                </div>
+                            {% endif %}
+                            {% if entry.year is defined and entry.year %}
+                                <div>
+                                    <div class="small text-secondary mb-1">Год</div>
+                                    <div class="fw-semibold">{{ entry.year }}</div>
+                                </div>
+                            {% endif %}
+                            {% if genres %}
+                                <div>
+                                    <div class="small text-secondary mb-1">Жанры</div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for genre in genres %}
+                                            <a href="{{ url('games', { genre: genre.slug }) }}" class="badge bg-green-lt text-decoration-none">{{ genre.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if collections %}
+                                <div>
+                                    <div class="small text-secondary mb-1">Подборки</div>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        {% for collection in collections %}
+                                            <a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none">{{ collection.title }}</a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
