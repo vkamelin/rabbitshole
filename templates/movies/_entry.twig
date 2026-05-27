@@ -361,8 +361,8 @@
 							{% set actorPhoto = actor.actorPhoto is defined and actor.actorPhoto ? actor.actorPhoto.one() : (actor.image is defined and actor.image ? actor.image.one() : null) %}
 							{% set nameParts = actor.title|trim|split(' ') %}
 							{% set initials = '' %}
-							{% for part in nameParts if part %}
-								{% if loop.index <= 2 %}
+							{% for part in nameParts %}
+								{% if part and loop.index <= 2 %}
 									{% set initials = initials ~ part|first|upper %}
 								{% endif %}
 							{% endfor %}
@@ -400,8 +400,8 @@
 									{% set actorPhoto = actor.actorPhoto is defined and actor.actorPhoto ? actor.actorPhoto.one() : (actor.image is defined and actor.image ? actor.image.one() : null) %}
 									{% set nameParts = actor.title|trim|split(' ') %}
 									{% set initials = '' %}
-									{% for part in nameParts if part %}
-										{% if loop.index <= 2 %}
+									{% for part in nameParts %}
+										{% if part and loop.index <= 2 %}
 											{% set initials = initials ~ part|first|upper %}
 										{% endif %}
 									{% endfor %}
