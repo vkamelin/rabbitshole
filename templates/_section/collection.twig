@@ -53,8 +53,10 @@
 
 {% block content %}
 
+    {% set collectionSections = ['movies', 'series', 'anime'] %}
+
     {% set entries = craft.entries()
-        .section(sectionHandle)
+        .section(collectionSections)
         .relatedTo(collection)
         .orderBy('postDate DESC')
         .all()
@@ -64,7 +66,7 @@
 
         <div class="card">
             <div class="card-body">
-                <div class="text-secondary mb-1">{{ sectionTitle }}</div>
+                <div class="text-secondary mb-1">Фильмы, сериалы и аниме</div>
                 <h1 class="mb-0">Подборка: {{ collection.title }}</h1>
             </div>
         </div>
@@ -84,7 +86,7 @@
                 <div class="empty-header">0</div>
                 <p class="empty-title">Ничего не найдено</p>
                 <p class="empty-subtitle text-secondary">
-                    В разделе «{{ sectionTitle }}» пока нет записей из подборки «{{ collection.title }}».
+                    В подборке «{{ collection.title }}» пока нет фильмов, сериалов или аниме.
                 </p>
             </div>
         {% endif %}
