@@ -30,6 +30,56 @@
             line-height: 1.2;
             word-break: break-word;
         }
+
+        .watch-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+        }
+
+        .watch-link {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            min-height: 2rem;
+            padding: .35rem .65rem;
+            border: 1px solid rgba(var(--tblr-orange-rgb), .45);
+            border-radius: var(--tblr-border-radius);
+            background: rgba(var(--tblr-orange-rgb), .08);
+            color: var(--tblr-body-color);
+            font-size: .875rem;
+            font-weight: 600;
+            text-decoration: none;
+            max-width: 100%;
+        }
+
+        .watch-link__icon {
+            color: var(--tblr-orange);
+            flex: 0 0 auto;
+        }
+
+        .watch-link__text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .watch-link:hover {
+            border-color: rgba(var(--tblr-orange-rgb), .8);
+            background: rgba(var(--tblr-orange-rgb), .16);
+            color: var(--tblr-orange);
+            text-decoration: none;
+        }
+
+        @media (max-width: 575.98px) {
+            .watch-link {
+                width: 100%;
+            }
+
+            .watch-link__text {
+                white-space: normal;
+            }
+        }
     </style>
 {% endblock %}
 
@@ -40,6 +90,12 @@
     {% set actors = entry.actors is defined and entry.actors ? entry.actors.all() : [] %}
     {% set directors = entry.directors is defined and entry.directors ? entry.directors.all() : [] %}
     {% set materialType = entry.type is defined and entry.type ? entry.type.name : (entry.section is defined and entry.section ? entry.section.name : 'Сериал') %}
+    {% set validWatchLinks = [] %}
+    {% for link in watchLinks %}
+        {% if link.watchLink %}
+            {% set validWatchLinks = validWatchLinks|merge([link]) %}
+        {% endif %}
+    {% endfor %}
 
     <div class="row g-4">
         <div class="col-12">
@@ -91,18 +147,6 @@
                                 </div>
                             {% endif %}
 
-                            {% if watchLinks %}
-                                <div class="d-flex flex-wrap gap-2">
-                                    {% for link in watchLinks %}
-                                        {% if link.watchLink %}
-                                            <a href="{{ link.watchLink }}" class="btn btn-orange" target="_blank" rel="noopener noreferrer">
-                                                <i class="ti ti-player-play"></i>&nbsp;&nbsp;{{ link.title ?: 'Смотреть' }}
-                                            </a>
-                                        {% endif %}
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-
                             {% if entry.description %}
                                 <div class="text-secondary">{{ entry.description }}</div>
                             {% endif %}
@@ -111,6 +155,26 @@
                 </div>
             </section>
         </div>
+
+        {% if validWatchLinks|length %}
+            <div class="col-12">
+                <section class="card border-0 shadow-sm">
+                    <div class="card-header">
+                        <h2 class="card-title mb-0">Смотреть</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="watch-links">
+                            {% for link in validWatchLinks %}
+                                <a href="{{ link.watchLink }}" class="watch-link" target="_blank" rel="noopener noreferrer" title="{{ link.title ?: 'Смотреть' }}">
+                                    <span class="watch-link__icon"><i class="ti ti-player-play-filled"></i></span>
+                                    <span class="watch-link__text">{{ link.title ?: 'Смотреть' }}</span>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+            </div>
+        {% endif %}
 
         {% if entry.year is defined and entry.year or materialType or genres or directors or collections %}
             <div class="col-12">
