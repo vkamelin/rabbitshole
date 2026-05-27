@@ -1,0 +1,123 @@
+{% extends "_layouts/base" %}
+
+{% set pageTitle = 'Каталог' %}
+{% set seoTitle = 'Каталог — rabbitshole.ru' %}
+{% set seoDescription = 'Список фильмов, сериалов и аниме на сайте.' %}
+
+{% set movies = craft.entries()
+    .section('movies')
+    .orderBy('title ASC')
+    .all()
+%}
+
+{% set series = craft.entries()
+    .section('series')
+    .orderBy('title ASC')
+    .all()
+%}
+
+{% set anime = craft.entries()
+    .section('anime')
+    .orderBy('title ASC')
+    .all()
+%}
+
+{% block content %}
+    <div class="d-flex flex-column gap-4">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="mb-0">Каталог</h1>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">Фильмы</h2>
+            </div>
+            <div class="list-group list-group-flush">
+                {% if movies %}
+                    {% for entry in movies %}
+                        {% set year = entry.year is defined and entry.year ? entry.year : null %}
+                        {% if entry.url %}
+                            <a href="{{ entry.url }}" class="list-group-item list-group-item-action d-flex justify-content-between gap-3">
+                                <span>{{ entry.title }}</span>
+                                {% if year %}
+                                    <span class="text-secondary">{{ year }}</span>
+                                {% endif %}
+                            </a>
+                        {% else %}
+                            <div class="list-group-item d-flex justify-content-between gap-3">
+                                <span>{{ entry.title }}</span>
+                                {% if year %}
+                                    <span class="text-secondary">{{ year }}</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="list-group-item text-secondary">Нет записей</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">Сериалы</h2>
+            </div>
+            <div class="list-group list-group-flush">
+                {% if series %}
+                    {% for entry in series %}
+                        {% set year = entry.year is defined and entry.year ? entry.year : null %}
+                        {% if entry.url %}
+                            <a href="{{ entry.url }}" class="list-group-item list-group-item-action d-flex justify-content-between gap-3">
+                                <span>{{ entry.title }}</span>
+                                {% if year %}
+                                    <span class="text-secondary">{{ year }}</span>
+                                {% endif %}
+                            </a>
+                        {% else %}
+                            <div class="list-group-item d-flex justify-content-between gap-3">
+                                <span>{{ entry.title }}</span>
+                                {% if year %}
+                                    <span class="text-secondary">{{ year }}</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="list-group-item text-secondary">Нет записей</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title mb-0">Аниме</h2>
+            </div>
+            <div class="list-group list-group-flush">
+                {% if anime %}
+                    {% for entry in anime %}
+                        {% set year = entry.year is defined and entry.year ? entry.year : null %}
+                        {% if entry.url %}
+                            <a href="{{ entry.url }}" class="list-group-item list-group-item-action d-flex justify-content-between gap-3">
+                                <span>{{ entry.title }}</span>
+                                {% if year %}
+                                    <span class="text-secondary">{{ year }}</span>
+                                {% endif %}
+                            </a>
+                        {% else %}
+                            <div class="list-group-item d-flex justify-content-between gap-3">
+                                <span>{{ entry.title }}</span>
+                                {% if year %}
+                                    <span class="text-secondary">{{ year }}</span>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <div class="list-group-item text-secondary">Нет записей</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
