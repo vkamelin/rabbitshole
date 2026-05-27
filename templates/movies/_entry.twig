@@ -97,9 +97,27 @@
 			.movie-content-wrapper .card-body {
 				border-radius: 0.5rem;
 			}
+
+			.person-list-item {
+				min-height: 52px;
+			}
+
+			.person-list-name {
+				line-height: 1.2;
+				word-break: break-word;
+			}
 		</style>
 	{% else %}
-		<style></style>
+		<style>
+			.person-list-item {
+				min-height: 52px;
+			}
+
+			.person-list-name {
+				line-height: 1.2;
+				word-break: break-word;
+			}
+		</style>
 	{% endif %}
 {% endblock %}
 
@@ -109,6 +127,9 @@
 	{% set watchLinks = entry.watchLinks.all() %}
 	{% set actors = entry.actors is defined ? entry.actors.all() : [] %}
 	{% set directors = entry.directors is defined ? entry.directors.all() : [] %}
+	{% set materialType = entry.type is defined and entry.type ? entry.type.name : (entry.section is defined and entry.section ? entry.section.name : 'Кино') %}
+	{% set visibleActors = actors|slice(0, 16) %}
+	{% set hiddenActors = actors|slice(16) %}
 
 	{% if bigCover %}
 		<div class="movie-hero-bg d-none d-sm-block"></div>
@@ -169,9 +190,18 @@
 							</div>
 
 							<h1 class="display-6 fw-bold mb-3 d-flex justify-content-start align-items-center">
-								{{ entry.title }}
-								({{ entry.year }})
+								{{ entry.title }}{% if entry.year %} ({{ entry.year }}){% endif %}
 							</h1>
+
+							<div class="d-flex flex-wrap gap-2 mb-2">
+								{% if materialType %}
+									<span class="badge bg-azure-lt">{{ materialType }}</span>
+								{% endif %}
+
+								{% if entry.year %}
+									<span class="badge bg-secondary-lt">{{ entry.year }}</span>
+								{% endif %}
+							</div>
 
 							<div class="d-flex flex-wrap gap-2 mb-3">
 								{% if genres %}
@@ -185,12 +215,14 @@
 								{% endif %}
 
 								{% if collections %}
-									<br>Подборки:<br>
-									{% for collection in collections %}
-										<a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none" title="Подборка: {{ collection.title }}">
-											{{ collection.title }}
-										</a>
-									{% endfor %}
+									<div class="w-100 d-flex align-items-center gap-2 flex-wrap">
+										<span class="small text-secondary">Подборки:</span>
+										{% for collection in collections %}
+											<a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none" title="Подборка: {{ collection.title }}">
+												{{ collection.title }}
+											</a>
+										{% endfor %}
+									</div>
 								{% endif %}
 							</div>
 
@@ -224,32 +256,98 @@
 
 			{% if directors %}
 				<div class="col-12">
-					<h2 class="h3 mb-2">Режиссёры</h2>
+					<section class="card border-0 shadow-sm">
+						<div class="card-body">
+							<h2 class="h3 mb-3">Информация</h2>
 
-					<div class="row g-3">
-						{% for director in directors %}
-							{% include "_components/person-card" with {
-										person: director,
-										filterParam: 'director',
-										section: 'movies'
-									} only %}
-						{% endfor %}
-					</div>
+							<div class="d-flex flex-column gap-3">
+								<div>
+									<div class="small text-secondary mb-1">Год</div>
+									<div class="fw-semibold">{{ entry.year ?: '—' }}</div>
+								</div>
+
+								<div>
+									<div class="small text-secondary mb-1">Тип материала</div>
+									<div class="fw-semibold">{{ materialType ?: '—' }}</div>
+								</div>
+
+								{% if genres %}
+									<div>
+										<div class="small text-secondary mb-1">Жанры</div>
+										<div class="d-flex flex-wrap gap-2">
+											{% for genre in genres %}
+												<a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-blue text-blue-fg text-decoration-none">{{ genre.title }}</a>
+											{% endfor %}
+										</div>
+									</div>
+								{% endif %}
+
+								<div>
+									<div class="small text-secondary mb-1">{{ directors|length > 1 ? 'Режиссёры' : 'Режиссёр' }}</div>
+									<div class="d-flex flex-wrap gap-2">
+										{% for director in directors %}
+											<a href="{{ director.url }}" class="badge bg-indigo-lt text-decoration-none">{{ director.title }}</a>
+										{% endfor %}
+									</div>
+								</div>
+
+								{% if collections %}
+									<div>
+										<div class="small text-secondary mb-1">Подборки</div>
+										<div class="d-flex flex-wrap gap-2">
+											{% for collection in collections %}
+												<a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none">{{ collection.title }}</a>
+											{% endfor %}
+										</div>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+					</section>
 				</div>
 			{% endif %}
 
-
-			{% if collections %}
+			{% if not directors and (entry.year or materialType or genres or collections) %}
 				<div class="col-12">
-					<h2 class="h3 mb-2 mt-4">Подборки</h2>
+					<section class="card border-0 shadow-sm">
+						<div class="card-body">
+							<h2 class="h3 mb-3">Информация</h2>
 
-					<div class="row g-3">
-						{% for collection in collections %}
-							{% include "_components/collection-card" with {
-												collection: collection
-											} only %}
-						{% endfor %}
-					</div>
+							<div class="d-flex flex-column gap-3">
+								<div>
+									<div class="small text-secondary mb-1">Год</div>
+									<div class="fw-semibold">{{ entry.year ?: '—' }}</div>
+								</div>
+
+								<div>
+									<div class="small text-secondary mb-1">Тип материала</div>
+									<div class="fw-semibold">{{ materialType ?: '—' }}</div>
+								</div>
+
+								{% if genres %}
+									<div>
+										<div class="small text-secondary mb-1">Жанры</div>
+										<div class="d-flex flex-wrap gap-2">
+											{% for genre in genres %}
+												<a href="{{ url('movies', { genre: genre.slug }) }}" class="badge bg-blue text-blue-fg text-decoration-none">{{ genre.title }}</a>
+											{% endfor %}
+										</div>
+									</div>
+								{% endif %}
+
+								{% if collections %}
+									<div>
+										<div class="small text-secondary mb-1">Подборки</div>
+										<div class="d-flex flex-wrap gap-2">
+											{% for collection in collections %}
+												<a href="{{ collection.url }}" class="badge bg-orange-lt text-decoration-none">{{ collection.title }}</a>
+											{% endfor %}
+										</div>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+					</section>
 				</div>
 			{% endif %}
 
@@ -258,15 +356,81 @@
 				<div class="col-12">
 					<h2 class="h3 mb-2">Актёры</h2>
 
-					<div class="row g-3">
-						{% for actor in actors %}
-							{% include "_components/person-card" with {
-								person: actor,
-								filterParam: 'actor',
-								section: 'movies'
-							} only %}
+					<div class="row g-2 g-md-3">
+						{% for actor in visibleActors %}
+							{% set actorPhoto = actor.actorPhoto is defined and actor.actorPhoto ? actor.actorPhoto.one() : (actor.image is defined and actor.image ? actor.image.one() : null) %}
+							{% set nameParts = actor.title|trim|split(' ') %}
+							{% set initials = '' %}
+							{% for part in nameParts if part %}
+								{% if loop.index <= 2 %}
+									{% set initials = initials ~ part|first|upper %}
+								{% endif %}
+							{% endfor %}
+
+							<div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+								<div class="card person-list-item">
+									<div class="card-body py-2 px-3">
+										<div class="d-flex align-items-center gap-2">
+											{% if actorPhoto %}
+												<a href="{{ actor.url }}" class="text-decoration-none">
+													<span class="avatar avatar-md rounded" style="background-image: url('{{ actorPhoto.url }}')"></span>
+												</a>
+											{% else %}
+												<a href="{{ actor.url }}" class="text-decoration-none">
+													<span class="avatar avatar-md bg-secondary-lt text-secondary fw-bold">{{ initials ?: 'A' }}</span>
+												</a>
+											{% endif %}
+
+											<a href="{{ actor.url }}" class="text-body text-decoration-none fw-semibold person-list-name">
+												{{ actor.title }}
+											</a>
+										</div>
+									</div>
+								</div>
+							</div>
 						{% endfor %}
 					</div>
+
+					{% if hiddenActors %}
+						<details class="mt-3">
+							<summary class="btn btn-outline-secondary btn-sm">Показать всех актёров (ещё {{ hiddenActors|length }})</summary>
+
+							<div class="row g-2 g-md-3 mt-2">
+								{% for actor in hiddenActors %}
+									{% set actorPhoto = actor.actorPhoto is defined and actor.actorPhoto ? actor.actorPhoto.one() : (actor.image is defined and actor.image ? actor.image.one() : null) %}
+									{% set nameParts = actor.title|trim|split(' ') %}
+									{% set initials = '' %}
+									{% for part in nameParts if part %}
+										{% if loop.index <= 2 %}
+											{% set initials = initials ~ part|first|upper %}
+										{% endif %}
+									{% endfor %}
+
+									<div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+										<div class="card person-list-item">
+											<div class="card-body py-2 px-3">
+												<div class="d-flex align-items-center gap-2">
+													{% if actorPhoto %}
+														<a href="{{ actor.url }}" class="text-decoration-none">
+															<span class="avatar avatar-md rounded" style="background-image: url('{{ actorPhoto.url }}')"></span>
+														</a>
+													{% else %}
+														<a href="{{ actor.url }}" class="text-decoration-none">
+															<span class="avatar avatar-md bg-secondary-lt text-secondary fw-bold">{{ initials ?: 'A' }}</span>
+														</a>
+													{% endif %}
+
+													<a href="{{ actor.url }}" class="text-body text-decoration-none fw-semibold person-list-name">
+														{{ actor.title }}
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</details>
+					{% endif %}
 				</div>
 			{% endif %}
 
