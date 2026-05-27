@@ -75,22 +75,17 @@
 
     {# ===== КОНТЕНТ ===== #}
     {% if relatedEntries %}
-        <section class="card border-0 shadow-sm mt-4">
-            <div class="card-header bg-transparent border-0 pb-0">
-                <h2 class="card-title mb-0">Контент в подборке</h2>
-            </div>
+      <h2 class="card-title mb-0">Контент в подборке</h2>
 
-            <div class="card-body">
-                <div class="row g-3">
-                    {% for entryItem in relatedEntries %}
-                        <div class="col-6 col-md-3 col-xl-2">
-                            {% include "_components/content-card" with {
-                                entry: entryItem
-                            } only %}
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
+      <div class="row g-3">
+        {% for entryItem in relatedEntries %}
+          <div class="col-6 col-md-3 col-xl-2">
+            {% include "_components/content-card" with {
+              entry: entryItem
+            } only %}
+          </div>
+        {% endfor %}
+      </div>
+
     {% endif %}
 {% endblock %}
