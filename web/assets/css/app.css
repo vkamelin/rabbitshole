@@ -14,3 +14,7 @@ body {
 .actor-item a {
   line-height: 100%;
 }
+
+::selection {
+    background-color: #FF8C00;
+}
