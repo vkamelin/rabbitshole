@@ -93,7 +93,7 @@
                                 <div class="ratio ratio-1x1 bg-light">
                                     <a href="{{ photo.url }}" data-lightbox="gallery" class="d-block w-100 h-100 photo-album-lightbox">
                                         <img
-                                                src="{{ photo.url }}"
+                                                src="{{ photo.getUrl('galleryThumb') }}"
                                                 alt="{{ photo.title ?? 'Фото ' ~ loop.index }}"
                                                 class="w-100 h-100 object-fit-cover"
                                                 loading="lazy"
