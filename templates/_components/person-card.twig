@@ -21,7 +21,7 @@
                     {% if personUrl %}
                         <a href="{{ personUrl }}" class="d-block w-100 h-100 text-decoration-none">
                             <img
-                                    src="{{ imageAsset.url }}"
+                                    src="{{ imageAsset.getUrl('thumb') }}"
                                     alt="{{ person.title }}"
                                     class="w-100 h-100 object-fit-cover"
                                     loading="lazy"
