@@ -9,7 +9,7 @@
     {% set cover = category.collectionCover.one() ?? null %}
 
     {% set relatedEntries = craft.entries()
-        .section(['movies', 'series'])
+        .section(['movies', 'series', 'amime'])
         .relatedTo(category)
         .orderBy('postDate desc')
         .limit(24)
